@@ -1,0 +1,13 @@
+{
+	"name": "meta-descriptions-ia",
+	"version": "0.1.0",
+	"private": true,
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"build": "wp-scripts build assets/src/index.js --output-path=build",
+		"start": "wp-scripts start assets/src/index.js --output-path=build"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^30.0.0"
+	}
+}

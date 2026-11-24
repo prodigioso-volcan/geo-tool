@@ -1,0 +1,98 @@
+name: meta-descriptions-ia
+
+services:
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${WP_PORT}:80"
+    environment: &wp_env
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DEBUG: 1
+      # Solo para probar con Amazon Bedrock en local (conector de la comunidad, no incluido en el plugin).
+      AWS_BEDROCK_REGION: ${AWS_BEDROCK_REGION:-eu-west-1}
+      AWS_BEDROCK_API_KEY: ${AWS_BEDROCK_API_KEY:-}
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_DEBUG_LOG', true );
+        define( 'WP_DEBUG_DISPLAY', false );
+        define( 'SCRIPT_DEBUG', true );
+        define( 'WP_ENVIRONMENT_TYPE', 'local' );
+    volumes: &wp_volumes
+      - wp_data:/var/www/html
+      - ./plugin:/var/www/html/wp-content/plugins/meta-descriptions-ia
+      - ./docker/mailpit.php:/var/www/html/wp-content/mu-plugins/mailpit.php:ro
+      - ./docker/local-model.php:/var/www/html/wp-content/mu-plugins/local-model.php:ro
+
+  # WP-CLI: docker compose run --rm wpcli <comando>
+  wpcli:
+    image: wordpress:cli-php8.3
+    profiles: [ "tools" ]
+    user: "33:33"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment: *wp_env
+    volumes: *wp_volumes
+    entrypoint: [ "wp" ]
+
+  # Ejecuta las tareas programadas como lo haría el cron de un servidor real.
+  # Dentro de Docker, WordPress no puede llamarse a sí mismo por localhost:${WP_PORT}.
+  cron:
+    image: wordpress:cli-php8.3
+    restart: unless-stopped
+    user: "33:33"
+    depends_on:
+      wordpress:
+        condition: service_started
+      db:
+        condition: service_healthy
+    environment: *wp_env
+    volumes: *wp_volumes
+    entrypoint: [ "sh", "-c", "while true; do wp cron event run --due-now --quiet 2>/dev/null; wp action-scheduler run --quiet 2>/dev/null; sleep 20; done" ]
+
+  # Composer y PHPUnit unitario: bin/composer, bin/test unit
+  php:
+    image: composer:2
+    profiles: [ "tools" ]
+    working_dir: /app
+    volumes: [ "./plugin:/app" ]
+    entrypoint: [ "" ]
+
+  # npm y compilación de la interfaz: bin/npm
+  node:
+    image: node:22-alpine
+    profiles: [ "tools" ]
+    working_dir: /app
+    volumes: [ "./plugin:/app" ]
+
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${MAILPIT_PORT}:8025"
+
+volumes:
+  db_data:
+  wp_data:

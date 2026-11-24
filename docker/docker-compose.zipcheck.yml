@@ -1,0 +1,48 @@
+# WordPress limpio y desechable para probar el zip: bin/check-zip
+name: mdia-zip-check
+
+services:
+  db:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: zipcheck
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      interval: 3s
+      retries: 30
+
+  wordpress:
+    image: wordpress:php8.3-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    environment: &env
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: zipcheck
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_DEBUG_LOG', true );
+        define( 'WP_DEBUG_DISPLAY', false );
+    volumes:
+      - wp:/var/www/html
+
+  wpcli:
+    image: wordpress:cli-php8.3
+    profiles: [ "tools" ]
+    user: "33:33"
+    depends_on:
+      wordpress:
+        condition: service_started
+    environment: *env
+    volumes:
+      - wp:/var/www/html
+      - ../dist:/dist:ro
+    entrypoint: [ "wp" ]
+
+volumes:
+  wp:

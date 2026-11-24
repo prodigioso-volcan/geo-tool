@@ -1,0 +1,772 @@
+# Copyright (C) 2026 Prodigioso Volcán
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Meta Descriptions IA 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/meta-descriptions-ia\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-24T10:37:42+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: meta-descriptions-ia\n"
+
+#. Plugin Name of the plugin
+#: meta-descriptions-ia.php
+msgid "Meta Descriptions IA"
+msgstr ""
+
+#. Description of the plugin
+#: meta-descriptions-ia.php
+msgid "Audits image alt text in the media library and in published content, and proposes better alt text with AI for human review."
+msgstr ""
+
+#. Author of the plugin
+#: meta-descriptions-ia.php
+msgid "Prodigioso Volcán"
+msgstr ""
+
+#: meta-descriptions-ia.php:28
+msgid "Meta Descriptions IA requires WordPress 7.0 or later."
+msgstr ""
+
+#: src/Admin/Dashboard_Widget.php:22
+#: src/Health/Site_Health.php:20
+msgid "Image alt text"
+msgstr ""
+
+#: src/Admin/Dashboard_Widget.php:31
+#: assets/src/components/StatusBadge.js:11
+msgid "All green"
+msgstr ""
+
+#: src/Admin/Dashboard_Widget.php:32
+#: assets/src/components/StatusBadge.js:12
+msgid "Needs attention"
+msgstr ""
+
+#: src/Admin/Dashboard_Widget.php:33
+#: assets/src/components/StatusBadge.js:13
+msgid "Action required"
+msgstr ""
+
+#. translators: 1: images with correct alt text, 2: total images, 3: percentage.
+#: src/Admin/Dashboard_Widget.php:55
+#, php-format
+msgid "%1$d of %2$d images have correct alt text (%3$d%%)."
+msgstr ""
+
+#. translators: %d: number of proposals.
+#: src/Admin/Dashboard_Widget.php:61
+#, php-format
+msgid "%d proposal is waiting for your review."
+msgid_plural "%d proposals are waiting for your review."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Admin/Dashboard_Widget.php:68
+#: src/Health/Site_Health.php:54
+msgid "Open the alt text dashboard"
+msgstr ""
+
+#: src/Admin/Menu.php:33
+#: src/Admin/Menu.php:34
+#: src/Admin/Menu.php:42
+msgid "AI alt text"
+msgstr ""
+
+#: src/Admin/Menu.php:45
+msgid "The plugin interface has not been built. Run the build step and reload."
+msgstr ""
+
+#: src/Admin/Menu.php:49
+msgid "Loading…"
+msgstr ""
+
+#: src/Admin/Menu.php:50
+msgid "This screen needs JavaScript."
+msgstr ""
+
+#: src/AI/Core_Provider.php:32
+msgid "The configured AI provider cannot describe images."
+msgstr ""
+
+#: src/AI/Generator.php:101
+#: src/Rest/Api.php:363
+msgid "The AI provider did not return a usable description."
+msgstr ""
+
+#: src/AI/Generator.php:208
+msgid "The AI provider returned an error. An administrator can see the details."
+msgstr ""
+
+#: src/AI/Image_Encoder.php:26
+msgid "The image file is missing from the server."
+msgstr ""
+
+#: src/AI/Image_Encoder.php:29
+msgid "The image file is too large to be analysed."
+msgstr ""
+
+#: src/AI/Image_Encoder.php:30
+msgid "The image file could not be read."
+msgstr ""
+
+#: src/Health/Site_Health.php:31
+msgid "Image alt text is in good shape"
+msgstr ""
+
+#: src/Health/Site_Health.php:32
+msgid "Some images are waiting for alt text"
+msgstr ""
+
+#: src/Health/Site_Health.php:33
+msgid "Alt text generation needs your attention"
+msgstr ""
+
+#. translators: 1: images with correct alt text, 2: total images.
+#: src/Health/Site_Health.php:38
+#, php-format
+msgid "%1$d of %2$d images have correct alt text."
+msgstr ""
+
+#: src/Health/Site_Health.php:50
+msgid "Accessibility"
+msgstr ""
+
+#: src/Health/Status.php:83
+msgid "AI connector"
+msgstr ""
+
+#: src/Health/Status.php:88
+msgid "No AI provider is connected. Add an API key in Settings > Connectors."
+msgstr ""
+
+#: src/Health/Status.php:89
+#: assets/src/wizard/Wizard.js:68
+msgid "The connected AI provider cannot describe images. Connect one that accepts image input."
+msgstr ""
+
+#: src/Health/Status.php:95
+msgid "The provider is not available."
+msgstr ""
+
+#. translators: %s: error message returned by the AI provider.
+#: src/Health/Status.php:97
+#, php-format
+msgid "The last request to the AI provider failed: %s"
+msgstr ""
+
+#. translators: %s: human-readable time difference, e.g. "2 hours".
+#: src/Health/Status.php:102
+#, php-format
+msgid "Connected. Last successful answer %s ago."
+msgstr ""
+
+#: src/Health/Status.php:103
+msgid "Connected. Not used yet."
+msgstr ""
+
+#: src/Health/Status.php:109
+msgid "Background tasks"
+msgstr ""
+
+#: src/Health/Status.php:114
+msgid "Tasks are waiting but none has run in the last 24 hours. Check that WP-Cron works on this site."
+msgstr ""
+
+#: src/Health/Status.php:118
+msgid "No task has needed to run yet."
+msgstr ""
+
+#. translators: %s: human-readable time difference, e.g. "4 mins".
+#: src/Health/Status.php:120
+#, php-format
+msgid "Last run %s ago."
+msgstr ""
+
+#: src/Health/Status.php:126
+msgid "Published content"
+msgstr ""
+
+#: src/Health/Status.php:130
+msgid "The site has not been fully audited yet."
+msgstr ""
+
+#. translators: %d: number of pages.
+#: src/Health/Status.php:135
+#, php-format
+msgid "%d page still shows an image with missing or poor alt text."
+msgid_plural "%d pages still show an image with missing or poor alt text."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/Health/Status.php:138
+msgid "In sync with the media library."
+msgstr ""
+
+#: src/Health/Status.php:142
+msgid "Daily AI usage"
+msgstr ""
+
+#. translators: 1: calls used today, 2: daily limit.
+#: src/Health/Status.php:144
+#, php-format
+msgid "%1$d of %2$d requests used today."
+msgstr ""
+
+#: src/Health/Status.php:147
+msgid "Generation resumes tomorrow."
+msgstr ""
+
+#: src/Rest/Api.php:333
+msgid "The media library has no images to test with."
+msgstr ""
+
+#: src/Rest/Api.php:338
+msgid "No AI provider that accepts images is connected."
+msgstr ""
+
+#: src/Rest/Api.php:348
+msgid "The daily limit of AI requests has been reached."
+msgstr ""
+
+#: src/Review/Actions.php:32
+msgid "The alt text cannot be empty. Mark the image as decorative instead."
+msgstr ""
+
+#: src/Review/Actions.php:80
+msgid "A new proposal cannot be requested for this image in its current state."
+msgstr ""
+
+#: src/Review/Actions.php:112
+msgid "There is no applied change to undo for this image."
+msgstr ""
+
+#: src/Review/Actions.php:206
+msgid "You are not allowed to review alt text."
+msgstr ""
+
+#: src/Review/Actions.php:211
+msgid "This image is not tracked by the plugin."
+msgstr ""
+
+#: src/Review/Actions.php:214
+msgid "A change is still being applied to this image. Try again in a moment."
+msgstr ""
+
+#: assets/src/App.js:43
+msgid "Dashboard"
+msgstr ""
+
+#: assets/src/App.js:44
+msgid "Review"
+msgstr ""
+
+#: assets/src/App.js:49
+msgid "Settings"
+msgstr ""
+
+#: assets/src/components/labels.js:4
+msgid "Missing"
+msgstr ""
+
+#: assets/src/components/labels.js:5
+msgid "File name"
+msgstr ""
+
+#: assets/src/components/labels.js:6
+msgid "Generic"
+msgstr ""
+
+#: assets/src/components/labels.js:7
+msgid "Too short"
+msgstr ""
+
+#: assets/src/components/labels.js:8
+msgid "Too long"
+msgstr ""
+
+#: assets/src/components/labels.js:9
+msgid "Duplicate"
+msgstr ""
+
+#: assets/src/components/labels.js:13
+#: assets/src/tabs/Dashboard.js:190
+msgid "To review"
+msgstr ""
+
+#: assets/src/components/labels.js:14
+#: assets/src/tabs/Dashboard.js:184
+msgid "To generate"
+msgstr ""
+
+#: assets/src/components/labels.js:15
+msgid "Applying"
+msgstr ""
+
+#: assets/src/components/labels.js:16
+#: assets/src/tabs/Dashboard.js:196
+msgid "Applied"
+msgstr ""
+
+#: assets/src/components/labels.js:17
+#: assets/src/components/ReviewRow.js:225
+msgid "Decorative"
+msgstr ""
+
+#: assets/src/components/labels.js:18
+msgid "Ignored"
+msgstr ""
+
+#: assets/src/components/labels.js:19
+#: assets/src/tabs/Dashboard.js:202
+msgid "Errors"
+msgstr ""
+
+#: assets/src/components/labels.js:20
+msgid "Correct"
+msgstr ""
+
+#: assets/src/components/Preferences.js:16
+msgid "Generate proposals automatically for new uploads"
+msgstr ""
+
+#: assets/src/components/Preferences.js:20
+msgid "Each new image without good alt text gets a proposal for you to review."
+msgstr ""
+
+#: assets/src/components/Preferences.js:33
+msgid "Daily limit of AI requests"
+msgstr ""
+
+#: assets/src/components/Preferences.js:34
+msgid "The plugin stops when it reaches this number and continues the next day. It protects you from unexpected costs."
+msgstr ""
+
+#: assets/src/components/Preferences.js:44
+#: assets/src/wizard/Wizard.js:141
+msgid "Privacy: to describe an image, the plugin sends a reduced copy of it to the AI provider you connected. Nothing is sent to anyone else."
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:15
+msgid "Approved. The text is being applied."
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:16
+msgid "Marked as decorative."
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:17
+msgid "Ignored."
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:18
+msgid "A new proposal has been requested."
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:19
+msgid "Change undone."
+msgstr ""
+
+#. translators: %s: image name.
+#: assets/src/components/ReviewRow.js:71
+#, js-format
+msgid "Select %s"
+msgstr ""
+
+#. translators: %s: image name.
+#: assets/src/components/ReviewRow.js:85
+#, js-format
+msgid "Open %s in the media library"
+msgstr ""
+
+#. translators: %d: number of pages.
+#: assets/src/components/ReviewRow.js:98
+#, js-format
+msgid "Used on %d page"
+msgid_plural "Used on %d pages"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of pages.
+#: assets/src/components/ReviewRow.js:111
+#, js-format
+msgid "%d in a page builder (not updated)"
+msgid_plural "%d in page builders (not updated)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/components/ReviewRow.js:125
+msgid "Current alt text:"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:128
+msgid "(empty)"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:139
+msgid "The media library text is good; only a page is missing it. Approving copies it there. No AI is used."
+msgstr ""
+
+#. translators: %s: image name.
+#: assets/src/components/ReviewRow.js:161
+#, js-format
+msgid "Proposed alt text for %s"
+msgstr ""
+
+#. translators: 1: current length, 2: recommended maximum.
+#: assets/src/components/ReviewRow.js:177
+#, js-format
+msgid "%1$d of %2$d recommended characters"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:191
+msgid "Approve"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:197
+msgid "Regenerate"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:205
+msgid "Generate now"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:210
+msgid "In the generation queue…"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:216
+msgid "Retry"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:227
+msgid "Ignore"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:233
+msgid "Generate proposal"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:236
+msgid "Undo"
+msgstr ""
+
+#: assets/src/components/ReviewRow.js:239
+msgid "Applying to the library and your pages…"
+msgstr ""
+
+#: assets/src/tabs/Dashboard.js:18
+msgid "OK"
+msgstr ""
+
+#: assets/src/tabs/Dashboard.js:19
+msgid "Attention"
+msgstr ""
+
+#: assets/src/tabs/Dashboard.js:20
+msgid "Problem"
+msgstr ""
+
+#. translators: 1: number of images, 2: name of the group, e.g. "To review".
+#: assets/src/tabs/Dashboard.js:32
+#, js-format
+msgid "%1$d images: %2$s. Open the list."
+msgstr ""
+
+#. translators: 1: number of images, 2: sentence with today's AI usage.
+#: assets/src/tabs/Dashboard.js:96
+#, js-format
+msgid "Generate proposals for %1$d images? Each one is a paid request to your AI provider. %2$s Nothing is published until you review it."
+msgstr ""
+
+#. translators: %d: number of images.
+#: assets/src/tabs/Dashboard.js:113
+#, js-format
+msgid "%d image queued for generation."
+msgid_plural "%d images queued for generation."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: images with correct alt text, 2: total images, 3: percentage.
+#: assets/src/tabs/Dashboard.js:155
+#, js-format
+msgid "%1$d of %2$d images have correct alt text (%3$d%%)"
+msgstr ""
+
+#: assets/src/tabs/Dashboard.js:173
+msgid "Auditing the media library and your content…"
+msgstr ""
+
+#. translators: %d: number of images.
+#: assets/src/tabs/Dashboard.js:221
+#: assets/src/wizard/Wizard.js:386
+#, js-format
+msgid "Generate proposal for %d image"
+msgid_plural "Generate proposals for %d images"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/tabs/Dashboard.js:233
+msgid "Fix the AI connector first."
+msgstr ""
+
+#. translators: %d: number of images.
+#: assets/src/tabs/Dashboard.js:244
+#, js-format
+msgid "%d image in the generation queue."
+msgid_plural "%d images in the generation queue."
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/tabs/Dashboard.js:258
+msgid "Pause"
+msgstr ""
+
+#: assets/src/tabs/Dashboard.js:268
+msgid "Checks"
+msgstr ""
+
+#. translators: %d: number of uses.
+#: assets/src/tabs/Dashboard.js:296
+#, js-format
+msgid "%d use of an image is inside a page builder. The plugin updates the media library but cannot rewrite that page."
+msgid_plural "%d uses of images are inside a page builder. The plugin updates the media library but cannot rewrite those pages."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: current page, 2: total pages.
+#: assets/src/tabs/Review.js:58
+#: assets/src/tabs/Review.js:315
+#, js-format
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#. translators: %d: number of images.
+#: assets/src/tabs/Review.js:135
+#, js-format
+msgid "%d image approved."
+msgid_plural "%d images approved."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of images.
+#: assets/src/tabs/Review.js:148
+#, js-format
+msgid "%d image could not be approved."
+msgid_plural "%d images could not be approved."
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/tabs/Review.js:178
+msgid "Status"
+msgstr ""
+
+#: assets/src/tabs/Review.js:181
+msgid "All"
+msgstr ""
+
+#: assets/src/tabs/Review.js:195
+msgid "Problem detected"
+msgstr ""
+
+#: assets/src/tabs/Review.js:198
+msgid "Any"
+msgstr ""
+
+#: assets/src/tabs/Review.js:207
+msgid "Search by text or title"
+msgstr ""
+
+#: assets/src/tabs/Review.js:223
+msgid "No images here."
+msgstr ""
+
+#. translators: %d: number of images.
+#: assets/src/tabs/Review.js:232
+#, js-format
+msgid "%d image"
+msgid_plural "%d images"
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/tabs/Review.js:254
+msgid "Select none"
+msgstr ""
+
+#: assets/src/tabs/Review.js:255
+msgid "Select all on this page"
+msgstr ""
+
+#. translators: %d: number of selected images.
+#: assets/src/tabs/Review.js:265
+#, js-format
+msgid "Approve selected (%d)"
+msgstr ""
+
+#: assets/src/tabs/Review.js:303
+msgid "Pages"
+msgstr ""
+
+#: assets/src/tabs/Review.js:310
+msgid "Previous"
+msgstr ""
+
+#: assets/src/tabs/Review.js:325
+msgid "Next"
+msgstr ""
+
+#: assets/src/tabs/Settings.js:58
+#: assets/src/wizard/Wizard.js:24
+msgid "Preferences"
+msgstr ""
+
+#: assets/src/tabs/Settings.js:80
+msgid "Settings saved."
+msgstr ""
+
+#: assets/src/tabs/Settings.js:84
+msgid "Save settings"
+msgstr ""
+
+#: assets/src/tabs/Settings.js:91
+msgid "AI provider"
+msgstr ""
+
+#: assets/src/tabs/Settings.js:95
+msgid "The plugin uses the AI provider connected in WordPress. API keys are managed there, never by this plugin."
+msgstr ""
+
+#: assets/src/tabs/Settings.js:101
+msgid "Open Connectors"
+msgstr ""
+
+#: assets/src/tabs/Settings.js:108
+msgid "Maintenance"
+msgstr ""
+
+#: assets/src/tabs/Settings.js:117
+msgid "Audit started. It runs in the background; the dashboard shows the result."
+msgstr ""
+
+#: assets/src/tabs/Settings.js:124
+msgid "Run full audit now"
+msgstr ""
+
+#: assets/src/tabs/Settings.js:134
+msgid "Run setup wizard again"
+msgstr ""
+
+#: assets/src/tabs/Settings.js:137
+msgid "Site Health"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:22
+msgid "Requirements"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:23
+msgid "Test"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:25
+msgid "First audit"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:26
+msgid "Done"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:59
+msgid "An AI provider that can describe images is connected."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:72
+msgid "No AI provider is connected yet."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:78
+msgid "To write alt text, the plugin needs an AI provider: OpenAI (ChatGPT), Anthropic (Claude) or Google (Gemini). You connect it with an API key, a code you create in your account with that provider."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:84
+msgid "An API key is billed by use and is separate from a ChatGPT, Claude or Gemini subscription. Describing an image usually costs a fraction of a cent."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:100
+msgid "Open Connectors (new tab)"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:103
+msgid "Check again"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:109
+#: assets/src/wizard/Wizard.js:206
+#: assets/src/wizard/Wizard.js:330
+msgid "Continue"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:135
+msgid "The plugin will ask the AI to describe one image from your media library, to check that everything works."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:150
+msgid "The media library has no images yet, so there is nothing to test with. You can continue."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:159
+msgid "Asking the AI to describe one of your images…"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:173
+msgid "Generated alt text:"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:181
+msgid "This was only a test: nothing has been saved."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:192
+msgid "Try again"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:197
+msgid "Run the test"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:257
+msgid "Save and continue"
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:303
+msgid "Checking every image in the library and in your pages. This uses no AI and costs nothing."
+msgstr ""
+
+#. translators: 1: images that need alt text, 2: total images.
+#: assets/src/wizard/Wizard.js:314
+#, js-format
+msgid "%1$d of %2$d images need alt text."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:358
+msgid "Everything is ready. You can ask the AI for proposals now; you will review each one before anything changes on your site."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:362
+msgid "Everything is ready, and no image needs alt text right now."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:401
+msgid "Go to dashboard"
+msgstr ""
+
+#. translators: 1: step number, 2: total steps, 3: step name.
+#: assets/src/wizard/Wizard.js:438
+#, js-format
+msgid "Step %1$d of %2$d: %3$s"
+msgstr ""

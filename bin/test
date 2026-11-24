@@ -1,0 +1,22 @@
+#!/bin/sh
+# Uso: bin/test unit|integration [argumentos de phpunit]
+cd "$(dirname "$0")/.." || exit 1
+suite="$1"
+[ -n "$suite" ] && shift
+case "$suite" in
+	unit)
+		exec docker compose run --rm php vendor/bin/phpunit --testsuite unit "$@"
+		;;
+	integration)
+		. ./.env
+		docker compose exec -T db mariadb -uroot -p"$DB_ROOT_PASSWORD" -e \
+			"CREATE DATABASE IF NOT EXISTS wordpress_test; GRANT ALL ON wordpress_test.* TO '$DB_USER'@'%';" || exit 1
+		exec docker compose run --rm -T --entrypoint php \
+			-w /var/www/html/wp-content/plugins/meta-descriptions-ia \
+			wpcli vendor/bin/phpunit --testsuite integration "$@"
+		;;
+	*)
+		echo "Uso: bin/test unit|integration [argumentos de phpunit]" >&2
+		exit 2
+		;;
+esac

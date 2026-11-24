@@ -1,0 +1,24 @@
+#!/bin/sh
+# Instala el zip de dist/ en un WordPress limpio y desechable, y comprueba que activa sin errores.
+cd "$(dirname "$0")/.." || exit 1
+ZIP=$(ls dist/meta-descriptions-ia-*.zip 2>/dev/null | head -1)
+[ -n "$ZIP" ] || { echo "No hay zip en dist/. Ejecuta antes bin/build-zip." >&2; exit 1; }
+C="docker compose -f docker/docker-compose.zipcheck.yml"
+wp() { $C run --rm -T wpcli "$@"; }
+trap '$C down -v --remove-orphans >/dev/null 2>&1' EXIT
+
+$C up -d --wait wordpress >/dev/null 2>&1 || $C up -d wordpress >/dev/null 2>&1
+for i in $(seq 1 30); do wp core is-installed >/dev/null 2>&1; [ $? -le 1 ] && wp db check >/dev/null 2>&1 && break; sleep 2; done
+wp core install --url=http://zipcheck.test --title=ZipCheck --admin_user=admin --admin_password="$(date +%s)zip" --admin_email=admin@example.test --skip-email >/dev/null
+wp core version
+wp plugin install "/dist/$(basename "$ZIP")" --activate
+wp eval '
+global $wpdb;
+foreach ( \MDIA\Install\Schema::TABLES as $t ) { echo $t, ": ", $wpdb->get_var( "SHOW TABLES LIKE \"{$wpdb->prefix}$t\"" ) ? "ok" : "FALTA", "\n"; }
+echo "action scheduler: ", function_exists( "as_enqueue_async_action" ) ? "ok" : "FALTA", "\n";
+echo "estado: ", \MDIA\Health\Status::compute( true )["state"], "\n";
+echo "interfaz compilada: ", is_readable( MDIA_DIR . "build/index.js" ) ? "ok" : "FALTA", "\n";
+echo "debug.log: ", is_readable( WP_CONTENT_DIR . "/debug.log" ) ? trim( file_get_contents( WP_CONTENT_DIR . "/debug.log" ) ) : "vacío", "\n";
+'
+wp plugin uninstall meta-descriptions-ia --deactivate | tail -1
+wp eval 'global $wpdb; echo "tablas tras desinstalar: ", (int) $wpdb->get_var( "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name LIKE \"%mdia\\_%\"" ), "\n";'

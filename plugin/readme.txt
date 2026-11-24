@@ -1,0 +1,63 @@
+=== Meta Descriptions IA ===
+Contributors: prodigiosovolcan
+Tags: alt text, accessibility, images, ai, media library
+Requires at least: 7.0
+Tested up to: 7.1
+Requires PHP: 8.1
+Stable tag: 0.1.0
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Audits image alt text in the media library and in your content, and proposes better alt text with AI for a person to review.
+
+== Description ==
+
+Many images end up with no alt text, or with a file name or the word "image" as alt text. That hurts people who use screen readers, and it hurts search visibility.
+
+This plugin:
+
+* Audits every image in the media library and every use of it in your posts and pages. The audit uses no AI and has no cost.
+* Proposes alt text with the AI provider you connected in Settings > Connectors (OpenAI, Anthropic or Google).
+* Never changes anything by itself: a person approves, edits, ignores or marks each image as decorative.
+* Applies approved text to the media library and to the content already published, and lets you undo it.
+* Shows a dashboard that tells you at a glance whether everything is green.
+
+= What it needs =
+
+* WordPress 7.0 or later.
+* An AI provider connected in Settings > Connectors, with an API key. API keys are billed by use by the provider and are separate from a ChatGPT, Claude or Gemini subscription. The plugin never reads or stores the key.
+
+= Privacy =
+
+To describe an image, the plugin sends a reduced copy of it (1024 px on its longest side at most), its file name, its title, its current alt text and the title of one page where it is used to the AI provider you connected. Nothing is sent anywhere else. A daily limit of requests, 200 by default, protects you from unexpected costs.
+
+= Known limits =
+
+* Images placed with page builders (for example Elementor) or custom fields are updated in the media library but not rewritten inside those pages. The dashboard tells you how many.
+* SVG files and files that are not images are not audited.
+* One language per site: alt text is written in the site language.
+
+== Installation ==
+
+1. Upload the zip in Plugins > Add New > Upload Plugin and activate it.
+2. Follow the setup wizard: connect an AI provider, test it, choose your preferences and run the first audit.
+3. Review the proposals in Media > AI alt text.
+
+== Frequently Asked Questions ==
+
+= Can I use my ChatGPT, Claude or Gemini subscription instead of an API key? =
+
+No. At the time of this release none of the three providers lets a plugin hosted on your own site use a consumer subscription. You need an API key from the provider.
+
+= Does it overwrite alt text someone wrote by hand? =
+
+No. In a page, alt text is replaced only when it is empty, is a copy of the old media library text, or fails the audit rules. Good, page-specific alt text is kept. Approved, ignored and decorative decisions are never questioned again unless someone edits the text by hand.
+
+= Background tasks do not run =
+
+The plugin relies on WP-Cron. If the dashboard shows background tasks in red, check that WP-Cron works on the site or set up a server cron job.
+
+== Changelog ==
+
+= 0.1.0 =
+* First version.

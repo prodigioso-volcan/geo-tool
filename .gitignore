@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+*.log
+.env
+plugin/vendor/
+plugin/node_modules/
+plugin/build/
+dist/
+.superpowers/
