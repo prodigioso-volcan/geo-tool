@@ -24,11 +24,6 @@ msgstr "Revisor ALT by JUNGLE"
 msgid "Audits image alt text in the media library and in published content, and proposes better alt text with AI for human review."
 msgstr "Revisa el texto alternativo de las imágenes en la biblioteca de medios y en el contenido publicado, y propone con IA textos mejores para que una persona los revise."
 
-#. Author of the plugin
-#: revisor-alt.php
-msgid "Prodigioso Volcán"
-msgstr "Prodigioso Volcán"
-
 #: revisor-alt.php:29
 msgid "Revisor ALT by JUNGLE requires WordPress 7.0 or later."
 msgstr "Revisor ALT by JUNGLE necesita WordPress 7.0 o superior."
@@ -776,3 +771,8 @@ msgstr[1] "%d seleccionadas"
 #: assets/src/tabs/Review.js:286
 msgid "Approve selected"
 msgstr "Aprobar seleccionadas"
+
+#. Author of the plugin
+#: revisor-alt.php
+msgid "JUNGLE"
+msgstr "JUNGLE"

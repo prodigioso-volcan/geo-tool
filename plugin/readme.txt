@@ -4,7 +4,7 @@ Tags: alt text, accessibility, images, ai, media library
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -62,6 +62,9 @@ New versions published in the project's GitHub repository show up in the Plugins
 The plugin relies on WP-Cron. If the dashboard shows background tasks in red, check that WP-Cron works on the site or set up a server cron job.
 
 == Changelog ==
+
+= 0.2.1 =
+* The plugin author is now JUNGLE.
 
 = 0.2.0 =
 * The plugin is now called Revisor ALT by JUNGLE (folder and text domain: revisor-alt).
