@@ -2,7 +2,7 @@
 /**
  * One row per audited image.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Data;

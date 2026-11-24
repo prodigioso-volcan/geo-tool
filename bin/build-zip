@@ -1,8 +1,8 @@
 #!/bin/sh
-# Genera dist/meta-descriptions-ia-{versión}.zip listo para instalar. Todo en Docker.
+# Genera dist/revisor-alt-{versión}.zip listo para instalar. Todo en Docker.
 set -e
 cd "$(dirname "$0")/.."
-VERSION=$(sed -n 's/^ \* Version: *//p' plugin/meta-descriptions-ia.php | tr -d '[:space:]')
+VERSION=$(sed -n 's/^ \* Version: *//p' plugin/revisor-alt.php | tr -d '[:space:]')
 
 docker compose run --rm php composer install --no-dev --optimize-autoloader --no-interaction --quiet
 if [ -d plugin/node_modules ]; then
@@ -13,10 +13,10 @@ fi
 
 rm -rf dist && mkdir -p dist
 docker compose run --rm -v "$PWD/dist:/dist" php sh -c "
-	rm -rf /tmp/pkg && mkdir -p /tmp/pkg/meta-descriptions-ia &&
-	cp -r meta-descriptions-ia.php uninstall.php readme.txt LICENSE src vendor build languages /tmp/pkg/meta-descriptions-ia/ &&
-	cd /tmp/pkg && zip -qr /dist/meta-descriptions-ia-$VERSION.zip meta-descriptions-ia"
+	rm -rf /tmp/pkg && mkdir -p /tmp/pkg/revisor-alt &&
+	cp -r revisor-alt.php uninstall.php readme.txt LICENSE src vendor build languages /tmp/pkg/revisor-alt/ &&
+	cd /tmp/pkg && zip -qr /dist/revisor-alt-$VERSION.zip revisor-alt"
 
 # Deja el entorno de desarrollo como estaba (PHPUnit y demás).
 docker compose run --rm php composer install --no-interaction --quiet
-echo "Creado dist/meta-descriptions-ia-$VERSION.zip"
+echo "Creado dist/revisor-alt-$VERSION.zip"

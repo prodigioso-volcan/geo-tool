@@ -3,7 +3,7 @@
  * Removes plugin tables, options, capabilities and scheduled actions, on every site
  * of a network. Applied alt text is kept.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;

@@ -2,7 +2,7 @@
 /**
  * Plugin bootstrap: registers every hook.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA;
@@ -38,11 +38,13 @@ final class Plugin {
 		Rest\Api::register();
 		Admin\Menu::register();
 		Admin\Activation::register();
+		Update\Updater::register();
+		add_action( 'admin_init', array( Install\Schema::class, 'ensure_capabilities' ) );
 
 		add_action(
 			'init',
 			static function () {
-				load_plugin_textdomain( 'meta-descriptions-ia', false, dirname( plugin_basename( MDIA_FILE ) ) . '/languages' );
+				load_plugin_textdomain( 'revisor-alt', false, dirname( plugin_basename( MDIA_FILE ) ) . '/languages' );
 			}
 		);
 	}

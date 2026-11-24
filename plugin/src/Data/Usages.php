@@ -2,7 +2,7 @@
 /**
  * Index of where each image is used in content.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Data;

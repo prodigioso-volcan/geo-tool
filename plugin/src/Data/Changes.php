@@ -2,7 +2,7 @@
 /**
  * Log of every alt text written by the plugin, used for undo.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Data;

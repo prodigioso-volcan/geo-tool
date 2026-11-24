@@ -12,11 +12,11 @@ import { ISSUE_LABELS, STATUS_LABELS } from './labels';
 const { maxLength } = window.mdiaData;
 
 const DONE_MESSAGE = {
-	approve: __( 'Approved. The text is being applied.', 'meta-descriptions-ia' ),
-	decorative: __( 'Marked as decorative.', 'meta-descriptions-ia' ),
-	ignore: __( 'Ignored.', 'meta-descriptions-ia' ),
-	regenerate: __( 'A new proposal has been requested.', 'meta-descriptions-ia' ),
-	undo: __( 'Change undone.', 'meta-descriptions-ia' ),
+	approve: __( 'Approved. The text is being applied.', 'revisor-alt' ),
+	decorative: __( 'Marked as decorative.', 'revisor-alt' ),
+	ignore: __( 'Ignored.', 'revisor-alt' ),
+	regenerate: __( 'A new proposal has been requested.', 'revisor-alt' ),
+	undo: __( 'Change undone.', 'revisor-alt' ),
 };
 
 export default function ReviewRow( {
@@ -68,7 +68,7 @@ export default function ReviewRow( {
 						type="checkbox"
 						aria-label={ sprintf(
 							/* translators: %s: image name. */
-							__( 'Select %s', 'meta-descriptions-ia' ),
+							__( 'Select %s', 'revisor-alt' ),
 							name
 						) }
 						checked={ selected }
@@ -82,7 +82,7 @@ export default function ReviewRow( {
 				<span className="screen-reader-text">
 					{ sprintf(
 						/* translators: %s: image name. */
-						__( 'Open %s in the media library', 'meta-descriptions-ia' ),
+						__( 'Open %s in the media library', 'revisor-alt' ),
 						name
 					) }
 				</span>
@@ -99,7 +99,7 @@ export default function ReviewRow( {
 								'Used on %d page',
 								'Used on %d pages',
 								item.usage_count,
-								'meta-descriptions-ia'
+								'revisor-alt'
 							),
 							item.usage_count
 						) }
@@ -112,7 +112,7 @@ export default function ReviewRow( {
 									'%d in a page builder (not updated)',
 									'%d in page builders (not updated)',
 									item.unmanaged_count,
-									'meta-descriptions-ia'
+									'revisor-alt'
 								),
 								item.unmanaged_count
 							) }
@@ -122,10 +122,10 @@ export default function ReviewRow( {
 
 				<p className="mdia-row__current">
 					<strong>
-						{ __( 'Current alt text:', 'meta-descriptions-ia' ) }
+						{ __( 'Current alt text:', 'revisor-alt' ) }
 					</strong>{ ' ' }
 					{ item.library_alt || (
-						<em>{ __( '(empty)', 'meta-descriptions-ia' ) }</em>
+						<em>{ __( '(empty)', 'revisor-alt' ) }</em>
 					) }{ ' ' }
 						{ item.issues.map( ( issue ) => (
 						<span key={ issue } className="mdia-tag">
@@ -138,7 +138,7 @@ export default function ReviewRow( {
 					<p className="mdia-muted">
 						{ __(
 							'The media library text is good; only a page is missing it. Approving copies it there. No AI is used.',
-							'meta-descriptions-ia'
+							'revisor-alt'
 						) }
 					</p>
 				) }
@@ -158,7 +158,7 @@ export default function ReviewRow( {
 						__nextHasNoMarginBottom
 						label={ sprintf(
 							/* translators: %s: image name. */
-							__( 'Proposed alt text for %s', 'meta-descriptions-ia' ),
+							__( 'Proposed alt text for %s', 'revisor-alt' ),
 							name
 						) }
 						rows={ 2 }
@@ -174,7 +174,7 @@ export default function ReviewRow( {
 							>
 								{ sprintf(
 									/* translators: 1: current length, 2: recommended maximum. */
-									__( '%1$d of %2$d recommended characters', 'meta-descriptions-ia' ),
+									__( '%1$d of %2$d recommended characters', 'revisor-alt' ),
 									length,
 									maxLength
 								) }
@@ -188,13 +188,13 @@ export default function ReviewRow( {
 						<>
 							{ action(
 								'approve',
-								__( 'Approve', 'meta-descriptions-ia' ),
+								__( 'Approve', 'revisor-alt' ),
 								'primary',
 								{ text }
 							) }
 							{ action(
 								'regenerate',
-								__( 'Regenerate', 'meta-descriptions-ia' )
+								__( 'Regenerate', 'revisor-alt' )
 							) }
 						</>
 					) }
@@ -202,18 +202,18 @@ export default function ReviewRow( {
 						! item.queued &&
 						action(
 							'regenerate',
-							__( 'Generate now', 'meta-descriptions-ia' ),
+							__( 'Generate now', 'revisor-alt' ),
 							'primary'
 						) }
 					{ status === 'needs_generation' && item.queued && (
 						<span className="mdia-muted">
-							{ __( 'In the generation queue…', 'meta-descriptions-ia' ) }
+							{ __( 'In the generation queue…', 'revisor-alt' ) }
 						</span>
 					) }
 					{ status === 'error' &&
 						action(
 							'regenerate',
-							__( 'Retry', 'meta-descriptions-ia' ),
+							__( 'Retry', 'revisor-alt' ),
 							'primary'
 						) }
 					{ [ 'needs_review', 'needs_generation', 'error' ].includes(
@@ -222,23 +222,23 @@ export default function ReviewRow( {
 						<>
 							{ action(
 								'decorative',
-								__( 'Decorative', 'meta-descriptions-ia' )
+								__( 'Decorative', 'revisor-alt' )
 							) }
-							{ action( 'ignore', __( 'Ignore', 'meta-descriptions-ia' ) ) }
+							{ action( 'ignore', __( 'Ignore', 'revisor-alt' ) ) }
 						</>
 					) }
 					{ status === 'ignored' &&
 						action(
 							'regenerate',
-							__( 'Generate proposal', 'meta-descriptions-ia' )
+							__( 'Generate proposal', 'revisor-alt' )
 						) }
 					{ item.can_undo &&
-						action( 'undo', __( 'Undo', 'meta-descriptions-ia' ) ) }
+						action( 'undo', __( 'Undo', 'revisor-alt' ) ) }
 					{ status === 'applying' && (
 						<span className="mdia-muted">
 							{ __(
 								'Applying to the library and your pages…',
-								'meta-descriptions-ia'
+								'revisor-alt'
 							) }
 						</span>
 					) }

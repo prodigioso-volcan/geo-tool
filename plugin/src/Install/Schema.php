@@ -2,7 +2,7 @@
 /**
  * Database tables, capabilities and migrations.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Install;
@@ -82,6 +82,24 @@ final class Schema {
 			) $charset;"
 		);
 
+		self::grant_capabilities();
+
+		update_option( 'mdia_db_version', self::DB_VERSION, false );
+	}
+
+	/**
+	 * Gives the capabilities back after the site's roles have been reset (by a role editor,
+	 * a migration or a restore). Administrators without theirs is the sign of a reset; a
+	 * site that only took reviewing away from editors keeps that choice.
+	 */
+	public static function ensure_capabilities(): void {
+		$administrator = get_role( 'administrator' );
+		if ( $administrator && ! $administrator->has_cap( 'mdia_manage' ) ) {
+			self::grant_capabilities();
+		}
+	}
+
+	private static function grant_capabilities(): void {
 		foreach ( self::CAPS as $role_name => $caps ) {
 			$role = get_role( $role_name );
 			if ( $role ) {
@@ -90,8 +108,6 @@ final class Schema {
 				}
 			}
 		}
-
-		update_option( 'mdia_db_version', self::DB_VERSION, false );
 	}
 
 	/**

@@ -55,7 +55,7 @@ export default function Settings( { onRunWizard } ) {
 
 			<Card>
 				<CardHeader>
-					<h2>{ __( 'Preferences', 'meta-descriptions-ia' ) }</h2>
+					<h2>{ __( 'Preferences', 'revisor-alt' ) }</h2>
 				</CardHeader>
 				<CardBody className="mdia-settings">
 					<Preferences
@@ -77,35 +77,35 @@ export default function Settings( { onRunWizard } ) {
 											auto_generate_new: values.auto_generate_new,
 										} )
 									),
-								__( 'Settings saved.', 'meta-descriptions-ia' )
+								__( 'Settings saved.', 'revisor-alt' )
 							)
 						}
 					>
-						{ __( 'Save settings', 'meta-descriptions-ia' ) }
+						{ __( 'Save settings', 'revisor-alt' ) }
 					</Button>
 				</CardBody>
 			</Card>
 
 			<Card>
 				<CardHeader>
-					<h2>{ __( 'AI provider', 'meta-descriptions-ia' ) }</h2>
+					<h2>{ __( 'AI provider', 'revisor-alt' ) }</h2>
 				</CardHeader>
 				<CardBody>
 					<p>
 						{ __(
 							'The plugin uses the AI provider connected in WordPress. API keys are managed there, never by this plugin.',
-							'meta-descriptions-ia'
+							'revisor-alt'
 						) }
 					</p>
 					<Button variant="secondary" href={ connectorsUrl }>
-						{ __( 'Open Connectors', 'meta-descriptions-ia' ) }
+						{ __( 'Open Connectors', 'revisor-alt' ) }
 					</Button>
 				</CardBody>
 			</Card>
 
 			<Card>
 				<CardHeader>
-					<h2>{ __( 'Maintenance', 'meta-descriptions-ia' ) }</h2>
+					<h2>{ __( 'Maintenance', 'revisor-alt' ) }</h2>
 				</CardHeader>
 				<CardBody className="mdia-generate">
 					<Button
@@ -116,12 +116,12 @@ export default function Settings( { onRunWizard } ) {
 								startAudit,
 								__(
 									'Audit started. It runs in the background; the dashboard shows the result.',
-									'meta-descriptions-ia'
+									'revisor-alt'
 								)
 							)
 						}
 					>
-						{ __( 'Run full audit now', 'meta-descriptions-ia' ) }
+						{ __( 'Run full audit now', 'revisor-alt' ) }
 					</Button>
 					<Button
 						variant="secondary"
@@ -131,10 +131,10 @@ export default function Settings( { onRunWizard } ) {
 							onRunWizard();
 						} }
 					>
-						{ __( 'Run setup wizard again', 'meta-descriptions-ia' ) }
+						{ __( 'Run setup wizard again', 'revisor-alt' ) }
 					</Button>
 					<Button variant="link" href={ siteHealthUrl }>
-						{ __( 'Site Health', 'meta-descriptions-ia' ) }
+						{ __( 'Site Health', 'revisor-alt' ) }
 					</Button>
 				</CardBody>
 			</Card>

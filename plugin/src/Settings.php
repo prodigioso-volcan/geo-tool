@@ -2,7 +2,7 @@
 /**
  * Plugin settings stored in a single option.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA;

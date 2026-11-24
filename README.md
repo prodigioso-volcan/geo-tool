@@ -1,4 +1,4 @@
-# Meta Descriptions IA
+# Revisor ALT by JUNGLE
 
 Plugin de WordPress que revisa el texto alternativo de las imágenes, propone uno mejor con IA y lo aplica solo cuando una persona lo aprueba.
 
@@ -46,7 +46,7 @@ Hasta que termines el asistente, el plugin no genera propuestas. Lo único que s
 
 ## Uso
 
-Todo está en **Medios > Textos alternativos IA**.
+Todo está en **Medios > Revisor ALT**.
 
 ### Panel
 
@@ -139,6 +139,9 @@ El plugin funciona con cualquier proveedor registrado en el cliente de IA de Wor
 **Las tareas en segundo plano aparecen en rojo.**
 El plugin depende de WP-Cron. Comprueba que funciona en tu web o configura un cron del servidor.
 
+**¿Cómo se actualiza?**
+Cuando se publica una versión nueva en este repositorio, aparece en **Plugins** como cualquier otra actualización. El plugin consulta las versiones publicadas en GitHub; no envía ningún dato de tu web.
+
 **¿Qué pasa al desinstalarlo?**
 Se borran sus tablas y ajustes. Los textos alternativos ya aplicados se conservan.
 
@@ -161,6 +164,8 @@ Se borran sus tablas y ajustes. Los textos alternativos ya aplicados se conserva
 - `mdia_manage`: ajustes, asistente y lanzar la generación. Lo tienen los administradores.
 - `mdia_review`: revisar y aprobar. Lo tienen administradores y editores.
 
+Si los roles del sitio se restablecen, el plugin vuelve a conceder estos permisos.
+
 ### Desarrollo
 
 Solo hace falta Docker. PHP, Composer, Node, WP-CLI y las pruebas corren en contenedores.
@@ -169,11 +174,7 @@ Solo hace falta Docker. PHP, Composer, Node, WP-CLI y las pruebas corren en cont
 cp .env.example .env
 ```
 
-Cambia las contraseñas de `.env` y arranca:
-
-```bash
-docker compose up -d
-```
+Cambia las contraseñas de `.env` y ejecuta, en este orden:
 
 ```bash
 bin/composer install
@@ -187,31 +188,24 @@ bin/npm install
 bin/npm run build
 ```
 
-La primera vez hay que instalar WordPress y activar el plugin:
-
 ```bash
-bin/wp core install --url=http://localhost:8787 --title="Local" --admin_user=admin --admin_password=CAMBIA --admin_email=admin@example.test --skip-email
+bin/setup
 ```
 
-```bash
-bin/wp plugin install ai-provider-for-openai ai-provider-for-anthropic ai-provider-for-google --activate
-```
-
-```bash
-bin/wp plugin activate meta-descriptions-ia
-```
+`bin/setup` arranca los contenedores, instala WordPress en español con los datos de `.env`, instala los conectores oficiales de IA y activa el plugin.
 
 La web queda en http://localhost:8787 y el correo de prueba en http://localhost:8797.
 
 | Comando | Qué hace |
 |---|---|
+| `bin/setup` | Arranca el entorno e instala WordPress y el plugin. |
 | `bin/test-all` | Pruebas unitarias y de integración. |
 | `bin/test unit` · `bin/test integration` | Cada suite por separado. |
 | `bin/npm run build` | Compila la interfaz en `plugin/build/`. |
 | `bin/wp …` | WP-CLI. |
 | `bin/seed [proposals]` | Crea imágenes y entradas de demostración. |
 | `bin/i18n` | Regenera los archivos de idioma. |
-| `bin/build-zip` | Genera `dist/meta-descriptions-ia-{versión}.zip`. |
+| `bin/build-zip` | Genera `dist/revisor-alt-{versión}.zip`. |
 | `bin/check-zip` | Instala ese zip en un WordPress limpio y desechable. |
 
 El servicio `cron` de `docker-compose.yml` ejecuta las tareas en segundo plano cada 20 segundos.
@@ -229,7 +223,7 @@ docker/                 archivos solo del entorno local
 docs/                   imágenes del README
 ```
 
-Las cadenas del código están en inglés. Tras añadir o cambiar cadenas, ejecuta `bin/i18n`, traduce las nuevas en `plugin/languages/meta-descriptions-ia-es_ES.po` y vuelve a ejecutarlo.
+Las cadenas del código están en inglés. Tras añadir o cambiar cadenas, ejecuta `bin/i18n`, traduce las nuevas en `plugin/languages/revisor-alt-es_ES.po` y vuelve a ejecutarlo.
 
 ## Seguridad
 

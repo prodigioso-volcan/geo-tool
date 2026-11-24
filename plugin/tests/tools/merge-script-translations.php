@@ -2,7 +2,7 @@
 /**
  * `wp i18n make-json` writes one file per source module, but WordPress loads
  * translations for the single built script. Merges them into one file per locale
- * named after the script handle: meta-descriptions-ia-{locale}-mdia-admin.json.
+ * named after the script handle: revisor-alt-{locale}-mdia-admin.json.
  */
 
 if ( ! defined( 'WP_CLI' ) ) {
@@ -12,9 +12,9 @@ if ( ! defined( 'WP_CLI' ) ) {
 $mdia_dir    = dirname( __DIR__, 2 ) . '/languages';
 $mdia_merged = array();
 
-foreach ( glob( $mdia_dir . '/meta-descriptions-ia-*-????????????????????????????????.json' ) as $mdia_file ) {
+foreach ( glob( $mdia_dir . '/revisor-alt-*-????????????????????????????????.json' ) as $mdia_file ) {
 	$mdia_data = json_decode( file_get_contents( $mdia_file ), true );
-	preg_match( '/meta-descriptions-ia-(.+)-[0-9a-f]{32}\.json$/', $mdia_file, $mdia_match );
+	preg_match( '/revisor-alt-(.+)-[0-9a-f]{32}\.json$/', $mdia_file, $mdia_match );
 	$mdia_locale = $mdia_match[1];
 
 	if ( ! isset( $mdia_merged[ $mdia_locale ] ) ) {
@@ -27,6 +27,6 @@ foreach ( glob( $mdia_dir . '/meta-descriptions-ia-*-???????????????????????????
 }
 
 foreach ( $mdia_merged as $mdia_locale => $mdia_data ) {
-	file_put_contents( "$mdia_dir/meta-descriptions-ia-$mdia_locale-mdia-admin.json", wp_json_encode( $mdia_data ) );
+	file_put_contents( "$mdia_dir/revisor-alt-$mdia_locale-mdia-admin.json", wp_json_encode( $mdia_data ) );
 	WP_CLI::success( "$mdia_locale: " . ( count( $mdia_data['locale_data']['messages'] ) - 1 ) . ' script strings.' );
 }

@@ -1,11 +1,11 @@
 #!/bin/sh
 # Regenera los archivos de idioma. Tras añadir cadenas, traduce las nuevas en
-# plugin/languages/meta-descriptions-ia-es_ES.po y vuelve a ejecutar este script.
+# plugin/languages/revisor-alt-es_ES.po y vuelve a ejecutar este script.
 cd "$(dirname "$0")/.." || exit 1
-PD=wp-content/plugins/meta-descriptions-ia
+PD=wp-content/plugins/revisor-alt
 wp() { docker compose run --rm -T wpcli "$@"; }
-wp i18n make-pot "$PD" "$PD/languages/meta-descriptions-ia.pot" --exclude=vendor,node_modules,tests,build --domain=meta-descriptions-ia &&
-wp i18n update-po "$PD/languages/meta-descriptions-ia.pot" "$PD/languages" &&
+wp i18n make-pot "$PD" "$PD/languages/revisor-alt.pot" --exclude=vendor,node_modules,tests,build --domain=revisor-alt &&
+wp i18n update-po "$PD/languages/revisor-alt.pot" "$PD/languages" &&
 wp i18n make-mo "$PD/languages" &&
 wp i18n make-json "$PD/languages" --no-purge &&
 wp eval-file "$PD/tests/tools/merge-script-translations.php"

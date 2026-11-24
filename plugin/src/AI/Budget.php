@@ -2,7 +2,7 @@
 /**
  * Daily cap on provider calls, so the plugin never spends without limit.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\AI;

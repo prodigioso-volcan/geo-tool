@@ -12,7 +12,7 @@ case "$suite" in
 		docker compose exec -T db mariadb -uroot -p"$DB_ROOT_PASSWORD" -e \
 			"CREATE DATABASE IF NOT EXISTS wordpress_test; GRANT ALL ON wordpress_test.* TO '$DB_USER'@'%';" || exit 1
 		exec docker compose run --rm -T --entrypoint php \
-			-w /var/www/html/wp-content/plugins/meta-descriptions-ia \
+			-w /var/www/html/wp-content/plugins/revisor-alt \
 			wpcli vendor/bin/phpunit --testsuite integration "$@"
 		;;
 	*)

@@ -35,6 +35,7 @@ export default function Review( { status, onStatusChange } ) {
 	const [ error, setError ] = useState( '' );
 	const [ busy, setBusy ] = useState( false );
 	const list = useRef();
+	const selectAll = useRef();
 
 	const load = useCallback( () => {
 		return getItems( { status, issue, search, page, per_page: 20 } )
@@ -55,7 +56,7 @@ export default function Review( { status, onStatusChange } ) {
 					speak(
 						sprintf(
 							/* translators: 1: current page, 2: total pages. */
-							__( 'Page %1$d of %2$d', 'meta-descriptions-ia' ),
+							__( 'Page %1$d of %2$d', 'revisor-alt' ),
 							page,
 							result.totalPages
 						)
@@ -136,7 +137,7 @@ export default function Review( { status, onStatusChange } ) {
 						'%d image approved.',
 						'%d images approved.',
 						result.done,
-						'meta-descriptions-ia'
+						'revisor-alt'
 					),
 					result.done
 				)
@@ -149,7 +150,7 @@ export default function Review( { status, onStatusChange } ) {
 							'%d image could not be approved.',
 							'%d images could not be approved.',
 							result.failed,
-							'meta-descriptions-ia'
+							'revisor-alt'
 						),
 						result.failed
 					)
@@ -168,6 +169,16 @@ export default function Review( { status, onStatusChange } ) {
 				.filter( ( item ) => item.status === 'needs_review' )
 				.map( ( item ) => item.attachment_id )
 		: [];
+	const allSelected =
+		selectable.length > 0 && selected.length === selectable.length;
+
+	// A checkbox that is neither on nor off while only some rows are selected.
+	useEffect( () => {
+		if ( selectAll.current ) {
+			selectAll.current.indeterminate =
+				selected.length > 0 && ! allSelected;
+		}
+	}, [ selected, allSelected, data ] );
 
 	return (
 		<div className="mdia-review">
@@ -175,10 +186,10 @@ export default function Review( { status, onStatusChange } ) {
 				<SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
-					label={ __( 'Status', 'meta-descriptions-ia' ) }
+					label={ __( 'Status', 'revisor-alt' ) }
 					value={ status }
 					options={ [
-						{ value: '', label: __( 'All', 'meta-descriptions-ia' ) },
+						{ value: '', label: __( 'All', 'revisor-alt' ) },
 						...STATUS_ORDER.map( ( value ) => ( {
 							value,
 							label: STATUS_LABELS[ value ],
@@ -192,10 +203,10 @@ export default function Review( { status, onStatusChange } ) {
 				<SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
-					label={ __( 'Problem detected', 'meta-descriptions-ia' ) }
+					label={ __( 'Problem detected', 'revisor-alt' ) }
 					value={ issue }
 					options={ [
-						{ value: '', label: __( 'Any', 'meta-descriptions-ia' ) },
+						{ value: '', label: __( 'Any', 'revisor-alt' ) },
 						...Object.entries( ISSUE_LABELS ).map(
 							( [ value, label ] ) => ( { value, label } )
 						),
@@ -204,7 +215,7 @@ export default function Review( { status, onStatusChange } ) {
 				/>
 				<SearchControl
 					__nextHasNoMarginBottom
-					label={ __( 'Search by text or title', 'meta-descriptions-ia' ) }
+					label={ __( 'Search by text or title', 'revisor-alt' ) }
 					hideLabelFromVision={ false }
 					value={ search }
 					onChange={ filter( setSearch ) }
@@ -220,53 +231,60 @@ export default function Review( { status, onStatusChange } ) {
 			{ ! data && <Spinner /> }
 
 			{ data && data.items.length === 0 && (
-				<p>{ __( 'No images here.', 'meta-descriptions-ia' ) }</p>
+				<p>{ __( 'No images here.', 'revisor-alt' ) }</p>
 			) }
 
 			{ data && data.items.length > 0 && (
 				<>
 					<div className="mdia-bulk">
-						<span aria-live="polite">
+						{ selectable.length > 0 && (
+							<label className="mdia-bulk__all">
+								<input
+									type="checkbox"
+									ref={ selectAll }
+									checked={ allSelected }
+									onChange={ () =>
+										setSelected( allSelected ? [] : selectable )
+									}
+								/>
+								{ __( 'Select all on this page', 'revisor-alt' ) }
+							</label>
+						) }
+						<span className="mdia-bulk__count" aria-live="polite">
 							{ sprintf(
 								/* translators: %d: number of images. */
-								_n(
-									'%d image',
-									'%d images',
-									data.total,
-									'meta-descriptions-ia'
-								),
+								_n( '%d image', '%d images', data.total, 'revisor-alt' ),
 								data.total
 							) }
-						</span>
-						{ selectable.length > 0 && (
-							<>
-								<Button
-									variant="tertiary"
-									onClick={ () =>
-										setSelected(
-											selected.length === selectable.length
-												? []
-												: selectable
-										)
-									}
-								>
-									{ selected.length === selectable.length
-										? __( 'Select none', 'meta-descriptions-ia' )
-										: __( 'Select all on this page', 'meta-descriptions-ia' ) }
-								</Button>
-								<Button
-									variant="primary"
-									disabled={ ! selected.length || busy }
-									isBusy={ busy }
-									onClick={ approveSelected }
-								>
-									{ sprintf(
+							{ selected.length > 0 &&
+								' · ' +
+									sprintf(
 										/* translators: %d: number of selected images. */
-										__( 'Approve selected (%d)', 'meta-descriptions-ia' ),
+										_n(
+											'%d selected',
+											'%d selected',
+											selected.length,
+											'revisor-alt'
+										),
 										selected.length
 									) }
-								</Button>
-							</>
+						</span>
+						{ selectable.length > 0 && (
+							<Button
+								className="mdia-bulk__approve"
+								variant="primary"
+								disabled={ ! selected.length || busy }
+								isBusy={ busy }
+								onClick={ approveSelected }
+							>
+								{ selected.length
+									? sprintf(
+											/* translators: %d: number of selected images. */
+											__( 'Approve selected (%d)', 'revisor-alt' ),
+											selected.length
+									  )
+									: __( 'Approve selected', 'revisor-alt' ) }
+							</Button>
 						) }
 					</div>
 
@@ -300,19 +318,19 @@ export default function Review( { status, onStatusChange } ) {
 					{ data.totalPages > 1 && (
 						<nav
 							className="mdia-pagination"
-							aria-label={ __( 'Pages', 'meta-descriptions-ia' ) }
+							aria-label={ __( 'Pages', 'revisor-alt' ) }
 						>
 							<Button
 								variant="secondary"
 								disabled={ page <= 1 }
 								onClick={ () => changePage( page - 1 ) }
 							>
-								{ __( 'Previous', 'meta-descriptions-ia' ) }
+								{ __( 'Previous', 'revisor-alt' ) }
 							</Button>
 							<span>
 								{ sprintf(
 									/* translators: 1: current page, 2: total pages. */
-									__( 'Page %1$d of %2$d', 'meta-descriptions-ia' ),
+									__( 'Page %1$d of %2$d', 'revisor-alt' ),
 									page,
 									data.totalPages
 								) }
@@ -322,7 +340,7 @@ export default function Review( { status, onStatusChange } ) {
 								disabled={ page >= data.totalPages }
 								onClick={ () => changePage( page + 1 ) }
 							>
-								{ __( 'Next', 'meta-descriptions-ia' ) }
+								{ __( 'Next', 'revisor-alt' ) }
 							</Button>
 						</nav>
 					) }

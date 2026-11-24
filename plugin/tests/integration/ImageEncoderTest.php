@@ -131,4 +131,55 @@ class ImageEncoderTest extends WP_UnitTestCase {
 
 		$this->assertStringNotContainsString( 'MDIA-GPS', $bytes );
 	}
+
+	private function jpeg_with_gps(): int {
+		$id   = $this->make_real_image( 300, 200 );
+		$path = get_attached_file( $id );
+		$jpeg = file_get_contents( $path );
+		$exif = "Exif\0\0II*\0\x08\0\0\0\0\0MDIA-GPS-40.4168,-3.7038";
+		file_put_contents( $path, substr( $jpeg, 0, 2 ) . "\xFF\xE1" . pack( 'n', strlen( $exif ) + 2 ) . $exif . substr( $jpeg, 2 ) );
+		return $id;
+	}
+
+	private function use_metadata_keeping_editor(): void {
+		add_filter( 'wp_image_editors', static fn() => array( 'MDIA_Metadata_Keeping_Editor' ), 1000 );
+	}
+
+	public function test_metadata_kept_by_another_image_editor_is_stripped_before_sending() {
+		if ( ! class_exists( 'Imagick' ) || ! \Imagick::queryFormats( 'JPEG' ) ) {
+			$this->markTestSkipped( 'Needs Imagick with JPEG support to strip metadata.' );
+		}
+		$id = $this->jpeg_with_gps();
+		$this->use_metadata_keeping_editor();
+
+		$uri   = Image_Encoder::encode( $id );
+		$bytes = base64_decode( substr( $uri, strpos( $uri, ',' ) + 1 ) );
+
+		$this->assertStringNotContainsString( 'MDIA-GPS', $bytes );
+	}
+
+	public function test_image_is_not_sent_when_metadata_cannot_be_removed() {
+		$id = $this->jpeg_with_gps();
+		$this->use_metadata_keeping_editor();
+		add_filter( 'mdia_can_strip_metadata', '__return_false' );
+
+		$result = Image_Encoder::encode( $id );
+
+		$this->assertWPError( $result );
+		$this->assertSame( 'mdia_metadata_not_removed', $result->get_error_code() );
+		$this->assertSame( array(), glob( trailingslashit( get_temp_dir() ) . 'mdia-*' ), 'The temporary copy must not be left behind.' );
+	}
+
+	public function test_image_is_not_sent_when_stripping_fails() {
+		$id = $this->jpeg_with_gps();
+		$this->use_metadata_keeping_editor();
+		if ( class_exists( 'Imagick' ) && \Imagick::queryFormats( 'JPEG' ) ) {
+			$this->markTestSkipped( 'This server can strip metadata; the failure path is covered where it cannot.' );
+		}
+
+		$result = Image_Encoder::encode( $id );
+
+		$this->assertWPError( $result );
+		$this->assertSame( 'mdia_metadata_not_removed', $result->get_error_code() );
+	}
 }

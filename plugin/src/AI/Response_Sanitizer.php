@@ -2,7 +2,7 @@
 /**
  * Turns a raw model answer into a usable alt text, or rejects it. Pure.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\AI;

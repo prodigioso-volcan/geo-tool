@@ -2,7 +2,7 @@
 /**
  * Provider backed by the WordPress AI Client. Never touches API keys.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\AI;
@@ -29,7 +29,7 @@ final class Core_Provider implements Provider {
 		try {
 
 			if ( ! $builder->is_supported_for_text_generation() ) {
-				return new \WP_Error( 'mdia_unsupported', __( 'The configured AI provider cannot describe images.', 'meta-descriptions-ia' ) );
+				return new \WP_Error( 'mdia_unsupported', __( 'The configured AI provider cannot describe images.', 'revisor-alt' ) );
 			}
 
 			$result = $builder->generate_text_result();

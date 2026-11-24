@@ -1,10 +1,10 @@
-=== Meta Descriptions IA ===
+=== Revisor ALT by JUNGLE ===
 Contributors: prodigiosovolcan
 Tags: alt text, accessibility, images, ai, media library
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,11 +53,25 @@ No. At the time of this release none of the three providers lets a plugin hosted
 
 No. In a page, alt text is replaced only when it is empty, is a copy of the old media library text, or fails the audit rules. Good, page-specific alt text is kept. Approved, ignored and decorative decisions are never questioned again unless someone edits the text by hand.
 
+= How do I update it? =
+
+New versions published in the project's GitHub repository show up in the Plugins screen like any other update. The plugin only asks GitHub for the latest release; it sends no data about your site.
+
 = Background tasks do not run =
 
 The plugin relies on WP-Cron. If the dashboard shows background tasks in red, check that WP-Cron works on the site or set up a server cron job.
 
 == Changelog ==
+
+= 0.2.0 =
+* The plugin is now called Revisor ALT by JUNGLE (folder and text domain: revisor-alt).
+* New versions are offered in the Plugins screen, from the project's GitHub releases.
+* Capabilities are restored if the site's roles are reset.
+* Over-long AI answers are rewritten shorter instead of being cut.
+* Security hardening after an external review.
+
+= 0.1.1 =
+* Security: image metadata (such as GPS position) is now removed on every server before an image is sent to the AI provider. If it cannot be removed, the image is not sent.
 
 = 0.1.0 =
 * First version.

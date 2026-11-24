@@ -2,7 +2,7 @@
 /**
  * Summary on the WordPress dashboard home.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Admin;
@@ -19,7 +19,7 @@ final class Dashboard_Widget {
 
 	public static function add(): void {
 		if ( current_user_can( 'mdia_review' ) ) {
-			wp_add_dashboard_widget( 'mdia_status', __( 'Image alt text', 'meta-descriptions-ia' ), array( self::class, 'render' ) );
+			wp_add_dashboard_widget( 'mdia_status', __( 'Image alt text', 'revisor-alt' ), array( self::class, 'render' ) );
 		}
 	}
 
@@ -28,9 +28,9 @@ final class Dashboard_Widget {
 		$counts = $status['counts'];
 
 		$headlines = array(
-			'green' => __( 'All green', 'meta-descriptions-ia' ),
-			'amber' => __( 'Needs attention', 'meta-descriptions-ia' ),
-			'red'   => __( 'Action required', 'meta-descriptions-ia' ),
+			'green' => __( 'All green', 'revisor-alt' ),
+			'amber' => __( 'Needs attention', 'revisor-alt' ),
+			'red'   => __( 'Action required', 'revisor-alt' ),
 		);
 		$icons     = array(
 			'green' => 'yes-alt',
@@ -52,20 +52,20 @@ final class Dashboard_Widget {
 
 		echo '<p>';
 		/* translators: 1: images with correct alt text, 2: total images, 3: percentage. */
-		echo esc_html( sprintf( __( '%1$d of %2$d images have correct alt text (%3$d%%).', 'meta-descriptions-ia' ), $counts['correct'], $counts['total'], $status['coverage'] ) );
+		echo esc_html( sprintf( __( '%1$d of %2$d images have correct alt text (%3$d%%).', 'revisor-alt' ), $counts['correct'], $counts['total'], $status['coverage'] ) );
 		echo '</p>';
 
 		if ( $counts['to_review'] > 0 ) {
 			echo '<p>';
 			/* translators: %d: number of proposals. */
-			echo esc_html( sprintf( _n( '%d proposal is waiting for your review.', '%d proposals are waiting for your review.', $counts['to_review'], 'meta-descriptions-ia' ), $counts['to_review'] ) );
+			echo esc_html( sprintf( _n( '%d proposal is waiting for your review.', '%d proposals are waiting for your review.', $counts['to_review'], 'revisor-alt' ), $counts['to_review'] ) );
 			echo '</p>';
 		}
 
 		printf(
 			'<p><a class="button" href="%s">%s</a></p>',
 			esc_url( Menu::url() ),
-			esc_html__( 'Open the alt text dashboard', 'meta-descriptions-ia' )
+			esc_html__( 'Open the alt text dashboard', 'revisor-alt' )
 		);
 	}
 }

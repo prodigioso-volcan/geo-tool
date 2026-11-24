@@ -2,7 +2,7 @@
 /**
  * Classifies an alt text without AI. Pure: no WordPress dependencies.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Audit;

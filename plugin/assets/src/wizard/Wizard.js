@@ -19,11 +19,11 @@ import {
 } from '../api';
 
 const STEPS = [
-	__( 'Requirements', 'meta-descriptions-ia' ),
-	__( 'Test', 'meta-descriptions-ia' ),
-	__( 'Preferences', 'meta-descriptions-ia' ),
-	__( 'First audit', 'meta-descriptions-ia' ),
-	__( 'Done', 'meta-descriptions-ia' ),
+	__( 'Requirements', 'revisor-alt' ),
+	__( 'Test', 'revisor-alt' ),
+	__( 'Preferences', 'revisor-alt' ),
+	__( 'First audit', 'revisor-alt' ),
+	__( 'Done', 'revisor-alt' ),
 ];
 
 function Requirements( { onNext } ) {
@@ -58,7 +58,7 @@ function Requirements( { onNext } ) {
 				<Notice status="success" isDismissible={ false }>
 					{ __(
 						'An AI provider that can describe images is connected.',
-						'meta-descriptions-ia'
+						'revisor-alt'
 					) }
 				</Notice>
 			) : (
@@ -67,23 +67,23 @@ function Requirements( { onNext } ) {
 						{ data.provider.reason === 'unsupported'
 							? __(
 									'The connected AI provider cannot describe images. Connect one that accepts image input.',
-									'meta-descriptions-ia'
+									'revisor-alt'
 							  )
 							: __(
 									'No AI provider is connected yet.',
-									'meta-descriptions-ia'
+									'revisor-alt'
 							  ) }
 					</Notice>
 					<p>
 						{ __(
 							'To write alt text, the plugin needs an AI provider: OpenAI (ChatGPT), Anthropic (Claude) or Google (Gemini). You connect it with an API key, a code you create in your account with that provider.',
-							'meta-descriptions-ia'
+							'revisor-alt'
 						) }
 					</p>
 					<p>
 						{ __(
 							'An API key is billed by use and is separate from a ChatGPT, Claude or Gemini subscription. Describing an image usually costs a fraction of a cent.',
-							'meta-descriptions-ia'
+							'revisor-alt'
 						) }
 					</p>
 				</>
@@ -97,16 +97,16 @@ function Requirements( { onNext } ) {
 							target="_blank"
 							rel="noreferrer"
 						>
-							{ __( 'Open Connectors (new tab)', 'meta-descriptions-ia' ) }
+							{ __( 'Open Connectors (new tab)', 'revisor-alt' ) }
 						</Button>
 						<Button variant="secondary" onClick={ check }>
-							{ __( 'Check again', 'meta-descriptions-ia' ) }
+							{ __( 'Check again', 'revisor-alt' ) }
 						</Button>
 					</>
 				) }
 				{ ready && (
 					<Button variant="primary" onClick={ () => onNext( data ) }>
-						{ __( 'Continue', 'meta-descriptions-ia' ) }
+						{ __( 'Continue', 'revisor-alt' ) }
 					</Button>
 				) }
 			</div>
@@ -134,13 +134,13 @@ function Test( { hasImages, onNext } ) {
 					<p>
 						{ __(
 							'The plugin will ask the AI to describe one image from your media library, to check that everything works.',
-							'meta-descriptions-ia'
+							'revisor-alt'
 						) }
 					</p>
 					<p className="mdia-muted">
 						{ __(
 							'Privacy: to describe an image, the plugin sends a reduced copy of it to the AI provider you connected. Nothing is sent to anyone else.',
-							'meta-descriptions-ia'
+							'revisor-alt'
 						) }
 					</p>
 				</>
@@ -149,14 +149,14 @@ function Test( { hasImages, onNext } ) {
 				<p>
 					{ __(
 						'The media library has no images yet, so there is nothing to test with. You can continue.',
-						'meta-descriptions-ia'
+						'revisor-alt'
 					) }
 				</p>
 			) }
 			{ state.loading && (
 				<p>
 					<Spinner />{ ' ' }
-					{ __( 'Asking the AI to describe one of your images…', 'meta-descriptions-ia' ) }
+					{ __( 'Asking the AI to describe one of your images…', 'revisor-alt' ) }
 				</p>
 			) }
 			{ state.error && (
@@ -170,7 +170,7 @@ function Test( { hasImages, onNext } ) {
 					<div>
 						<p>
 							<strong>
-								{ __( 'Generated alt text:', 'meta-descriptions-ia' ) }
+								{ __( 'Generated alt text:', 'revisor-alt' ) }
 							</strong>
 						</p>
 						<p>{ state.result.text }</p>
@@ -180,7 +180,7 @@ function Test( { hasImages, onNext } ) {
 						<p className="mdia-muted">
 							{ __(
 								'This was only a test: nothing has been saved.',
-								'meta-descriptions-ia'
+								'revisor-alt'
 							) }
 						</p>
 					</div>
@@ -189,12 +189,12 @@ function Test( { hasImages, onNext } ) {
 			<div className="mdia-wizard__actions">
 				{ state.error && (
 					<Button variant="secondary" onClick={ run }>
-						{ __( 'Try again', 'meta-descriptions-ia' ) }
+						{ __( 'Try again', 'revisor-alt' ) }
 					</Button>
 				) }
 				{ idle && (
 					<Button variant="primary" onClick={ run }>
-						{ __( 'Run the test', 'meta-descriptions-ia' ) }
+						{ __( 'Run the test', 'revisor-alt' ) }
 					</Button>
 				) }
 				{ ! idle && (
@@ -203,7 +203,7 @@ function Test( { hasImages, onNext } ) {
 						disabled={ !! state.loading || !! state.error }
 						onClick={ onNext }
 					>
-						{ __( 'Continue', 'meta-descriptions-ia' ) }
+						{ __( 'Continue', 'revisor-alt' ) }
 					</Button>
 				) }
 			</div>
@@ -254,7 +254,7 @@ function PreferencesStep( { onNext } ) {
 							.catch( ( e ) => setError( e.message ) )
 					}
 				>
-					{ __( 'Save and continue', 'meta-descriptions-ia' ) }
+					{ __( 'Save and continue', 'revisor-alt' ) }
 				</Button>
 			</div>
 		</>
@@ -302,7 +302,7 @@ function Audit( { onNext } ) {
 					<Spinner />{ ' ' }
 					{ __(
 						'Checking every image in the library and in your pages. This uses no AI and costs nothing.',
-						'meta-descriptions-ia'
+						'revisor-alt'
 					) }
 				</p>
 			) }
@@ -313,7 +313,7 @@ function Audit( { onNext } ) {
 							/* translators: 1: images that need alt text, 2: total images. */
 							__(
 								'%1$d of %2$d images need alt text.',
-								'meta-descriptions-ia'
+								'revisor-alt'
 							),
 							pending,
 							status.counts.total
@@ -327,7 +327,7 @@ function Audit( { onNext } ) {
 					disabled={ running }
 					onClick={ () => onNext( status ) }
 				>
-					{ __( 'Continue', 'meta-descriptions-ia' ) }
+					{ __( 'Continue', 'revisor-alt' ) }
 				</Button>
 			</div>
 		</>
@@ -357,11 +357,11 @@ function Done( { status, onDone } ) {
 				{ toGenerate > 0
 					? __(
 							'Everything is ready. You can ask the AI for proposals now; you will review each one before anything changes on your site.',
-							'meta-descriptions-ia'
+							'revisor-alt'
 					  )
 					: __(
 							'Everything is ready, and no image needs alt text right now.',
-							'meta-descriptions-ia'
+							'revisor-alt'
 					  ) }
 			</p>
 			<div className="mdia-wizard__actions">
@@ -387,7 +387,7 @@ function Done( { status, onDone } ) {
 								'Generate proposal for %d image',
 								'Generate proposals for %d images',
 								toGenerate,
-								'meta-descriptions-ia'
+								'revisor-alt'
 							),
 							toGenerate
 						) }
@@ -398,7 +398,7 @@ function Done( { status, onDone } ) {
 					disabled={ busy }
 					onClick={ () => onDone( 'dashboard' ) }
 				>
-					{ __( 'Go to dashboard', 'meta-descriptions-ia' ) }
+					{ __( 'Go to dashboard', 'revisor-alt' ) }
 				</Button>
 			</div>
 		</>
@@ -435,7 +435,7 @@ export default function Wizard( { onDone } ) {
 					<h2 tabIndex="-1" ref={ heading }>
 						{ sprintf(
 							/* translators: 1: step number, 2: total steps, 3: step name. */
-							__( 'Step %1$d of %2$d: %3$s', 'meta-descriptions-ia' ),
+							__( 'Step %1$d of %2$d: %3$s', 'revisor-alt' ),
 							step + 1,
 							STEPS.length,
 							STEPS[ step ]

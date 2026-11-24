@@ -8,6 +8,7 @@
 	}
 }
 
+.mdia-review > * + *,
 .mdia-panel > * + *,
 .mdia-dashboard > * + *,
 .mdia-settings > * + *,
@@ -136,18 +137,56 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 12px;
+	gap: 8px 16px;
+	min-height: 36px;
+	padding: 8px 16px;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+
+	&__all {
+		display: inline-flex;
+		align-items: center;
+		gap: 16px;
+		font-weight: 500;
+		color: #1d2327;
+		cursor: pointer;
+
+		input {
+			margin: 0;
+		}
+
+		// WordPress does not draw the "some selected" state of a checkbox.
+		input:indeterminate::before {
+			content: "";
+			display: block;
+			float: none;
+			width: 8px;
+			height: 2px;
+			margin: 6px auto 0;
+			background: currentColor;
+			color: #2271b1;
+		}
+	}
+
+	&__count {
+		color: #50575e;
+	}
+
+	&__approve {
+		margin-left: auto;
+	}
 }
 
 .mdia-rows {
-	margin: 0;
+	margin: 12px 0 0;
 	padding: 0;
 	list-style: none;
 }
 
 .mdia-row {
 	display: grid;
-	grid-template-columns: auto 96px 1fr;
+	grid-template-columns: 16px 96px 1fr;
 	gap: 16px;
 	margin: 0 0 12px;
 	padding: 16px;
@@ -158,6 +197,10 @@
 	&:focus {
 		outline: 2px solid #2271b1;
 		outline-offset: 2px;
+	}
+
+	&__select input {
+		margin: 2px 0 0;
 	}
 
 	&__thumb img {

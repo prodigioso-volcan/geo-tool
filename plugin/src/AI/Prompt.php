@@ -2,7 +2,7 @@
 /**
  * Instructions sent to the model.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\AI;

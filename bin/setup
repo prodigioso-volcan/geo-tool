@@ -1,0 +1,21 @@
+#!/bin/sh
+# Instala WordPress en el entorno local y activa el plugin. Se puede repetir sin riesgo.
+cd "$(dirname "$0")/.." || exit 1
+[ -f .env ] || { echo "Falta .env: copia .env.example a .env y cambia las contraseñas." >&2; exit 1; }
+. ./.env
+wp() { docker compose run --rm -T wpcli "$@"; }
+
+docker compose up -d
+for i in $(seq 1 30); do wp db check >/dev/null 2>&1 && break; sleep 2; done
+
+if ! wp core is-installed >/dev/null 2>&1; then
+	wp core install --url="http://localhost:${WP_PORT}" --title="Revisor ALT (local)" \
+		--admin_user="$WP_ADMIN_USER" --admin_password="$WP_ADMIN_PASSWORD" --admin_email="$WP_ADMIN_EMAIL" --skip-email
+	wp language core install es_ES --activate
+	wp option update timezone_string Europe/Madrid
+	wp rewrite structure '/%postname%/'
+fi
+
+wp plugin install ai-provider-for-openai ai-provider-for-anthropic ai-provider-for-google --activate
+wp plugin activate revisor-alt
+echo "Listo: http://localhost:${WP_PORT}/wp-admin (usuario y contraseña en .env)"

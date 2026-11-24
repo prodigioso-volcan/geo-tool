@@ -2,7 +2,7 @@
 /**
  * Decides the status of one image from its library alt and its usages.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Audit;

@@ -18,7 +18,7 @@ require_once $mdia_tests_dir . '/includes/functions.php';
 tests_add_filter(
 	'muplugins_loaded',
 	static function () use ( $mdia_root ) {
-		require $mdia_root . '/meta-descriptions-ia.php';
+		require $mdia_root . '/revisor-alt.php';
 	}
 );
 
@@ -31,3 +31,5 @@ if ( class_exists( \MDIA\Install\Schema::class ) ) {
 
 require __DIR__ . '/integration/Helpers.php';
 require __DIR__ . '/integration/Fake_Provider.php';
+require_once ABSPATH . WPINC . '/class-wp-image-editor.php';
+require __DIR__ . '/integration/Metadata_Keeping_Editor.php';

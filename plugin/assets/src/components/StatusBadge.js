@@ -8,9 +8,9 @@ export const STATE_ICON = {
 };
 
 const HEADLINE = {
-	green: __( 'All green', 'meta-descriptions-ia' ),
-	amber: __( 'Needs attention', 'meta-descriptions-ia' ),
-	red: __( 'Action required', 'meta-descriptions-ia' ),
+	green: __( 'All green', 'revisor-alt' ),
+	amber: __( 'Needs attention', 'revisor-alt' ),
+	red: __( 'Action required', 'revisor-alt' ),
 };
 
 /**

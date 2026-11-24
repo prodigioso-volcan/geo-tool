@@ -49,4 +49,27 @@ class SchemaTest extends WP_UnitTestCase {
 		$this->assertCount( 0, $ours, 'Our scheduled actions must not be left behind.' );
 		$this->assertCount( 1, $theirs, 'Actions of other plugins must be left alone.' );
 	}
+
+	public function test_capabilities_come_back_after_roles_are_reset() {
+		foreach ( array( 'administrator', 'editor' ) as $role ) {
+			get_role( $role )->remove_cap( 'mdia_manage' );
+			get_role( $role )->remove_cap( 'mdia_review' );
+		}
+
+		$this->assertNotFalse( has_action( 'admin_init', array( Schema::class, 'ensure_capabilities' ) ) );
+		Schema::ensure_capabilities();
+
+		$this->assertTrue( get_role( 'administrator' )->has_cap( 'mdia_manage' ) );
+		$this->assertTrue( get_role( 'administrator' )->has_cap( 'mdia_review' ) );
+		$this->assertTrue( get_role( 'editor' )->has_cap( 'mdia_review' ) );
+	}
+
+	public function test_a_deliberate_change_to_editors_is_respected() {
+		get_role( 'editor' )->remove_cap( 'mdia_review' );
+
+		Schema::ensure_capabilities();
+
+		$this->assertFalse( get_role( 'editor' )->has_cap( 'mdia_review' ), 'Administrators kept their capability, so this was not a reset.' );
+		get_role( 'editor' )->add_cap( 'mdia_review' );
+	}
 }

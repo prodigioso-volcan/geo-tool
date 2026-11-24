@@ -2,7 +2,7 @@
 /**
  * Finds and replaces image alt text inside post content (blocks and classic HTML).
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Content;

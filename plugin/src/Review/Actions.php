@@ -2,7 +2,7 @@
 /**
  * What a reviewer can do with an image. Nothing is written without one of these.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Review;
@@ -29,7 +29,7 @@ final class Actions {
 
 		$text = sanitize_text_field( $text );
 		if ( '' === $text ) {
-			return new \WP_Error( 'mdia_empty', __( 'The alt text cannot be empty. Mark the image as decorative instead.', 'meta-descriptions-ia' ) );
+			return new \WP_Error( 'mdia_empty', __( 'The alt text cannot be empty. Mark the image as decorative instead.', 'revisor-alt' ) );
 		}
 
 		return self::start_apply( $attachment_id, $text, $user_id );
@@ -77,7 +77,7 @@ final class Actions {
 		}
 		// Applied and decorative images hold a decision that has "undo"; a paid request must not silently reset it.
 		if ( ! in_array( $row['status'], array( 'needs_review', 'needs_generation', 'error', 'ignored' ), true ) ) {
-			return new \WP_Error( 'mdia_invalid_status', __( 'A new proposal cannot be requested for this image in its current state.', 'meta-descriptions-ia' ) );
+			return new \WP_Error( 'mdia_invalid_status', __( 'A new proposal cannot be requested for this image in its current state.', 'revisor-alt' ) );
 		}
 
 		( new Items() )->upsert(
@@ -109,7 +109,7 @@ final class Actions {
 		$changes = new Changes();
 		$rows    = $changes->latest_batch( $attachment_id );
 		if ( ! $rows ) {
-			return new \WP_Error( 'mdia_nothing_to_undo', __( 'There is no applied change to undo for this image.', 'meta-descriptions-ia' ) );
+			return new \WP_Error( 'mdia_nothing_to_undo', __( 'There is no applied change to undo for this image.', 'revisor-alt' ) );
 		}
 
 		$rewriter = new Alt_Rewriter();
@@ -203,15 +203,15 @@ final class Actions {
 	 */
 	private static function reviewable( int $attachment_id, int $user_id ) {
 		if ( ! user_can( $user_id, 'mdia_review' ) ) {
-			return new \WP_Error( 'mdia_forbidden', __( 'You are not allowed to review alt text.', 'meta-descriptions-ia' ) );
+			return new \WP_Error( 'mdia_forbidden', __( 'You are not allowed to review alt text.', 'revisor-alt' ) );
 		}
 
 		$row = ( new Items() )->get( $attachment_id );
 		if ( ! $row ) {
-			return new \WP_Error( 'mdia_not_found', __( 'This image is not tracked by the plugin.', 'meta-descriptions-ia' ) );
+			return new \WP_Error( 'mdia_not_found', __( 'This image is not tracked by the plugin.', 'revisor-alt' ) );
 		}
 		if ( 'applying' === $row['status'] ) {
-			return new \WP_Error( 'mdia_busy', __( 'A change is still being applied to this image. Try again in a moment.', 'meta-descriptions-ia' ) );
+			return new \WP_Error( 'mdia_busy', __( 'A change is still being applied to this image. Try again in a moment.', 'revisor-alt' ) );
 		}
 		return $row;
 	}

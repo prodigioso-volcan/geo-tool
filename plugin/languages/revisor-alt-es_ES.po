@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Meta Descriptions IA 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/meta-descriptions-ia\n"
+"Project-Id-Version: Revisor ALT by JUNGLE 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/revisor-alt\n"
 "Last-Translator: Prodigioso Volcán\n"
 "Language-Team: Español (España)\n"
 "MIME-Version: 1.0\n"
@@ -11,27 +11,27 @@ msgstr ""
 "PO-Revision-Date: 2026-11-24 10:00+0100\n"
 "Language: es_ES\n"
 "X-Generator: WP-CLI 2.12.0\n"
-"X-Domain: meta-descriptions-ia\n"
+"X-Domain: revisor-alt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Plugin Name of the plugin
-#: meta-descriptions-ia.php
-msgid "Meta Descriptions IA"
-msgstr "Meta Descriptions IA"
+#: revisor-alt.php
+msgid "Revisor ALT by JUNGLE"
+msgstr "Revisor ALT by JUNGLE"
 
 #. Description of the plugin
-#: meta-descriptions-ia.php
+#: revisor-alt.php
 msgid "Audits image alt text in the media library and in published content, and proposes better alt text with AI for human review."
 msgstr "Revisa el texto alternativo de las imágenes en la biblioteca de medios y en el contenido publicado, y propone con IA textos mejores para que una persona los revise."
 
 #. Author of the plugin
-#: meta-descriptions-ia.php
+#: revisor-alt.php
 msgid "Prodigioso Volcán"
 msgstr "Prodigioso Volcán"
 
-#: meta-descriptions-ia.php:28
-msgid "Meta Descriptions IA requires WordPress 7.0 or later."
-msgstr "Meta Descriptions IA necesita WordPress 7.0 o superior."
+#: revisor-alt.php:29
+msgid "Revisor ALT by JUNGLE requires WordPress 7.0 or later."
+msgstr "Revisor ALT by JUNGLE necesita WordPress 7.0 o superior."
 
 #: src/Admin/Dashboard_Widget.php:22
 #: src/Health/Site_Health.php:20
@@ -71,12 +71,6 @@ msgstr[1] "%d propuestas esperan tu revisión."
 #: src/Health/Site_Health.php:54
 msgid "Open the alt text dashboard"
 msgstr "Abrir el panel de textos alternativos"
-
-#: src/Admin/Menu.php:33
-#: src/Admin/Menu.php:34
-#: src/Admin/Menu.php:42
-msgid "AI alt text"
-msgstr "Textos alternativos IA"
 
 #: src/Admin/Menu.php:45
 msgid "The plugin interface has not been built. Run the build step and reload."
@@ -524,7 +518,7 @@ msgstr[0] "%d uso de una imagen está dentro de un constructor visual. El plugin
 msgstr[1] "%d usos de imágenes están dentro de un constructor visual. El plugin actualiza la biblioteca de medios, pero no puede reescribir esas páginas."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Review.js:135
+#: assets/src/tabs/Review.js:136
 #, js-format
 msgid "%d image approved."
 msgid_plural "%d images approved."
@@ -532,75 +526,71 @@ msgstr[0] "%d imagen aprobada."
 msgstr[1] "%d imágenes aprobadas."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Review.js:148
+#: assets/src/tabs/Review.js:149
 #, js-format
 msgid "%d image could not be approved."
 msgid_plural "%d images could not be approved."
 msgstr[0] "No se ha podido aprobar %d imagen."
 msgstr[1] "No se han podido aprobar %d imágenes."
 
-#: assets/src/tabs/Review.js:178
+#: assets/src/tabs/Review.js:189
 msgid "Status"
 msgstr "Estado"
 
-#: assets/src/tabs/Review.js:181
+#: assets/src/tabs/Review.js:192
 msgid "All"
 msgstr "Todos"
 
-#: assets/src/tabs/Review.js:195
+#: assets/src/tabs/Review.js:206
 msgid "Problem detected"
 msgstr "Problema detectado"
 
-#: assets/src/tabs/Review.js:198
+#: assets/src/tabs/Review.js:209
 msgid "Any"
 msgstr "Cualquiera"
 
-#: assets/src/tabs/Review.js:207
+#: assets/src/tabs/Review.js:218
 msgid "Search by text or title"
 msgstr "Buscar por texto o título"
 
-#: assets/src/tabs/Review.js:223
+#: assets/src/tabs/Review.js:234
 msgid "No images here."
 msgstr "No hay imágenes aquí."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Review.js:232
+#: assets/src/tabs/Review.js:256
 #, js-format
 msgid "%d image"
 msgid_plural "%d images"
 msgstr[0] "%d imagen"
 msgstr[1] "%d imágenes"
 
-#: assets/src/tabs/Review.js:254
-msgid "Select none"
-msgstr "No seleccionar ninguna"
-
-#: assets/src/tabs/Review.js:255
+#: assets/src/tabs/Review.js:250
 msgid "Select all on this page"
 msgstr "Seleccionar todas las de esta página"
 
 #. translators: %d: number of selected images.
-#: assets/src/tabs/Review.js:265
+#: assets/src/tabs/Review.js:283
 #, js-format
 msgid "Approve selected (%d)"
 msgstr "Aprobar seleccionadas (%d)"
 
-#: assets/src/tabs/Review.js:303
+#: assets/src/tabs/Review.js:321
 msgid "Pages"
 msgstr "Páginas"
 
-#: assets/src/tabs/Review.js:310
+#: assets/src/tabs/Review.js:328
 msgid "Previous"
 msgstr "Anterior"
 
 #. translators: 1: current page, 2: total pages.
-#: assets/src/tabs/Review.js:58
-#: assets/src/tabs/Review.js:315
+#: assets/src/tabs/Review.js:59
+#: assets/src/tabs/Review.js:333
 #, js-format
 msgid "Page %1$d of %2$d"
 msgstr "Página %1$d de %2$d"
 
-#: assets/src/tabs/Review.js:325
+#: assets/src/tabs/Review.js:343
 msgid "Next"
 msgstr "Siguiente"
 
@@ -770,3 +760,19 @@ msgstr "El plugin pedirá a la IA que describa una imagen de tu biblioteca de me
 #: assets/src/wizard/Wizard.js:197
 msgid "Run the test"
 msgstr "Hacer la prueba"
+
+#: src/AI/Image_Encoder.php:91
+msgid "The image was not sent because its embedded data (such as location) could not be removed on this server."
+msgstr "No se ha enviado la imagen porque en este servidor no se han podido eliminar sus datos incrustados (como la ubicación)."
+
+#. translators: %d: number of selected images.
+#: assets/src/tabs/Review.js:263
+#, js-format
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d seleccionada"
+msgstr[1] "%d seleccionadas"
+
+#: assets/src/tabs/Review.js:286
+msgid "Approve selected"
+msgstr "Aprobar seleccionadas"

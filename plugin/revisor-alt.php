@@ -1,21 +1,22 @@
 <?php
 /**
- * Plugin Name:       Meta Descriptions IA
+ * Plugin Name:       Revisor ALT by JUNGLE
  * Description:       Audits image alt text in the media library and in published content, and proposes better alt text with AI for human review.
- * Version:           0.1.0
+ * Version:           0.2.0
  * Requires at least: 7.0
  * Requires PHP:      8.1
  * Author:            Prodigioso Volcán
- * Text Domain:       meta-descriptions-ia
+ * Text Domain:       revisor-alt
+ * Update URI:        https://github.com/prodigioso-volcan/revisor-alt
  * Domain Path:       /languages
  * License:           GPL-2.0-or-later
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'MDIA_VERSION', '0.1.0' );
+define( 'MDIA_VERSION', '0.2.0' );
 define( 'MDIA_FILE', __FILE__ );
 define( 'MDIA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MDIA_MIN_WP', '7.0' );
@@ -25,7 +26,7 @@ if ( version_compare( $GLOBALS['wp_version'], MDIA_MIN_WP, '<' ) ) {
 		'admin_notices',
 		static function () {
 			echo '<div class="notice notice-error"><p>';
-			echo esc_html__( 'Meta Descriptions IA requires WordPress 7.0 or later.', 'meta-descriptions-ia' );
+			echo esc_html__( 'Revisor ALT by JUNGLE requires WordPress 7.0 or later.', 'revisor-alt' );
 			echo '</p></div>';
 		}
 	);

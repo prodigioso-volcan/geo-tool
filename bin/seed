@@ -1,4 +1,4 @@
 #!/bin/sh
 # Datos de demostración para el WordPress local. Uso: bin/seed [proposals]
 cd "$(dirname "$0")/.." || exit 1
-exec docker compose run --rm -T wpcli eval-file wp-content/plugins/meta-descriptions-ia/tests/seed.php "$@"
+exec docker compose run --rm -T wpcli eval-file wp-content/plugins/revisor-alt/tests/seed.php "$@"

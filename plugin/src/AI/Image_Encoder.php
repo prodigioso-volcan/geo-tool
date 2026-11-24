@@ -2,7 +2,7 @@
 /**
  * Prepares an image to be sent to the AI provider.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\AI;
@@ -23,11 +23,11 @@ final class Image_Encoder {
 		$original = get_attached_file( $attachment_id );
 
 		if ( ! $original || ! is_file( $original ) ) {
-			return new \WP_Error( 'mdia_file_missing', __( 'The image file is missing from the server.', 'meta-descriptions-ia' ) );
+			return new \WP_Error( 'mdia_file_missing', __( 'The image file is missing from the server.', 'revisor-alt' ) );
 		}
 
-		$too_large  = new \WP_Error( 'mdia_file_too_large', __( 'The image file is too large to be analysed.', 'meta-descriptions-ia' ) );
-		$unreadable = new \WP_Error( 'mdia_file_unreadable', __( 'The image file could not be read.', 'meta-descriptions-ia' ) );
+		$too_large  = new \WP_Error( 'mdia_file_too_large', __( 'The image file is too large to be analysed.', 'revisor-alt' ) );
+		$unreadable = new \WP_Error( 'mdia_file_unreadable', __( 'The image file could not be read.', 'revisor-alt' ) );
 		$path       = self::source_path( $attachment_id, $original );
 
 		/**
@@ -55,7 +55,7 @@ final class Image_Encoder {
 		}
 
 		// GD re-encodes pixels only, so EXIF data such as GPS position never leaves the site.
-		// Imagick keeps metadata unless the image is resized.
+		// This is only a preference: whatever editor is used, the result is checked below.
 		$prefer_gd = static fn( $editors ) => array_values( array_unique( array_merge( array( 'WP_Image_Editor_GD' ), (array) $editors ) ) );
 		add_filter( 'wp_image_editors', $prefer_gd, 99 );
 		$editor = wp_get_image_editor( $path );
@@ -84,6 +84,13 @@ final class Image_Encoder {
 			return $unreadable;
 		}
 
+		// Any editor other than GD (Imagick, or one added by another plugin) may carry the
+		// original metadata over. Strip it explicitly, and send nothing if that is not possible.
+		if ( ! $editor instanceof \WP_Image_Editor_GD && ! self::strip_metadata( $saved['path'] ) ) {
+			wp_delete_file( $saved['path'] );
+			return new \WP_Error( 'mdia_metadata_not_removed', __( 'The image was not sent because its embedded data (such as location) could not be removed on this server.', 'revisor-alt' ) );
+		}
+
 		$bytes = file_get_contents( $saved['path'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local temp file.
 		wp_delete_file( $saved['path'] );
 
@@ -96,6 +103,32 @@ final class Image_Encoder {
 
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- image payload for the AI provider.
 		return 'data:' . $mime . ';base64,' . base64_encode( $bytes );
+	}
+
+	/**
+	 * Removes EXIF, GPS, comments and colour profiles from an image file, in place.
+	 *
+	 * @return bool False when it cannot be guaranteed that the metadata is gone.
+	 */
+	private static function strip_metadata( string $path ): bool {
+		/**
+		 * Filters whether embedded metadata can be removed with Imagick on this server.
+		 *
+		 * @param bool $can Whether the Imagick extension is available.
+		 */
+		if ( ! apply_filters( 'mdia_can_strip_metadata', class_exists( '\Imagick' ) ) ) {
+			return false;
+		}
+
+		try {
+			$image = new \Imagick( $path );
+			$image->stripImage();
+			$written = $image->writeImage( $path );
+			$image->clear();
+			return (bool) $written;
+		} catch ( \Throwable $error ) {
+			return false;
+		}
 	}
 
 	/**

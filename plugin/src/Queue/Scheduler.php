@@ -2,7 +2,7 @@
 /**
  * Background work on Action Scheduler.
  *
- * @package MetaDescriptionsIA
+ * @package RevisorAlt
  */
 
 namespace MDIA\Queue;

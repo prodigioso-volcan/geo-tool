@@ -1,21 +1,21 @@
 import { __ } from '@wordpress/i18n';
 
 export const ISSUE_LABELS = {
-	missing: __( 'Missing', 'meta-descriptions-ia' ),
-	filename: __( 'File name', 'meta-descriptions-ia' ),
-	generic: __( 'Generic', 'meta-descriptions-ia' ),
-	too_short: __( 'Too short', 'meta-descriptions-ia' ),
-	too_long: __( 'Too long', 'meta-descriptions-ia' ),
-	duplicate: __( 'Duplicate', 'meta-descriptions-ia' ),
+	missing: __( 'Missing', 'revisor-alt' ),
+	filename: __( 'File name', 'revisor-alt' ),
+	generic: __( 'Generic', 'revisor-alt' ),
+	too_short: __( 'Too short', 'revisor-alt' ),
+	too_long: __( 'Too long', 'revisor-alt' ),
+	duplicate: __( 'Duplicate', 'revisor-alt' ),
 };
 
 export const STATUS_LABELS = {
-	needs_review: __( 'To review', 'meta-descriptions-ia' ),
-	needs_generation: __( 'To generate', 'meta-descriptions-ia' ),
-	applying: __( 'Applying', 'meta-descriptions-ia' ),
-	applied: __( 'Applied', 'meta-descriptions-ia' ),
-	decorative: __( 'Decorative', 'meta-descriptions-ia' ),
-	ignored: __( 'Ignored', 'meta-descriptions-ia' ),
-	error: __( 'Errors', 'meta-descriptions-ia' ),
-	ok: __( 'Correct', 'meta-descriptions-ia' ),
+	needs_review: __( 'To review', 'revisor-alt' ),
+	needs_generation: __( 'To generate', 'revisor-alt' ),
+	applying: __( 'Applying', 'revisor-alt' ),
+	applied: __( 'Applied', 'revisor-alt' ),
+	decorative: __( 'Decorative', 'revisor-alt' ),
+	ignored: __( 'Ignored', 'revisor-alt' ),
+	error: __( 'Errors', 'revisor-alt' ),
+	ok: __( 'Correct', 'revisor-alt' ),
 };

@@ -15,9 +15,9 @@ import { getStatus, pauseGeneration, startGeneration } from '../api';
 const { canManage } = window.mdiaData;
 
 const STATE_WORD = {
-	green: __( 'OK', 'meta-descriptions-ia' ),
-	amber: __( 'Attention', 'meta-descriptions-ia' ),
-	red: __( 'Problem', 'meta-descriptions-ia' ),
+	green: __( 'OK', 'revisor-alt' ),
+	amber: __( 'Attention', 'revisor-alt' ),
+	red: __( 'Problem', 'revisor-alt' ),
 };
 
 function Tile( { label, value, status, onOpenReview } ) {
@@ -29,7 +29,7 @@ function Tile( { label, value, status, onOpenReview } ) {
 				onClick={ () => onOpenReview( status ) }
 				aria-label={ sprintf(
 					/* translators: 1: number of images, 2: name of the group, e.g. "To review". */
-					__( '%1$d images: %2$s. Open the list.', 'meta-descriptions-ia' ),
+					__( '%1$d images: %2$s. Open the list.', 'revisor-alt' ),
 					value,
 					label
 				) }
@@ -95,7 +95,7 @@ export default function Dashboard( { onOpenReview } ) {
 			/* translators: 1: number of images, 2: sentence with today's AI usage. */
 			__(
 				'Generate proposals for %1$d images? Each one is a paid request to your AI provider. %2$s Nothing is published until you review it.',
-				'meta-descriptions-ia'
+				'revisor-alt'
 			),
 			notLaunched,
 			budget ? budget.detail : ''
@@ -114,7 +114,7 @@ export default function Dashboard( { onOpenReview } ) {
 						'%d image queued for generation.',
 						'%d images queued for generation.',
 						queued,
-						'meta-descriptions-ia'
+						'revisor-alt'
 					),
 					queued
 				)
@@ -154,7 +154,7 @@ export default function Dashboard( { onOpenReview } ) {
 							/* translators: 1: images with correct alt text, 2: total images, 3: percentage. */
 							__(
 								'%1$d of %2$d images have correct alt text (%3$d%%)',
-								'meta-descriptions-ia'
+								'revisor-alt'
 							),
 							counts.correct,
 							counts.total,
@@ -172,7 +172,7 @@ export default function Dashboard( { onOpenReview } ) {
 							<Spinner />{ ' ' }
 							{ __(
 								'Auditing the media library and your content…',
-								'meta-descriptions-ia'
+								'revisor-alt'
 							) }
 						</p>
 					) }
@@ -181,25 +181,25 @@ export default function Dashboard( { onOpenReview } ) {
 
 			<ul className="mdia-tiles">
 				<Tile
-					label={ __( 'To generate', 'meta-descriptions-ia' ) }
+					label={ __( 'To generate', 'revisor-alt' ) }
 					value={ counts.to_generate }
 					status="needs_generation"
 					onOpenReview={ onOpenReview }
 				/>
 				<Tile
-					label={ __( 'To review', 'meta-descriptions-ia' ) }
+					label={ __( 'To review', 'revisor-alt' ) }
 					value={ counts.to_review }
 					status="needs_review"
 					onOpenReview={ onOpenReview }
 				/>
 				<Tile
-					label={ __( 'Applied', 'meta-descriptions-ia' ) }
+					label={ __( 'Applied', 'revisor-alt' ) }
 					value={ counts.applied }
 					status="applied"
 					onOpenReview={ onOpenReview }
 				/>
 				<Tile
-					label={ __( 'Errors', 'meta-descriptions-ia' ) }
+					label={ __( 'Errors', 'revisor-alt' ) }
 					value={ counts.errors }
 					status="error"
 					onOpenReview={ onOpenReview }
@@ -222,7 +222,7 @@ export default function Dashboard( { onOpenReview } ) {
 										'Generate proposal for %d image',
 										'Generate proposals for %d images',
 										notLaunched,
-										'meta-descriptions-ia'
+										'revisor-alt'
 									),
 									notLaunched
 								) }
@@ -232,7 +232,7 @@ export default function Dashboard( { onOpenReview } ) {
 							<span className="mdia-muted">
 								{ __(
 									'Fix the AI connector first.',
-									'meta-descriptions-ia'
+									'revisor-alt'
 								) }
 							</span>
 						) }
@@ -245,7 +245,7 @@ export default function Dashboard( { onOpenReview } ) {
 											'%d image in the generation queue.',
 											'%d images in the generation queue.',
 											counts.queued,
-											'meta-descriptions-ia'
+											'revisor-alt'
 										),
 										counts.queued
 									) }
@@ -255,7 +255,7 @@ export default function Dashboard( { onOpenReview } ) {
 									onClick={ pause }
 									disabled={ busy }
 								>
-									{ __( 'Pause', 'meta-descriptions-ia' ) }
+									{ __( 'Pause', 'revisor-alt' ) }
 								</Button>
 							</>
 						) }
@@ -265,7 +265,7 @@ export default function Dashboard( { onOpenReview } ) {
 
 			<Card>
 				<CardHeader>
-					<h2>{ __( 'Checks', 'meta-descriptions-ia' ) }</h2>
+					<h2>{ __( 'Checks', 'revisor-alt' ) }</h2>
 				</CardHeader>
 				<CardBody>
 					<ul className="mdia-checks">
@@ -297,7 +297,7 @@ export default function Dashboard( { onOpenReview } ) {
 							'%d use of an image is inside a page builder. The plugin updates the media library but cannot rewrite that page.',
 							'%d uses of images are inside a page builder. The plugin updates the media library but cannot rewrite those pages.',
 							counts.unmanaged_usages,
-							'meta-descriptions-ia'
+							'revisor-alt'
 						),
 						counts.unmanaged_usages
 					) }
