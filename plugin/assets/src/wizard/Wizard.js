@@ -82,7 +82,7 @@ function Requirements( { onNext } ) {
 					</p>
 					<p>
 						{ __(
-							'An API key is billed by use and is separate from a ChatGPT, Claude or Gemini subscription. Describing an image usually costs a fraction of a cent.',
+							'An API key is billed by use and is separate from a ChatGPT, Claude or Gemini subscription. Describing an image usually costs a fraction of a cent. Other connectors exist, including one that uses a ChatGPT plan without a key.',
 							'revisor-alt'
 						) }
 					</p>

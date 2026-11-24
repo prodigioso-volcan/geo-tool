@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Revisor ALT by JUNGLE
  * Description:       Audits image alt text in the media library and in published content, and proposes better alt text with AI for human review.
- * Version:           0.2.1
+ * Version:           0.2.2
  * Requires at least: 7.0
  * Requires PHP:      8.1
  * Author:            JUNGLE
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'MDIA_VERSION', '0.2.1' );
+define( 'MDIA_VERSION', '0.2.2' );
 define( 'MDIA_FILE', __FILE__ );
 define( 'MDIA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MDIA_MIN_WP', '7.0' );

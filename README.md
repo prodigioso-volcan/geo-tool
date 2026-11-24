@@ -22,7 +22,7 @@ Muchas imágenes acaban sin texto alternativo, o con el nombre del archivo o la 
 - Un proveedor de IA conectado en **Ajustes > Conectores**, con su clave de API.
 - WP-Cron en funcionamiento (o un cron del servidor), porque el trabajo se hace en segundo plano.
 
-> **La clave de API no es la suscripción.** Una suscripción a ChatGPT, Claude o Gemini no sirve: ningún proveedor permite hoy usarla desde un plugin alojado en tu web. Hace falta una clave de API, que se factura por uso. Describir una imagen suele costar una fracción de céntimo.
+> **Clave de API o suscripción.** Los conectores oficiales (OpenAI, Anthropic y Google) piden una clave de API, que se factura por uso y es independiente de una suscripción a ChatGPT, Claude o Gemini. Describir una imagen suele costar una fracción de céntimo. Existe además un conector de la comunidad que usa una suscripción de ChatGPT sin clave; mira [Proveedores disponibles](#proveedores-disponibles).
 
 ## Instalación
 
@@ -84,6 +84,28 @@ Cuando el texto de la biblioteca ya es bueno y solo falta en alguna página, el 
 - Generación automática para imágenes nuevas.
 - Revisar todo de nuevo y repetir el asistente.
 
+## Proveedores disponibles
+
+Revisor ALT funciona con cualquier proveedor que tenga un conector para el cliente de IA de WordPress, siempre que ofrezca un modelo que admita imágenes. Situación a noviembre de 2026:
+
+| Proveedor | Conector | Mantiene | Acceso |
+|---|---|---|---|
+| Anthropic (Claude) | [ai-provider-for-anthropic](https://wordpress.org/plugins/ai-provider-for-anthropic/) | WordPress.org | Clave de API |
+| OpenAI (GPT) | [ai-provider-for-openai](https://wordpress.org/plugins/ai-provider-for-openai/) | WordPress.org | Clave de API |
+| Google (Gemini) | [ai-provider-for-google](https://wordpress.org/plugins/ai-provider-for-google/) | WordPress.org | Clave de API |
+| ChatGPT con suscripción | [ai-provider-for-chatgpt](https://wordpress.org/plugins/ai-provider-for-chatgpt/) | Comunidad | Inicio de sesión con un plan Plus, Pro o Go; sin clave |
+| Microsoft Azure AI Foundry | [ai-provider-for-azure-ai-foundry](https://wordpress.org/plugins/ai-provider-for-azure-ai-foundry/) | Comunidad | Clave y punto de acceso de Azure |
+| Amazon Bedrock | [ai-provider-for-bedrock](https://github.com/achttienvijftien/ai-provider-for-bedrock) (GitHub) | Comunidad | Clave de API de Bedrock |
+| Mistral | [ai-provider-for-mistral](https://wordpress.org/plugins/ai-provider-for-mistral/) | Comunidad | Clave de API |
+| OpenRouter | [ai-provider-for-openrouter](https://wordpress.org/plugins/ai-provider-for-openrouter/) | Comunidad | Clave de API |
+| Vercel AI Gateway | [vercel-ai-gateway-provider](https://wordpress.org/plugins/vercel-ai-gateway-provider/) | Vercel | Clave de API |
+| Ollama (modelos locales) | [ai-provider-for-ollama](https://wordpress.org/plugins/ai-provider-for-ollama/) | Comunidad | Sin clave; servidor propio |
+
+- **Probado aquí:** Anthropic con Claude Haiku 5.5, a través de Amazon Bedrock. El resto no se ha probado con este plugin.
+- **Copilot:** no hay conector para Microsoft Copilot ni para GitHub Copilot. La vía de Microsoft es Azure AI Foundry.
+- **Otros:** también hay conectores de la comunidad para DeepSeek, xAI (Grok) y Groq. Comprueba antes que el modelo admite imágenes.
+- Los conectores de la comunidad no forman parte de Revisor ALT ni tienen soporte aquí. Revisa quién los mantiene antes de instalarlos en la web de un cliente.
+
 ## Qué considera un texto deficiente
 
 | Problema | Regla |
@@ -133,8 +155,8 @@ Sí, con el filtro `mdia_model_preference`. Los modelos pequeños (Claude Haiku,
 add_filter( 'mdia_model_preference', fn() => array( 'claude-haiku-5-5' ) );
 ```
 
-**¿Puedo usar Amazon Bedrock?**
-El plugin funciona con cualquier proveedor registrado en el cliente de IA de WordPress. Se ha probado con Claude Haiku 5.5 en Bedrock mediante un conector de la comunidad, que no está incluido ni mantenido aquí.
+**¿Qué proveedores puedo usar?**
+Cualquiera que tenga un conector para el cliente de IA de WordPress y ofrezca un modelo que admita imágenes. Mira [Proveedores disponibles](#proveedores-disponibles).
 
 **Las tareas en segundo plano aparecen en rojo.**
 El plugin depende de WP-Cron. Comprueba que funciona en tu web o configura un cron del servidor.

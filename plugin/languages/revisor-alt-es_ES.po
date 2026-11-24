@@ -662,10 +662,6 @@ msgstr "Todavía no hay ningún proveedor de IA conectado."
 msgid "To write alt text, the plugin needs an AI provider: OpenAI (ChatGPT), Anthropic (Claude) or Google (Gemini). You connect it with an API key, a code you create in your account with that provider."
 msgstr "Para escribir los textos alternativos, el plugin necesita un proveedor de IA: OpenAI (ChatGPT), Anthropic (Claude) o Google (Gemini). Se conecta con una clave de API, un código que creas en tu cuenta de ese proveedor."
 
-#: assets/src/wizard/Wizard.js:84
-msgid "An API key is billed by use and is separate from a ChatGPT, Claude or Gemini subscription. Describing an image usually costs a fraction of a cent."
-msgstr "Una clave de API se factura por uso y es independiente de una suscripción a ChatGPT, Claude o Gemini. Describir una imagen suele costar una fracción de céntimo."
-
 #: assets/src/wizard/Wizard.js:100
 msgid "Open Connectors (new tab)"
 msgstr "Abrir Conectores (pestaña nueva)"
@@ -776,3 +772,7 @@ msgstr "Aprobar seleccionadas"
 #: revisor-alt.php
 msgid "JUNGLE"
 msgstr "JUNGLE"
+
+#: assets/src/wizard/Wizard.js:84
+msgid "An API key is billed by use and is separate from a ChatGPT, Claude or Gemini subscription. Describing an image usually costs a fraction of a cent. Other connectors exist, including one that uses a ChatGPT plan without a key."
+msgstr "Una clave de API se factura por uso y es independiente de una suscripción a ChatGPT, Claude o Gemini. Describir una imagen suele costar una fracción de céntimo. Hay otros conectores, incluido uno que usa un plan de ChatGPT sin clave."

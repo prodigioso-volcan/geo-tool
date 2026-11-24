@@ -48,22 +48,24 @@ final class Core_Provider implements Provider {
 	}
 
 	public function availability(): array {
-		if ( ! self::has_configured_connector() ) {
-			return array(
-				'available' => false,
-				'reason'    => 'no_connector',
-			);
-		}
-
+		// WordPress knows whether some connected provider can take this request, however that
+		// connector authenticates (API key, sign-in, local model...). Ask it first.
 		try {
 			$supported = (bool) $this->builder( 'probe', 'probe', self::PROBE_IMAGE )->is_supported_for_text_generation();
 		} catch ( \Throwable $error ) {
 			$supported = false;
 		}
 
+		if ( $supported ) {
+			return array(
+				'available' => true,
+				'reason'    => '',
+			);
+		}
+
 		return array(
-			'available' => $supported,
-			'reason'    => $supported ? '' : 'unsupported',
+			'available' => false,
+			'reason'    => self::has_configured_connector() ? 'unsupported' : 'no_connector',
 		);
 	}
 

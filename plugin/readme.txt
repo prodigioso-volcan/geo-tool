@@ -4,7 +4,7 @@ Tags: alt text, accessibility, images, ai, media library
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.2.1
+Stable tag: 0.2.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,7 +47,7 @@ To describe an image, the plugin sends a reduced copy of it (1024 px on its long
 
 = Can I use my ChatGPT, Claude or Gemini subscription instead of an API key? =
 
-No. At the time of this release none of the three providers lets a plugin hosted on your own site use a consumer subscription. You need an API key from the provider.
+The official connectors (OpenAI, Anthropic and Google) need an API key, which is billed by use and is separate from a subscription. A community connector, AI Provider for ChatGPT, signs in with a ChatGPT Plus, Pro or Go plan and needs no API key; it is not maintained by this project and has not been tested with it. Revisor ALT works with any provider registered in the WordPress AI Client that offers a model accepting images.
 
 = Does it overwrite alt text someone wrote by hand? =
 
@@ -62,6 +62,10 @@ New versions published in the project's GitHub repository show up in the Plugins
 The plugin relies on WP-Cron. If the dashboard shows background tasks in red, check that WP-Cron works on the site or set up a server cron job.
 
 == Changelog ==
+
+= 0.2.2 =
+* Works with connectors that do not use an API key (sign-in or local models): availability is now asked to WordPress instead of inferred from the key.
+* Documentation: list of available providers.
 
 = 0.2.1 =
 * The plugin author is now JUNGLE.
