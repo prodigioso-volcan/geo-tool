@@ -2,7 +2,7 @@
 /**
  * Indexes which images appear in a post and with which alt text.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Audit;

@@ -2,7 +2,7 @@
 /**
  * REST API used by the admin screens. Namespace mdia/v1.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Rest;
@@ -330,12 +330,12 @@ final class Api {
 		$attachment_id = (int) ( $request['attachment_id'] ?? 0 );
 		$attachment_id = $attachment_id && Auditor::is_supported( $attachment_id ) ? $attachment_id : self::latest_image();
 		if ( ! $attachment_id ) {
-			return new \WP_Error( 'mdia_no_images', __( 'The media library has no images to test with.', 'revisor-alt' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'mdia_no_images', __( 'The media library has no images to test with.', 'geo-tool' ), array( 'status' => 400 ) );
 		}
 
 		$provider = Generator::provider();
 		if ( empty( $provider->availability()['available'] ) ) {
-			return new \WP_Error( 'mdia_no_provider', __( 'No AI provider that accepts images is connected.', 'revisor-alt' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'mdia_no_provider', __( 'No AI provider that accepts images is connected.', 'geo-tool' ), array( 'status' => 400 ) );
 		}
 
 		$data_uri = Image_Encoder::encode( $attachment_id );
@@ -345,7 +345,7 @@ final class Api {
 		}
 
 		if ( ! Budget::consume() ) {
-			return new \WP_Error( 'mdia_budget', __( 'The daily limit of AI requests has been reached.', 'revisor-alt' ), array( 'status' => 429 ) );
+			return new \WP_Error( 'mdia_budget', __( 'The daily limit of AI requests has been reached.', 'geo-tool' ), array( 'status' => 429 ) );
 		}
 
 		$context = array(
@@ -360,7 +360,7 @@ final class Api {
 
 		$text = Generator::usable_text( $provider, (string) $answer['text'] );
 		if ( null === $text ) {
-			return new \WP_Error( 'mdia_bad_response', __( 'The AI provider did not return a usable description.', 'revisor-alt' ), array( 'status' => 502 ) );
+			return new \WP_Error( 'mdia_bad_response', __( 'The AI provider did not return a usable description.', 'geo-tool' ), array( 'status' => 502 ) );
 		}
 		Generator::set_health( true );
 

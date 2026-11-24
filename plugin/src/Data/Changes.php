@@ -2,7 +2,7 @@
 /**
  * Log of every alt text written by the plugin, used for undo.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Data;

@@ -9,7 +9,7 @@ docker compose up -d
 for i in $(seq 1 30); do wp db check >/dev/null 2>&1 && break; sleep 2; done
 
 if ! wp core is-installed >/dev/null 2>&1; then
-	wp core install --url="http://localhost:${WP_PORT}" --title="Revisor ALT (local)" \
+	wp core install --url="http://localhost:${WP_PORT}" --title="GEO Tool (local)" \
 		--admin_user="$WP_ADMIN_USER" --admin_password="$WP_ADMIN_PASSWORD" --admin_email="$WP_ADMIN_EMAIL" --skip-email
 	wp language core install es_ES --activate
 	wp option update timezone_string Europe/Madrid
@@ -17,5 +17,5 @@ if ! wp core is-installed >/dev/null 2>&1; then
 fi
 
 wp plugin install ai-provider-for-openai ai-provider-for-anthropic ai-provider-for-google --activate
-wp plugin activate revisor-alt
+wp plugin activate geo-tool
 echo "Listo: http://localhost:${WP_PORT}/wp-admin (usuario y contraseña en .env)"

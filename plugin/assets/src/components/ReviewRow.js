@@ -12,11 +12,11 @@ import { ISSUE_LABELS, STATUS_LABELS } from './labels';
 const { maxLength } = window.mdiaData;
 
 const DONE_MESSAGE = {
-	approve: __( 'Approved. The text is being applied.', 'revisor-alt' ),
-	decorative: __( 'Marked as decorative.', 'revisor-alt' ),
-	ignore: __( 'Ignored.', 'revisor-alt' ),
-	regenerate: __( 'A new proposal has been requested.', 'revisor-alt' ),
-	undo: __( 'Change undone.', 'revisor-alt' ),
+	approve: __( 'Approved. The text is being applied.', 'geo-tool' ),
+	decorative: __( 'Marked as decorative.', 'geo-tool' ),
+	ignore: __( 'Ignored.', 'geo-tool' ),
+	regenerate: __( 'A new proposal has been requested.', 'geo-tool' ),
+	undo: __( 'Change undone.', 'geo-tool' ),
 };
 
 export default function ReviewRow( {
@@ -68,7 +68,7 @@ export default function ReviewRow( {
 						type="checkbox"
 						aria-label={ sprintf(
 							/* translators: %s: image name. */
-							__( 'Select %s', 'revisor-alt' ),
+							__( 'Select %s', 'geo-tool' ),
 							name
 						) }
 						checked={ selected }
@@ -82,7 +82,7 @@ export default function ReviewRow( {
 				<span className="screen-reader-text">
 					{ sprintf(
 						/* translators: %s: image name. */
-						__( 'Open %s in the media library', 'revisor-alt' ),
+						__( 'Open %s in the media library', 'geo-tool' ),
 						name
 					) }
 				</span>
@@ -99,7 +99,7 @@ export default function ReviewRow( {
 								'Used on %d page',
 								'Used on %d pages',
 								item.usage_count,
-								'revisor-alt'
+								'geo-tool'
 							),
 							item.usage_count
 						) }
@@ -112,7 +112,7 @@ export default function ReviewRow( {
 									'%d in a page builder (not updated)',
 									'%d in page builders (not updated)',
 									item.unmanaged_count,
-									'revisor-alt'
+									'geo-tool'
 								),
 								item.unmanaged_count
 							) }
@@ -122,10 +122,10 @@ export default function ReviewRow( {
 
 				<p className="mdia-row__current">
 					<strong>
-						{ __( 'Current alt text:', 'revisor-alt' ) }
+						{ __( 'Current alt text:', 'geo-tool' ) }
 					</strong>{ ' ' }
 					{ item.library_alt || (
-						<em>{ __( '(empty)', 'revisor-alt' ) }</em>
+						<em>{ __( '(empty)', 'geo-tool' ) }</em>
 					) }{ ' ' }
 						{ item.issues.map( ( issue ) => (
 						<span key={ issue } className="mdia-tag">
@@ -138,7 +138,7 @@ export default function ReviewRow( {
 					<p className="mdia-muted">
 						{ __(
 							'The media library text is good; only a page is missing it. Approving copies it there. No AI is used.',
-							'revisor-alt'
+							'geo-tool'
 						) }
 					</p>
 				) }
@@ -158,7 +158,7 @@ export default function ReviewRow( {
 						__nextHasNoMarginBottom
 						label={ sprintf(
 							/* translators: %s: image name. */
-							__( 'Proposed alt text for %s', 'revisor-alt' ),
+							__( 'Proposed alt text for %s', 'geo-tool' ),
 							name
 						) }
 						rows={ 2 }
@@ -174,7 +174,7 @@ export default function ReviewRow( {
 							>
 								{ sprintf(
 									/* translators: 1: current length, 2: recommended maximum. */
-									__( '%1$d of %2$d recommended characters', 'revisor-alt' ),
+									__( '%1$d of %2$d recommended characters', 'geo-tool' ),
 									length,
 									maxLength
 								) }
@@ -188,13 +188,13 @@ export default function ReviewRow( {
 						<>
 							{ action(
 								'approve',
-								__( 'Approve', 'revisor-alt' ),
+								__( 'Approve', 'geo-tool' ),
 								'primary',
 								{ text }
 							) }
 							{ action(
 								'regenerate',
-								__( 'Regenerate', 'revisor-alt' )
+								__( 'Regenerate', 'geo-tool' )
 							) }
 						</>
 					) }
@@ -202,18 +202,18 @@ export default function ReviewRow( {
 						! item.queued &&
 						action(
 							'regenerate',
-							__( 'Generate now', 'revisor-alt' ),
+							__( 'Generate now', 'geo-tool' ),
 							'primary'
 						) }
 					{ status === 'needs_generation' && item.queued && (
 						<span className="mdia-muted">
-							{ __( 'In the generation queue…', 'revisor-alt' ) }
+							{ __( 'In the generation queue…', 'geo-tool' ) }
 						</span>
 					) }
 					{ status === 'error' &&
 						action(
 							'regenerate',
-							__( 'Retry', 'revisor-alt' ),
+							__( 'Retry', 'geo-tool' ),
 							'primary'
 						) }
 					{ [ 'needs_review', 'needs_generation', 'error' ].includes(
@@ -222,23 +222,23 @@ export default function ReviewRow( {
 						<>
 							{ action(
 								'decorative',
-								__( 'Decorative', 'revisor-alt' )
+								__( 'Decorative', 'geo-tool' )
 							) }
-							{ action( 'ignore', __( 'Ignore', 'revisor-alt' ) ) }
+							{ action( 'ignore', __( 'Ignore', 'geo-tool' ) ) }
 						</>
 					) }
 					{ status === 'ignored' &&
 						action(
 							'regenerate',
-							__( 'Generate proposal', 'revisor-alt' )
+							__( 'Generate proposal', 'geo-tool' )
 						) }
 					{ item.can_undo &&
-						action( 'undo', __( 'Undo', 'revisor-alt' ) ) }
+						action( 'undo', __( 'Undo', 'geo-tool' ) ) }
 					{ status === 'applying' && (
 						<span className="mdia-muted">
 							{ __(
 								'Applying to the library and your pages…',
-								'revisor-alt'
+								'geo-tool'
 							) }
 						</span>
 					) }

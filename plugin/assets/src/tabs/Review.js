@@ -56,7 +56,7 @@ export default function Review( { status, onStatusChange } ) {
 					speak(
 						sprintf(
 							/* translators: 1: current page, 2: total pages. */
-							__( 'Page %1$d of %2$d', 'revisor-alt' ),
+							__( 'Page %1$d of %2$d', 'geo-tool' ),
 							page,
 							result.totalPages
 						)
@@ -137,7 +137,7 @@ export default function Review( { status, onStatusChange } ) {
 						'%d image approved.',
 						'%d images approved.',
 						result.done,
-						'revisor-alt'
+						'geo-tool'
 					),
 					result.done
 				)
@@ -150,7 +150,7 @@ export default function Review( { status, onStatusChange } ) {
 							'%d image could not be approved.',
 							'%d images could not be approved.',
 							result.failed,
-							'revisor-alt'
+							'geo-tool'
 						),
 						result.failed
 					)
@@ -186,10 +186,10 @@ export default function Review( { status, onStatusChange } ) {
 				<SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
-					label={ __( 'Status', 'revisor-alt' ) }
+					label={ __( 'Status', 'geo-tool' ) }
 					value={ status }
 					options={ [
-						{ value: '', label: __( 'All', 'revisor-alt' ) },
+						{ value: '', label: __( 'All', 'geo-tool' ) },
 						...STATUS_ORDER.map( ( value ) => ( {
 							value,
 							label: STATUS_LABELS[ value ],
@@ -203,10 +203,10 @@ export default function Review( { status, onStatusChange } ) {
 				<SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize
-					label={ __( 'Problem detected', 'revisor-alt' ) }
+					label={ __( 'Problem detected', 'geo-tool' ) }
 					value={ issue }
 					options={ [
-						{ value: '', label: __( 'Any', 'revisor-alt' ) },
+						{ value: '', label: __( 'Any', 'geo-tool' ) },
 						...Object.entries( ISSUE_LABELS ).map(
 							( [ value, label ] ) => ( { value, label } )
 						),
@@ -215,7 +215,7 @@ export default function Review( { status, onStatusChange } ) {
 				/>
 				<SearchControl
 					__nextHasNoMarginBottom
-					label={ __( 'Search by text or title', 'revisor-alt' ) }
+					label={ __( 'Search by text or title', 'geo-tool' ) }
 					hideLabelFromVision={ false }
 					value={ search }
 					onChange={ filter( setSearch ) }
@@ -231,7 +231,7 @@ export default function Review( { status, onStatusChange } ) {
 			{ ! data && <Spinner /> }
 
 			{ data && data.items.length === 0 && (
-				<p>{ __( 'No images here.', 'revisor-alt' ) }</p>
+				<p>{ __( 'No images here.', 'geo-tool' ) }</p>
 			) }
 
 			{ data && data.items.length > 0 && (
@@ -247,13 +247,13 @@ export default function Review( { status, onStatusChange } ) {
 										setSelected( allSelected ? [] : selectable )
 									}
 								/>
-								{ __( 'Select all on this page', 'revisor-alt' ) }
+								{ __( 'Select all on this page', 'geo-tool' ) }
 							</label>
 						) }
 						<span className="mdia-bulk__count" aria-live="polite">
 							{ sprintf(
 								/* translators: %d: number of images. */
-								_n( '%d image', '%d images', data.total, 'revisor-alt' ),
+								_n( '%d image', '%d images', data.total, 'geo-tool' ),
 								data.total
 							) }
 							{ selected.length > 0 &&
@@ -264,7 +264,7 @@ export default function Review( { status, onStatusChange } ) {
 											'%d selected',
 											'%d selected',
 											selected.length,
-											'revisor-alt'
+											'geo-tool'
 										),
 										selected.length
 									) }
@@ -280,10 +280,10 @@ export default function Review( { status, onStatusChange } ) {
 								{ selected.length
 									? sprintf(
 											/* translators: %d: number of selected images. */
-											__( 'Approve selected (%d)', 'revisor-alt' ),
+											__( 'Approve selected (%d)', 'geo-tool' ),
 											selected.length
 									  )
-									: __( 'Approve selected', 'revisor-alt' ) }
+									: __( 'Approve selected', 'geo-tool' ) }
 							</Button>
 						) }
 					</div>
@@ -318,19 +318,19 @@ export default function Review( { status, onStatusChange } ) {
 					{ data.totalPages > 1 && (
 						<nav
 							className="mdia-pagination"
-							aria-label={ __( 'Pages', 'revisor-alt' ) }
+							aria-label={ __( 'Pages', 'geo-tool' ) }
 						>
 							<Button
 								variant="secondary"
 								disabled={ page <= 1 }
 								onClick={ () => changePage( page - 1 ) }
 							>
-								{ __( 'Previous', 'revisor-alt' ) }
+								{ __( 'Previous', 'geo-tool' ) }
 							</Button>
 							<span>
 								{ sprintf(
 									/* translators: 1: current page, 2: total pages. */
-									__( 'Page %1$d of %2$d', 'revisor-alt' ),
+									__( 'Page %1$d of %2$d', 'geo-tool' ),
 									page,
 									data.totalPages
 								) }
@@ -340,7 +340,7 @@ export default function Review( { status, onStatusChange } ) {
 								disabled={ page >= data.totalPages }
 								onClick={ () => changePage( page + 1 ) }
 							>
-								{ __( 'Next', 'revisor-alt' ) }
+								{ __( 'Next', 'geo-tool' ) }
 							</Button>
 						</nav>
 					) }

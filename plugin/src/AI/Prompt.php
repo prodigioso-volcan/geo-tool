@@ -2,7 +2,7 @@
 /**
  * Instructions sent to the model.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\AI;

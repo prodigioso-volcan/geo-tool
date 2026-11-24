@@ -15,9 +15,9 @@ import { getStatus, pauseGeneration, startGeneration } from '../api';
 const { canManage } = window.mdiaData;
 
 const STATE_WORD = {
-	green: __( 'OK', 'revisor-alt' ),
-	amber: __( 'Attention', 'revisor-alt' ),
-	red: __( 'Problem', 'revisor-alt' ),
+	green: __( 'OK', 'geo-tool' ),
+	amber: __( 'Attention', 'geo-tool' ),
+	red: __( 'Problem', 'geo-tool' ),
 };
 
 function Tile( { label, value, status, onOpenReview } ) {
@@ -29,7 +29,7 @@ function Tile( { label, value, status, onOpenReview } ) {
 				onClick={ () => onOpenReview( status ) }
 				aria-label={ sprintf(
 					/* translators: 1: number of images, 2: name of the group, e.g. "To review". */
-					__( '%1$d images: %2$s. Open the list.', 'revisor-alt' ),
+					__( '%1$d images: %2$s. Open the list.', 'geo-tool' ),
 					value,
 					label
 				) }
@@ -95,7 +95,7 @@ export default function Dashboard( { onOpenReview } ) {
 			/* translators: 1: number of images, 2: sentence with today's AI usage. */
 			__(
 				'Generate proposals for %1$d images? Each one is a paid request to your AI provider. %2$s Nothing is published until you review it.',
-				'revisor-alt'
+				'geo-tool'
 			),
 			notLaunched,
 			budget ? budget.detail : ''
@@ -114,7 +114,7 @@ export default function Dashboard( { onOpenReview } ) {
 						'%d image queued for generation.',
 						'%d images queued for generation.',
 						queued,
-						'revisor-alt'
+						'geo-tool'
 					),
 					queued
 				)
@@ -154,7 +154,7 @@ export default function Dashboard( { onOpenReview } ) {
 							/* translators: 1: images with correct alt text, 2: total images, 3: percentage. */
 							__(
 								'%1$d of %2$d images have correct alt text (%3$d%%)',
-								'revisor-alt'
+								'geo-tool'
 							),
 							counts.correct,
 							counts.total,
@@ -172,7 +172,7 @@ export default function Dashboard( { onOpenReview } ) {
 							<Spinner />{ ' ' }
 							{ __(
 								'Auditing the media library and your content…',
-								'revisor-alt'
+								'geo-tool'
 							) }
 						</p>
 					) }
@@ -181,25 +181,25 @@ export default function Dashboard( { onOpenReview } ) {
 
 			<ul className="mdia-tiles">
 				<Tile
-					label={ __( 'To generate', 'revisor-alt' ) }
+					label={ __( 'To generate', 'geo-tool' ) }
 					value={ counts.to_generate }
 					status="needs_generation"
 					onOpenReview={ onOpenReview }
 				/>
 				<Tile
-					label={ __( 'To review', 'revisor-alt' ) }
+					label={ __( 'To review', 'geo-tool' ) }
 					value={ counts.to_review }
 					status="needs_review"
 					onOpenReview={ onOpenReview }
 				/>
 				<Tile
-					label={ __( 'Applied', 'revisor-alt' ) }
+					label={ __( 'Applied', 'geo-tool' ) }
 					value={ counts.applied }
 					status="applied"
 					onOpenReview={ onOpenReview }
 				/>
 				<Tile
-					label={ __( 'Errors', 'revisor-alt' ) }
+					label={ __( 'Errors', 'geo-tool' ) }
 					value={ counts.errors }
 					status="error"
 					onOpenReview={ onOpenReview }
@@ -222,7 +222,7 @@ export default function Dashboard( { onOpenReview } ) {
 										'Generate proposal for %d image',
 										'Generate proposals for %d images',
 										notLaunched,
-										'revisor-alt'
+										'geo-tool'
 									),
 									notLaunched
 								) }
@@ -232,7 +232,7 @@ export default function Dashboard( { onOpenReview } ) {
 							<span className="mdia-muted">
 								{ __(
 									'Fix the AI connector first.',
-									'revisor-alt'
+									'geo-tool'
 								) }
 							</span>
 						) }
@@ -245,7 +245,7 @@ export default function Dashboard( { onOpenReview } ) {
 											'%d image in the generation queue.',
 											'%d images in the generation queue.',
 											counts.queued,
-											'revisor-alt'
+											'geo-tool'
 										),
 										counts.queued
 									) }
@@ -255,7 +255,7 @@ export default function Dashboard( { onOpenReview } ) {
 									onClick={ pause }
 									disabled={ busy }
 								>
-									{ __( 'Pause', 'revisor-alt' ) }
+									{ __( 'Pause', 'geo-tool' ) }
 								</Button>
 							</>
 						) }
@@ -265,7 +265,7 @@ export default function Dashboard( { onOpenReview } ) {
 
 			<Card>
 				<CardHeader>
-					<h2>{ __( 'Checks', 'revisor-alt' ) }</h2>
+					<h2>{ __( 'Checks', 'geo-tool' ) }</h2>
 				</CardHeader>
 				<CardBody>
 					<ul className="mdia-checks">
@@ -297,7 +297,7 @@ export default function Dashboard( { onOpenReview } ) {
 							'%d use of an image is inside a page builder. The plugin updates the media library but cannot rewrite that page.',
 							'%d uses of images are inside a page builder. The plugin updates the media library but cannot rewrite those pages.',
 							counts.unmanaged_usages,
-							'revisor-alt'
+							'geo-tool'
 						),
 						counts.unmanaged_usages
 					) }

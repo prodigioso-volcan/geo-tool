@@ -2,7 +2,7 @@
 /**
  * What the plugin needs from an AI provider. Lets tests swap the real one.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\AI;

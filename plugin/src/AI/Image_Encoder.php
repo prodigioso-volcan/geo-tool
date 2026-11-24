@@ -2,7 +2,7 @@
 /**
  * Prepares an image to be sent to the AI provider.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\AI;
@@ -23,11 +23,11 @@ final class Image_Encoder {
 		$original = get_attached_file( $attachment_id );
 
 		if ( ! $original || ! is_file( $original ) ) {
-			return new \WP_Error( 'mdia_file_missing', __( 'The image file is missing from the server.', 'revisor-alt' ) );
+			return new \WP_Error( 'mdia_file_missing', __( 'The image file is missing from the server.', 'geo-tool' ) );
 		}
 
-		$too_large  = new \WP_Error( 'mdia_file_too_large', __( 'The image file is too large to be analysed.', 'revisor-alt' ) );
-		$unreadable = new \WP_Error( 'mdia_file_unreadable', __( 'The image file could not be read.', 'revisor-alt' ) );
+		$too_large  = new \WP_Error( 'mdia_file_too_large', __( 'The image file is too large to be analysed.', 'geo-tool' ) );
+		$unreadable = new \WP_Error( 'mdia_file_unreadable', __( 'The image file could not be read.', 'geo-tool' ) );
 		$path       = self::source_path( $attachment_id, $original );
 
 		/**
@@ -88,7 +88,7 @@ final class Image_Encoder {
 		// original metadata over. Strip it explicitly, and send nothing if that is not possible.
 		if ( ! $editor instanceof \WP_Image_Editor_GD && ! self::strip_metadata( $saved['path'] ) ) {
 			wp_delete_file( $saved['path'] );
-			return new \WP_Error( 'mdia_metadata_not_removed', __( 'The image was not sent because its embedded data (such as location) could not be removed on this server.', 'revisor-alt' ) );
+			return new \WP_Error( 'mdia_metadata_not_removed', __( 'The image was not sent because its embedded data (such as location) could not be removed on this server.', 'geo-tool' ) );
 		}
 
 		$bytes = file_get_contents( $saved['path'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- local temp file.

@@ -5,7 +5,7 @@
  * WordPress asks this class through the `Update URI` header of the main file. The only
  * data sent to GitHub is the request itself: no site address, no keys, no usage data.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Update;
@@ -14,9 +14,9 @@ defined( 'ABSPATH' ) || exit;
 
 final class Updater {
 
-	public const REPOSITORY = 'prodigioso-volcan/revisor-alt';
+	public const REPOSITORY = 'prodigioso-volcan/geo-tool';
 
-	public const SLUG = 'revisor-alt';
+	public const SLUG = 'geo-tool';
 
 	public const TRANSIENT = 'mdia_latest_release';
 

@@ -2,7 +2,7 @@
 /**
  * Generates the proposal for one image. Never writes the alt text itself.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\AI;
@@ -98,7 +98,7 @@ final class Generator {
 		if ( null === $text ) {
 			$message = is_wp_error( $answer )
 				? mb_substr( wp_strip_all_tags( $answer->get_error_message() ), 0, self::MAX_ERROR_LENGTH )
-				: __( 'The AI provider did not return a usable description.', 'revisor-alt' );
+				: __( 'The AI provider did not return a usable description.', 'geo-tool' );
 
 			$failures = 0;
 			if ( is_wp_error( $answer ) ) {
@@ -205,7 +205,7 @@ final class Generator {
 	 * which may carry account identifiers or internal endpoints.
 	 */
 	public static function public_error(): string {
-		return __( 'The AI provider returned an error. An administrator can see the details.', 'revisor-alt' );
+		return __( 'The AI provider returned an error. An administrator can see the details.', 'geo-tool' );
 	}
 
 	public static function set_health( bool $ok, string $reason = '', string $message = '' ): void {

@@ -8,9 +8,9 @@ export const STATE_ICON = {
 };
 
 const HEADLINE = {
-	green: __( 'All green', 'revisor-alt' ),
-	amber: __( 'Needs attention', 'revisor-alt' ),
-	red: __( 'Action required', 'revisor-alt' ),
+	green: __( 'All green', 'geo-tool' ),
+	amber: __( 'Needs attention', 'geo-tool' ),
+	red: __( 'Action required', 'geo-tool' ),
 };
 
 /**

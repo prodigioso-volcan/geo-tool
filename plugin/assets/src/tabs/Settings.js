@@ -55,7 +55,7 @@ export default function Settings( { onRunWizard } ) {
 
 			<Card>
 				<CardHeader>
-					<h2>{ __( 'Preferences', 'revisor-alt' ) }</h2>
+					<h2>{ __( 'Preferences', 'geo-tool' ) }</h2>
 				</CardHeader>
 				<CardBody className="mdia-settings">
 					<Preferences
@@ -77,35 +77,35 @@ export default function Settings( { onRunWizard } ) {
 											auto_generate_new: values.auto_generate_new,
 										} )
 									),
-								__( 'Settings saved.', 'revisor-alt' )
+								__( 'Settings saved.', 'geo-tool' )
 							)
 						}
 					>
-						{ __( 'Save settings', 'revisor-alt' ) }
+						{ __( 'Save settings', 'geo-tool' ) }
 					</Button>
 				</CardBody>
 			</Card>
 
 			<Card>
 				<CardHeader>
-					<h2>{ __( 'AI provider', 'revisor-alt' ) }</h2>
+					<h2>{ __( 'AI provider', 'geo-tool' ) }</h2>
 				</CardHeader>
 				<CardBody>
 					<p>
 						{ __(
 							'The plugin uses the AI provider connected in WordPress. API keys are managed there, never by this plugin.',
-							'revisor-alt'
+							'geo-tool'
 						) }
 					</p>
 					<Button variant="secondary" href={ connectorsUrl }>
-						{ __( 'Open Connectors', 'revisor-alt' ) }
+						{ __( 'Open Connectors', 'geo-tool' ) }
 					</Button>
 				</CardBody>
 			</Card>
 
 			<Card>
 				<CardHeader>
-					<h2>{ __( 'Maintenance', 'revisor-alt' ) }</h2>
+					<h2>{ __( 'Maintenance', 'geo-tool' ) }</h2>
 				</CardHeader>
 				<CardBody className="mdia-generate">
 					<Button
@@ -116,12 +116,12 @@ export default function Settings( { onRunWizard } ) {
 								startAudit,
 								__(
 									'Audit started. It runs in the background; the dashboard shows the result.',
-									'revisor-alt'
+									'geo-tool'
 								)
 							)
 						}
 					>
-						{ __( 'Run full audit now', 'revisor-alt' ) }
+						{ __( 'Run full audit now', 'geo-tool' ) }
 					</Button>
 					<Button
 						variant="secondary"
@@ -131,10 +131,10 @@ export default function Settings( { onRunWizard } ) {
 							onRunWizard();
 						} }
 					>
-						{ __( 'Run setup wizard again', 'revisor-alt' ) }
+						{ __( 'Run setup wizard again', 'geo-tool' ) }
 					</Button>
 					<Button variant="link" href={ siteHealthUrl }>
-						{ __( 'Site Health', 'revisor-alt' ) }
+						{ __( 'Site Health', 'geo-tool' ) }
 					</Button>
 				</CardBody>
 			</Card>

@@ -2,7 +2,7 @@
 /**
  * Background work on Action Scheduler.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Queue;

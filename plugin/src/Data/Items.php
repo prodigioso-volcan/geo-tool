@@ -2,7 +2,7 @@
 /**
  * One row per audited image.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Data;

@@ -15,11 +15,11 @@ export default function Preferences( { values, onChange } ) {
 				__nextHasNoMarginBottom
 				label={ __(
 					'Generate proposals automatically for new uploads',
-					'revisor-alt'
+					'geo-tool'
 				) }
 				help={ __(
 					'Each new image without good alt text gets a proposal for you to review.',
-					'revisor-alt'
+					'geo-tool'
 				) }
 				checked={ values.auto_generate_new }
 				onChange={ ( value ) => onChange( { auto_generate_new: value } ) }
@@ -30,10 +30,10 @@ export default function Preferences( { values, onChange } ) {
 				type="number"
 				min={ 1 }
 				max={ 5000 }
-				label={ __( 'Daily limit of AI requests', 'revisor-alt' ) }
+				label={ __( 'Daily limit of AI requests', 'geo-tool' ) }
 				help={ __(
 					'The plugin stops when it reaches this number and continues the next day. It protects you from unexpected costs.',
-					'revisor-alt'
+					'geo-tool'
 				) }
 				value={ values.daily_limit }
 				onChange={ ( value ) =>
@@ -43,7 +43,7 @@ export default function Preferences( { values, onChange } ) {
 			<p className="mdia-muted">
 				{ __(
 					'Privacy: to describe an image, the plugin sends a reduced copy of it to the AI provider you connected. Nothing is sent to anyone else.',
-					'revisor-alt'
+					'geo-tool'
 				) }
 			</p>
 		</>

@@ -1,4 +1,4 @@
-# Revisor ALT by JUNGLE
+# GEO Tool by JUNGLE
 
 Plugin de WordPress que revisa el texto alternativo de las imágenes, propone uno mejor con IA y lo aplica solo cuando una persona lo aprueba.
 
@@ -46,7 +46,7 @@ Hasta que termines el asistente, el plugin no genera propuestas. Lo único que s
 
 ## Uso
 
-Todo está en **Medios > Revisor ALT**.
+Todo está en **Medios > GEO Tool**.
 
 ### Panel
 
@@ -86,7 +86,7 @@ Cuando el texto de la biblioteca ya es bueno y solo falta en alguna página, el 
 
 ## Proveedores disponibles
 
-Revisor ALT funciona con cualquier proveedor que tenga un conector para el cliente de IA de WordPress, siempre que ofrezca un modelo que admita imágenes. Situación a noviembre de 2026:
+GEO Tool funciona con cualquier proveedor que tenga un conector para el cliente de IA de WordPress, siempre que ofrezca un modelo que admita imágenes. Situación a noviembre de 2026:
 
 | Proveedor | Conector | Mantiene | Acceso |
 |---|---|---|---|
@@ -104,7 +104,7 @@ Revisor ALT funciona con cualquier proveedor que tenga un conector para el clien
 - **Probado aquí:** Anthropic con Claude Haiku 5.5, a través de Amazon Bedrock. El resto no se ha probado con este plugin.
 - **Copilot:** no hay conector para Microsoft Copilot ni para GitHub Copilot. La vía de Microsoft es Azure AI Foundry.
 - **Otros:** también hay conectores de la comunidad para DeepSeek, xAI (Grok) y Groq. Comprueba antes que el modelo admite imágenes.
-- Los conectores de la comunidad no forman parte de Revisor ALT ni tienen soporte aquí. Revisa quién los mantiene antes de instalarlos en la web de un cliente.
+- Los conectores de la comunidad no forman parte de GEO Tool ni tienen soporte aquí. Revisa quién los mantiene antes de instalarlos en la web de un cliente.
 
 ## Qué considera un texto deficiente
 
@@ -227,7 +227,7 @@ La web queda en http://localhost:8787 y el correo de prueba en http://localhost:
 | `bin/wp …` | WP-CLI. |
 | `bin/seed [proposals]` | Crea imágenes y entradas de demostración. |
 | `bin/i18n` | Regenera los archivos de idioma. |
-| `bin/build-zip` | Genera `dist/revisor-alt-{versión}.zip`. |
+| `bin/build-zip` | Genera `dist/geo-tool-{versión}.zip`. |
 | `bin/check-zip` | Instala ese zip en un WordPress limpio y desechable. |
 
 El servicio `cron` de `docker-compose.yml` ejecuta las tareas en segundo plano cada 20 segundos.
@@ -245,7 +245,7 @@ docker/                 archivos solo del entorno local
 docs/                   imágenes del README
 ```
 
-Las cadenas del código están en inglés. Tras añadir o cambiar cadenas, ejecuta `bin/i18n`, traduce las nuevas en `plugin/languages/revisor-alt-es_ES.po` y vuelve a ejecutarlo.
+Las cadenas del código están en inglés. Tras añadir o cambiar cadenas, ejecuta `bin/i18n`, traduce las nuevas en `plugin/languages/geo-tool-es_ES.po` y vuelve a ejecutarlo.
 
 ## Seguridad
 

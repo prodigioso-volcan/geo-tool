@@ -2,7 +2,7 @@
 /**
  * The single answer to "is everything green?".
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Health;
@@ -80,71 +80,71 @@ final class Status {
 	}
 
 	private static function connector_check(): array {
-		$label        = __( 'AI connector', 'revisor-alt' );
+		$label        = __( 'AI connector', 'geo-tool' );
 		$availability = Generator::provider()->availability();
 
 		if ( empty( $availability['available'] ) ) {
 			$detail = 'no_connector' === ( $availability['reason'] ?? '' )
-				? __( 'No AI provider is connected. Add an API key in Settings > Connectors.', 'revisor-alt' )
-				: __( 'The connected AI provider cannot describe images. Connect one that accepts image input.', 'revisor-alt' );
+				? __( 'No AI provider is connected. Add an API key in Settings > Connectors.', 'geo-tool' )
+				: __( 'The connected AI provider cannot describe images. Connect one that accepts image input.', 'geo-tool' );
 			return self::check( 'connector', 'red', $label, $detail, (string) ( $availability['reason'] ?? 'unsupported' ) );
 		}
 
 		$health = Generator::health();
 		if ( $health && empty( $health['ok'] ) ) {
-			$message = '' !== (string) ( $health['message'] ?? '' ) ? $health['message'] : __( 'The provider is not available.', 'revisor-alt' );
+			$message = '' !== (string) ( $health['message'] ?? '' ) ? $health['message'] : __( 'The provider is not available.', 'geo-tool' );
 			/* translators: %s: error message returned by the AI provider. */
-			return self::check( 'connector', 'red', $label, sprintf( __( 'The last request to the AI provider failed: %s', 'revisor-alt' ), $message ), 'failed' );
+			return self::check( 'connector', 'red', $label, sprintf( __( 'The last request to the AI provider failed: %s', 'geo-tool' ), $message ), 'failed' );
 		}
 
 		$detail = $health
 			/* translators: %s: human-readable time difference, e.g. "2 hours". */
-			? sprintf( __( 'Connected. Last successful answer %s ago.', 'revisor-alt' ), human_time_diff( (int) $health['at'] ) )
-			: __( 'Connected. Not used yet.', 'revisor-alt' );
+			? sprintf( __( 'Connected. Last successful answer %s ago.', 'geo-tool' ), human_time_diff( (int) $health['at'] ) )
+			: __( 'Connected. Not used yet.', 'geo-tool' );
 
 		return self::check( 'connector', 'green', $label, $detail );
 	}
 
 	private static function queue_check(): array {
-		$label    = __( 'Background tasks', 'revisor-alt' );
+		$label    = __( 'Background tasks', 'geo-tool' );
 		$last_run = Scheduler::last_run_at();
 		$stalled  = Scheduler::has_overdue_actions() && ( null === $last_run || $last_run < time() - DAY_IN_SECONDS );
 
 		if ( $stalled ) {
-			return self::check( 'queue', 'red', $label, __( 'Tasks are waiting but none has run in the last 24 hours. Check that WP-Cron works on this site.', 'revisor-alt' ) );
+			return self::check( 'queue', 'red', $label, __( 'Tasks are waiting but none has run in the last 24 hours. Check that WP-Cron works on this site.', 'geo-tool' ) );
 		}
 
 		$detail = null === $last_run
-			? __( 'No task has needed to run yet.', 'revisor-alt' )
+			? __( 'No task has needed to run yet.', 'geo-tool' )
 			/* translators: %s: human-readable time difference, e.g. "4 mins". */
-			: sprintf( __( 'Last run %s ago.', 'revisor-alt' ), human_time_diff( $last_run ) );
+			: sprintf( __( 'Last run %s ago.', 'geo-tool' ), human_time_diff( $last_run ) );
 
 		return self::check( 'queue', 'green', $label, $detail );
 	}
 
 	private static function content_check( int $deficient, array $audit ): array {
-		$label = __( 'Published content', 'revisor-alt' );
+		$label = __( 'Published content', 'geo-tool' );
 
 		// Until the first audit has finished, nobody knows the state of the site: that is not "green".
 		if ( null === $audit['finished_at'] ) {
-			return self::check( 'content', 'amber', $label, __( 'The site has not been fully audited yet.', 'revisor-alt' ) );
+			return self::check( 'content', 'amber', $label, __( 'The site has not been fully audited yet.', 'geo-tool' ) );
 		}
 
 		if ( $deficient > 0 ) {
 			/* translators: %d: number of pages. */
-			$detail = sprintf( _n( '%d page still shows an image with missing or poor alt text.', '%d pages still show an image with missing or poor alt text.', $deficient, 'revisor-alt' ), $deficient );
+			$detail = sprintf( _n( '%d page still shows an image with missing or poor alt text.', '%d pages still show an image with missing or poor alt text.', $deficient, 'geo-tool' ), $deficient );
 			return self::check( 'content', 'amber', $label, $detail );
 		}
-		return self::check( 'content', 'green', $label, __( 'In sync with the media library.', 'revisor-alt' ) );
+		return self::check( 'content', 'green', $label, __( 'In sync with the media library.', 'geo-tool' ) );
 	}
 
 	private static function budget_check(): array {
-		$label = __( 'Daily AI usage', 'revisor-alt' );
+		$label = __( 'Daily AI usage', 'geo-tool' );
 		/* translators: 1: calls used today, 2: daily limit. */
-		$detail = sprintf( __( '%1$d of %2$d requests used today.', 'revisor-alt' ), Budget::used_today(), Budget::limit() );
+		$detail = sprintf( __( '%1$d of %2$d requests used today.', 'geo-tool' ), Budget::used_today(), Budget::limit() );
 
 		if ( Budget::remaining() < 1 ) {
-			return self::check( 'budget', 'amber', $label, $detail . ' ' . __( 'Generation resumes tomorrow.', 'revisor-alt' ) );
+			return self::check( 'budget', 'amber', $label, $detail . ' ' . __( 'Generation resumes tomorrow.', 'geo-tool' ) );
 		}
 		return self::check( 'budget', 'green', $label, $detail );
 	}

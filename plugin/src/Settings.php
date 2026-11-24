@@ -2,7 +2,7 @@
 /**
  * Plugin settings stored in a single option.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA;

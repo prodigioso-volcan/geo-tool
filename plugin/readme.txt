@@ -1,10 +1,10 @@
-=== Revisor ALT by JUNGLE ===
+=== GEO Tool by JUNGLE ===
 Contributors: prodigiosovolcan
 Tags: alt text, accessibility, images, ai, media library
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.2.2
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,7 +47,7 @@ To describe an image, the plugin sends a reduced copy of it (1024 px on its long
 
 = Can I use my ChatGPT, Claude or Gemini subscription instead of an API key? =
 
-The official connectors (OpenAI, Anthropic and Google) need an API key, which is billed by use and is separate from a subscription. A community connector, AI Provider for ChatGPT, signs in with a ChatGPT Plus, Pro or Go plan and needs no API key; it is not maintained by this project and has not been tested with it. Revisor ALT works with any provider registered in the WordPress AI Client that offers a model accepting images.
+The official connectors (OpenAI, Anthropic and Google) need an API key, which is billed by use and is separate from a subscription. A community connector, AI Provider for ChatGPT, signs in with a ChatGPT Plus, Pro or Go plan and needs no API key; it is not maintained by this project and has not been tested with it. GEO Tool works with any provider registered in the WordPress AI Client that offers a model accepting images.
 
 = Does it overwrite alt text someone wrote by hand? =
 
@@ -63,6 +63,9 @@ The plugin relies on WP-Cron. If the dashboard shows background tasks in red, ch
 
 == Changelog ==
 
+= 0.3.0 =
+* The plugin is now called GEO Tool by JUNGLE (folder and text domain: geo-tool). If you had Revisor ALT installed, uninstall it and install this one.
+
 = 0.2.2 =
 * Works with connectors that do not use an API key (sign-in or local models): availability is now asked to WordPress instead of inferred from the key.
 * Documentation: list of available providers.
@@ -71,7 +74,7 @@ The plugin relies on WP-Cron. If the dashboard shows background tasks in red, ch
 * The plugin author is now JUNGLE.
 
 = 0.2.0 =
-* The plugin is now called Revisor ALT by JUNGLE (folder and text domain: revisor-alt).
+* The plugin was renamed to Revisor ALT by JUNGLE.
 * New versions are offered in the Plugins screen, from the project's GitHub releases.
 * Capabilities are restored if the site's roles are reset.
 * Over-long AI answers are rewritten shorter instead of being cut.

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Instala el zip de dist/ en un WordPress limpio y desechable, y comprueba que activa sin errores.
 cd "$(dirname "$0")/.." || exit 1
-ZIP=$(ls dist/revisor-alt-*.zip 2>/dev/null | head -1)
+ZIP=$(ls dist/geo-tool-*.zip 2>/dev/null | head -1)
 [ -n "$ZIP" ] || { echo "No hay zip en dist/. Ejecuta antes bin/build-zip." >&2; exit 1; }
 C="docker compose -f docker/docker-compose.zipcheck.yml"
 wp() { $C run --rm -T wpcli "$@"; }
@@ -20,5 +20,5 @@ echo "estado: ", \MDIA\Health\Status::compute( true )["state"], "\n";
 echo "interfaz compilada: ", is_readable( MDIA_DIR . "build/index.js" ) ? "ok" : "FALTA", "\n";
 echo "debug.log: ", is_readable( WP_CONTENT_DIR . "/debug.log" ) ? trim( file_get_contents( WP_CONTENT_DIR . "/debug.log" ) ) : "vacío", "\n";
 '
-wp plugin uninstall revisor-alt --deactivate | tail -1
+wp plugin uninstall geo-tool --deactivate | tail -1
 wp eval 'global $wpdb; echo "tablas tras desinstalar: ", (int) $wpdb->get_var( "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name LIKE \"%mdia\\_%\"" ), "\n";'

@@ -2,7 +2,7 @@
 /**
  * Writes an approved alt text to the library and to the content that uses the image.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Review;

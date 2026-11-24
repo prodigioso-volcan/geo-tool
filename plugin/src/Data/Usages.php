@@ -2,7 +2,7 @@
 /**
  * Index of where each image is used in content.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Data;

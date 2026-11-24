@@ -2,7 +2,7 @@
 /**
  * Opens the setup wizard right after the plugin is activated.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Admin;

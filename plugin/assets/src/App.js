@@ -40,13 +40,13 @@ export default function App() {
 	}
 
 	const tabs = [
-		{ name: 'dashboard', title: __( 'Dashboard', 'revisor-alt' ) },
-		{ name: 'review', title: __( 'Review', 'revisor-alt' ) },
+		{ name: 'dashboard', title: __( 'Dashboard', 'geo-tool' ) },
+		{ name: 'review', title: __( 'Review', 'geo-tool' ) },
 	];
 	if ( canManage ) {
 		tabs.push( {
 			name: 'settings',
-			title: __( 'Settings', 'revisor-alt' ),
+			title: __( 'Settings', 'geo-tool' ),
 		} );
 	}
 

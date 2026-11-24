@@ -19,11 +19,11 @@ import {
 } from '../api';
 
 const STEPS = [
-	__( 'Requirements', 'revisor-alt' ),
-	__( 'Test', 'revisor-alt' ),
-	__( 'Preferences', 'revisor-alt' ),
-	__( 'First audit', 'revisor-alt' ),
-	__( 'Done', 'revisor-alt' ),
+	__( 'Requirements', 'geo-tool' ),
+	__( 'Test', 'geo-tool' ),
+	__( 'Preferences', 'geo-tool' ),
+	__( 'First audit', 'geo-tool' ),
+	__( 'Done', 'geo-tool' ),
 ];
 
 function Requirements( { onNext } ) {
@@ -58,7 +58,7 @@ function Requirements( { onNext } ) {
 				<Notice status="success" isDismissible={ false }>
 					{ __(
 						'An AI provider that can describe images is connected.',
-						'revisor-alt'
+						'geo-tool'
 					) }
 				</Notice>
 			) : (
@@ -67,23 +67,23 @@ function Requirements( { onNext } ) {
 						{ data.provider.reason === 'unsupported'
 							? __(
 									'The connected AI provider cannot describe images. Connect one that accepts image input.',
-									'revisor-alt'
+									'geo-tool'
 							  )
 							: __(
 									'No AI provider is connected yet.',
-									'revisor-alt'
+									'geo-tool'
 							  ) }
 					</Notice>
 					<p>
 						{ __(
 							'To write alt text, the plugin needs an AI provider: OpenAI (ChatGPT), Anthropic (Claude) or Google (Gemini). You connect it with an API key, a code you create in your account with that provider.',
-							'revisor-alt'
+							'geo-tool'
 						) }
 					</p>
 					<p>
 						{ __(
 							'An API key is billed by use and is separate from a ChatGPT, Claude or Gemini subscription. Describing an image usually costs a fraction of a cent. Other connectors exist, including one that uses a ChatGPT plan without a key.',
-							'revisor-alt'
+							'geo-tool'
 						) }
 					</p>
 				</>
@@ -97,16 +97,16 @@ function Requirements( { onNext } ) {
 							target="_blank"
 							rel="noreferrer"
 						>
-							{ __( 'Open Connectors (new tab)', 'revisor-alt' ) }
+							{ __( 'Open Connectors (new tab)', 'geo-tool' ) }
 						</Button>
 						<Button variant="secondary" onClick={ check }>
-							{ __( 'Check again', 'revisor-alt' ) }
+							{ __( 'Check again', 'geo-tool' ) }
 						</Button>
 					</>
 				) }
 				{ ready && (
 					<Button variant="primary" onClick={ () => onNext( data ) }>
-						{ __( 'Continue', 'revisor-alt' ) }
+						{ __( 'Continue', 'geo-tool' ) }
 					</Button>
 				) }
 			</div>
@@ -134,13 +134,13 @@ function Test( { hasImages, onNext } ) {
 					<p>
 						{ __(
 							'The plugin will ask the AI to describe one image from your media library, to check that everything works.',
-							'revisor-alt'
+							'geo-tool'
 						) }
 					</p>
 					<p className="mdia-muted">
 						{ __(
 							'Privacy: to describe an image, the plugin sends a reduced copy of it to the AI provider you connected. Nothing is sent to anyone else.',
-							'revisor-alt'
+							'geo-tool'
 						) }
 					</p>
 				</>
@@ -149,14 +149,14 @@ function Test( { hasImages, onNext } ) {
 				<p>
 					{ __(
 						'The media library has no images yet, so there is nothing to test with. You can continue.',
-						'revisor-alt'
+						'geo-tool'
 					) }
 				</p>
 			) }
 			{ state.loading && (
 				<p>
 					<Spinner />{ ' ' }
-					{ __( 'Asking the AI to describe one of your images…', 'revisor-alt' ) }
+					{ __( 'Asking the AI to describe one of your images…', 'geo-tool' ) }
 				</p>
 			) }
 			{ state.error && (
@@ -170,7 +170,7 @@ function Test( { hasImages, onNext } ) {
 					<div>
 						<p>
 							<strong>
-								{ __( 'Generated alt text:', 'revisor-alt' ) }
+								{ __( 'Generated alt text:', 'geo-tool' ) }
 							</strong>
 						</p>
 						<p>{ state.result.text }</p>
@@ -180,7 +180,7 @@ function Test( { hasImages, onNext } ) {
 						<p className="mdia-muted">
 							{ __(
 								'This was only a test: nothing has been saved.',
-								'revisor-alt'
+								'geo-tool'
 							) }
 						</p>
 					</div>
@@ -189,12 +189,12 @@ function Test( { hasImages, onNext } ) {
 			<div className="mdia-wizard__actions">
 				{ state.error && (
 					<Button variant="secondary" onClick={ run }>
-						{ __( 'Try again', 'revisor-alt' ) }
+						{ __( 'Try again', 'geo-tool' ) }
 					</Button>
 				) }
 				{ idle && (
 					<Button variant="primary" onClick={ run }>
-						{ __( 'Run the test', 'revisor-alt' ) }
+						{ __( 'Run the test', 'geo-tool' ) }
 					</Button>
 				) }
 				{ ! idle && (
@@ -203,7 +203,7 @@ function Test( { hasImages, onNext } ) {
 						disabled={ !! state.loading || !! state.error }
 						onClick={ onNext }
 					>
-						{ __( 'Continue', 'revisor-alt' ) }
+						{ __( 'Continue', 'geo-tool' ) }
 					</Button>
 				) }
 			</div>
@@ -254,7 +254,7 @@ function PreferencesStep( { onNext } ) {
 							.catch( ( e ) => setError( e.message ) )
 					}
 				>
-					{ __( 'Save and continue', 'revisor-alt' ) }
+					{ __( 'Save and continue', 'geo-tool' ) }
 				</Button>
 			</div>
 		</>
@@ -302,7 +302,7 @@ function Audit( { onNext } ) {
 					<Spinner />{ ' ' }
 					{ __(
 						'Checking every image in the library and in your pages. This uses no AI and costs nothing.',
-						'revisor-alt'
+						'geo-tool'
 					) }
 				</p>
 			) }
@@ -313,7 +313,7 @@ function Audit( { onNext } ) {
 							/* translators: 1: images that need alt text, 2: total images. */
 							__(
 								'%1$d of %2$d images need alt text.',
-								'revisor-alt'
+								'geo-tool'
 							),
 							pending,
 							status.counts.total
@@ -327,7 +327,7 @@ function Audit( { onNext } ) {
 					disabled={ running }
 					onClick={ () => onNext( status ) }
 				>
-					{ __( 'Continue', 'revisor-alt' ) }
+					{ __( 'Continue', 'geo-tool' ) }
 				</Button>
 			</div>
 		</>
@@ -357,11 +357,11 @@ function Done( { status, onDone } ) {
 				{ toGenerate > 0
 					? __(
 							'Everything is ready. You can ask the AI for proposals now; you will review each one before anything changes on your site.',
-							'revisor-alt'
+							'geo-tool'
 					  )
 					: __(
 							'Everything is ready, and no image needs alt text right now.',
-							'revisor-alt'
+							'geo-tool'
 					  ) }
 			</p>
 			<div className="mdia-wizard__actions">
@@ -387,7 +387,7 @@ function Done( { status, onDone } ) {
 								'Generate proposal for %d image',
 								'Generate proposals for %d images',
 								toGenerate,
-								'revisor-alt'
+								'geo-tool'
 							),
 							toGenerate
 						) }
@@ -398,7 +398,7 @@ function Done( { status, onDone } ) {
 					disabled={ busy }
 					onClick={ () => onDone( 'dashboard' ) }
 				>
-					{ __( 'Go to dashboard', 'revisor-alt' ) }
+					{ __( 'Go to dashboard', 'geo-tool' ) }
 				</Button>
 			</div>
 		</>
@@ -435,7 +435,7 @@ export default function Wizard( { onDone } ) {
 					<h2 tabIndex="-1" ref={ heading }>
 						{ sprintf(
 							/* translators: 1: step number, 2: total steps, 3: step name. */
-							__( 'Step %1$d of %2$d: %3$s', 'revisor-alt' ),
+							__( 'Step %1$d of %2$d: %3$s', 'geo-tool' ),
 							step + 1,
 							STEPS.length,
 							STEPS[ step ]

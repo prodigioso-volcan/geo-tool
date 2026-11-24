@@ -31,8 +31,8 @@ class UpdaterTest extends WP_UnitTestCase {
 			'prerelease' => false,
 			'assets'     => array(
 				array(
-					'name'                 => $asset_name ?? "revisor-alt-$version.zip",
-					'browser_download_url' => $asset_url ?? "https://github.com/prodigioso-volcan/revisor-alt/releases/download/$tag/revisor-alt-$version.zip",
+					'name'                 => $asset_name ?? "geo-tool-$version.zip",
+					'browser_download_url' => $asset_url ?? "https://github.com/prodigioso-volcan/geo-tool/releases/download/$tag/geo-tool-$version.zip",
 				),
 			),
 		);
@@ -45,7 +45,7 @@ class UpdaterTest extends WP_UnitTestCase {
 	public function test_plugin_declares_where_its_updates_come_from() {
 		$data = get_file_data( MDIA_FILE, array( 'uri' => 'Update URI' ) );
 
-		$this->assertSame( 'https://github.com/prodigioso-volcan/revisor-alt', $data['uri'] );
+		$this->assertSame( 'https://github.com/prodigioso-volcan/geo-tool', $data['uri'] );
 	}
 
 	public function test_latest_release_is_offered_with_its_zip() {
@@ -54,9 +54,9 @@ class UpdaterTest extends WP_UnitTestCase {
 		$update = $this->check();
 
 		$this->assertSame( '9.4.2', $update['version'] );
-		$this->assertSame( 'https://github.com/prodigioso-volcan/revisor-alt/releases/download/v9.4.2/revisor-alt-9.4.2.zip', $update['package'] );
-		$this->assertSame( 'revisor-alt', $update['slug'] );
-		$this->assertSame( array( 'https://api.github.com/repos/prodigioso-volcan/revisor-alt/releases/latest' ), $this->requests );
+		$this->assertSame( 'https://github.com/prodigioso-volcan/geo-tool/releases/download/v9.4.2/geo-tool-9.4.2.zip', $update['package'] );
+		$this->assertSame( 'geo-tool', $update['slug'] );
+		$this->assertSame( array( 'https://api.github.com/repos/prodigioso-volcan/geo-tool/releases/latest' ), $this->requests );
 	}
 
 	public function test_answer_is_cached_so_github_is_not_asked_on_every_check() {
@@ -76,9 +76,9 @@ class UpdaterTest extends WP_UnitTestCase {
 
 	public function unusable_releases(): array {
 		return array(
-			'zip hosted elsewhere'      => array( array( 'v9.4.2', 'https://evil.example/revisor-alt-9.4.2.zip', null ) ),
-			'zip from another repo'     => array( array( 'v9.4.2', 'https://github.com/someone/else/releases/download/v9.4.2/revisor-alt-9.4.2.zip', null ) ),
-			'unexpected file name'      => array( array( 'v9.4.2', 'https://github.com/prodigioso-volcan/revisor-alt/releases/download/v9.4.2/source.zip', 'source.zip' ) ),
+			'zip hosted elsewhere'      => array( array( 'v9.4.2', 'https://evil.example/geo-tool-9.4.2.zip', null ) ),
+			'zip from another repo'     => array( array( 'v9.4.2', 'https://github.com/someone/else/releases/download/v9.4.2/geo-tool-9.4.2.zip', null ) ),
+			'unexpected file name'      => array( array( 'v9.4.2', 'https://github.com/prodigioso-volcan/geo-tool/releases/download/v9.4.2/source.zip', 'source.zip' ) ),
 			'tag that is not a version' => array( array( 'latest', null, null ) ),
 			'tag with injection'        => array( array( 'v9.4.2/../../x', null, null ) ),
 		);

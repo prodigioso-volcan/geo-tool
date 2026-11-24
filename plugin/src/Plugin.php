@@ -2,7 +2,7 @@
 /**
  * Plugin bootstrap: registers every hook.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA;
@@ -44,7 +44,7 @@ final class Plugin {
 		add_action(
 			'init',
 			static function () {
-				load_plugin_textdomain( 'revisor-alt', false, dirname( plugin_basename( MDIA_FILE ) ) . '/languages' );
+				load_plugin_textdomain( 'geo-tool', false, dirname( plugin_basename( MDIA_FILE ) ) . '/languages' );
 			}
 		);
 	}

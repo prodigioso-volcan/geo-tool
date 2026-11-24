@@ -3,7 +3,7 @@
  * Removes plugin tables, options, capabilities and scheduled actions, on every site
  * of a network. Applied alt text is kept.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;

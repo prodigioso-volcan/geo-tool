@@ -2,7 +2,7 @@
 /**
  * Daily safety net: picks up work whose background action was lost.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Queue;

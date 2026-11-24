@@ -1,22 +1,22 @@
 <?php
 /**
- * Plugin Name:       Revisor ALT by JUNGLE
+ * Plugin Name:       GEO Tool by JUNGLE
  * Description:       Audits image alt text in the media library and in published content, and proposes better alt text with AI for human review.
- * Version:           0.2.2
+ * Version:           0.3.0
  * Requires at least: 7.0
  * Requires PHP:      8.1
  * Author:            JUNGLE
- * Text Domain:       revisor-alt
- * Update URI:        https://github.com/prodigioso-volcan/revisor-alt
+ * Text Domain:       geo-tool
+ * Update URI:        https://github.com/prodigioso-volcan/geo-tool
  * Domain Path:       /languages
  * License:           GPL-2.0-or-later
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'MDIA_VERSION', '0.2.2' );
+define( 'MDIA_VERSION', '0.3.0' );
 define( 'MDIA_FILE', __FILE__ );
 define( 'MDIA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MDIA_MIN_WP', '7.0' );
@@ -26,7 +26,7 @@ if ( version_compare( $GLOBALS['wp_version'], MDIA_MIN_WP, '<' ) ) {
 		'admin_notices',
 		static function () {
 			echo '<div class="notice notice-error"><p>';
-			echo esc_html__( 'Revisor ALT by JUNGLE requires WordPress 7.0 or later.', 'revisor-alt' );
+			echo esc_html__( 'GEO Tool by JUNGLE requires WordPress 7.0 or later.', 'geo-tool' );
 			echo '</p></div>';
 		}
 	);

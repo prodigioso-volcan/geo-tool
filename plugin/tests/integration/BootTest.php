@@ -12,7 +12,7 @@ class BootTest extends WP_UnitTestCase {
 	public function test_plugin_headers_name_the_product_and_its_author() {
 		$data = get_file_data( MDIA_FILE, array( 'name' => 'Plugin Name', 'author' => 'Author', 'version' => 'Version' ) );
 
-		$this->assertSame( 'Revisor ALT by JUNGLE', $data['name'] );
+		$this->assertSame( 'GEO Tool by JUNGLE', $data['name'] );
 		$this->assertSame( 'JUNGLE', $data['author'] );
 		$this->assertSame( MDIA_VERSION, $data['version'] );
 	}

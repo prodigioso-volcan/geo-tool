@@ -18,7 +18,7 @@ require_once $mdia_tests_dir . '/includes/functions.php';
 tests_add_filter(
 	'muplugins_loaded',
 	static function () use ( $mdia_root ) {
-		require $mdia_root . '/revisor-alt.php';
+		require $mdia_root . '/geo-tool.php';
 	}
 );
 

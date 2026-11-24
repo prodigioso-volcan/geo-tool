@@ -2,7 +2,7 @@
 /**
  * Admin screen under Media and its assets.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Admin;
@@ -30,8 +30,8 @@ final class Menu {
 
 	public static function add_page(): void {
 		add_media_page(
-			'Revisor ALT',
-			'Revisor ALT',
+			'GEO Tool',
+			'GEO Tool',
 			'mdia_review',
 			self::SLUG,
 			array( self::class, 'render' )
@@ -39,15 +39,15 @@ final class Menu {
 	}
 
 	public static function render(): void {
-		echo '<div class="wrap"><h1>' . esc_html( 'Revisor ALT' ) . '</h1>';
+		echo '<div class="wrap"><h1>' . esc_html( 'GEO Tool' ) . '</h1>';
 
 		if ( ! is_readable( MDIA_DIR . 'build/index.asset.php' ) ) {
-			echo '<div class="notice notice-error"><p>' . esc_html__( 'The plugin interface has not been built. Run the build step and reload.', 'revisor-alt' ) . '</p></div></div>';
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'The plugin interface has not been built. Run the build step and reload.', 'geo-tool' ) . '</p></div></div>';
 			return;
 		}
 
-		echo '<div id="mdia-root"><p>' . esc_html__( 'Loading…', 'revisor-alt' ) . '</p></div>';
-		echo '<noscript><p>' . esc_html__( 'This screen needs JavaScript.', 'revisor-alt' ) . '</p></noscript></div>';
+		echo '<div id="mdia-root"><p>' . esc_html__( 'Loading…', 'geo-tool' ) . '</p></div>';
+		echo '<noscript><p>' . esc_html__( 'This screen needs JavaScript.', 'geo-tool' ) . '</p></noscript></div>';
 	}
 
 	public static function enqueue( $hook ): void {
@@ -60,7 +60,7 @@ final class Menu {
 		$base  = plugin_dir_url( MDIA_FILE ) . 'build/';
 
 		wp_enqueue_script( 'mdia-admin', $base . 'index.js', $asset['dependencies'], $asset['version'], true );
-		wp_set_script_translations( 'mdia-admin', 'revisor-alt', MDIA_DIR . 'languages' );
+		wp_set_script_translations( 'mdia-admin', 'geo-tool', MDIA_DIR . 'languages' );
 		wp_enqueue_style( 'mdia-admin', $base . 'style-index.css', array( 'wp-components' ), $asset['version'] );
 
 		$data = array(

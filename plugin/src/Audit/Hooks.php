@@ -2,7 +2,7 @@
 /**
  * Keeps the usage index and the audit in sync with what editors do.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Audit;

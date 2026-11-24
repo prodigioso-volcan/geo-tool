@@ -2,7 +2,7 @@
 /**
  * Database tables, capabilities and migrations.
  *
- * @package RevisorAlt
+ * @package GeoTool
  */
 
 namespace MDIA\Install;
