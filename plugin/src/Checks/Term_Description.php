@@ -66,12 +66,26 @@ final class Term_Description extends Check {
 	/**
 	 * Fills whatever is empty: the term description, the SEO plugin's field, or both.
 	 */
+	/**
+	 * The description and the field of the SEO plugin as stored, not as rendered: a template
+	 * or a site name that changes must not look like someone edited the text.
+	 */
 	public function written( int $target_id ): string {
 		$term = get_term( $target_id );
 		if ( ! $term || is_wp_error( $term ) ) {
 			return '';
 		}
-		return $term->description . "\n" . Seo::adapter()->term_description_meta( $target_id, $term->taxonomy );
+		return $term->description . "\n" . Seo::adapter()->term_raw_description_meta( $target_id, $term->taxonomy );
+	}
+
+	public function was_written( string $recorded, int $target_id ): bool {
+		if ( parent::was_written( $recorded, $target_id ) ) {
+			return true;
+		}
+		// Version 0.4.0 recorded the field of the SEO plugin as rendered.
+		$term = get_term( $target_id );
+		return $term && ! is_wp_error( $term )
+			&& $recorded === $term->description . "\n" . Seo::adapter()->term_description_meta( $target_id, $term->taxonomy );
 	}
 
 	public function apply( int $target_id, string $text ): bool {

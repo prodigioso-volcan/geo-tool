@@ -193,8 +193,8 @@ export default function Dashboard( { onOpenReview, onOpenArea } ) {
 		todo
 			.filter( ( item ) => item.severity === severity )
 			.reduce( ( sum, item ) => sum + item.count, 0 );
-	// Images without a correct alt text are required work too.
-	const required = left( 'required' ) + areas.images.pending;
+	const required = left( 'required' );
+	const imagesLeft = areas.images.pending;
 	const recommended = left( 'recommended' );
 	const budget = checks.find( ( check ) => check.id === 'budget' );
 	const connector = checks.find( ( check ) => check.id === 'connector' );
@@ -262,7 +262,7 @@ export default function Dashboard( { onOpenReview, onOpenArea } ) {
 				<div className="mdia-hero__text">
 					<StatusBadge state={ state } />
 					<p className="mdia-hero__summary">
-						{ required + recommended === 0
+						{ required + recommended + imagesLeft === 0
 							? __(
 									'Nothing is pending: the site is ready to deliver.',
 									'geo-tool'
@@ -289,6 +289,17 @@ export default function Dashboard( { onOpenReview, onOpenArea } ) {
 												'geo-tool'
 											),
 											recommended
+										),
+									imagesLeft > 0 &&
+										sprintf(
+											/* translators: %d: number of images. */
+											_n(
+												'%d image without a correct alt text.',
+												'%d images without a correct alt text.',
+												imagesLeft,
+												'geo-tool'
+											),
+											imagesLeft
 										),
 							  ]
 									.filter( Boolean )

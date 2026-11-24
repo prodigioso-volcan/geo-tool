@@ -169,6 +169,63 @@ class ChecksTest extends WP_UnitTestCase {
 		$this->assertNull( $this->finding( 'post.placeholder', 'post', $id ) );
 	}
 
+	public function test_the_sample_page_renamed_into_a_real_one_is_a_real_page() {
+		$id = $this->page( array( 'post_title' => 'Inicio', 'post_name' => 'sample-page' ) );
+
+		$this->assertNull( $this->finding( 'post.test_page', 'post', $id ) );
+		$this->assertNotNull( $this->finding( 'post.metadesc', 'post', $id ) );
+	}
+
+	public function test_pages_the_site_depends_on_are_never_test_pages() {
+		$front   = $this->page( array( 'post_title' => 'Prueba 2' ) );
+		$privacy = $this->page( array( 'post_title' => 'Test page' ) );
+		update_option( 'page_on_front', $front );
+		update_option( 'wp_page_for_privacy_policy', $privacy );
+		Engine::evaluate( 'post', $front );
+		Engine::evaluate( 'post', $privacy );
+
+		$this->assertNull( $this->finding( 'post.test_page', 'post', $front ) );
+		$this->assertNull( $this->finding( 'post.test_page', 'post', $privacy ) );
+		$this->assertNotNull( $this->finding( 'post.metadesc', 'post', $front ) );
+		delete_option( 'page_on_front' );
+		delete_option( 'wp_page_for_privacy_policy' );
+	}
+
+	public function test_a_title_that_may_be_real_is_only_a_suggestion_and_silences_nothing() {
+		$id = $this->page( array( 'post_title' => 'Testing' ) );
+
+		$row = $this->finding( 'post.test_page', 'post', $id );
+		$this->assertSame( 'maybe_test', $row['detail'] );
+		$this->assertSame( 'recommended', $row['severity'] );
+		$this->assertNotNull( $this->finding( 'post.metadesc', 'post', $id ), 'It may well be a real page: it is checked like one.' );
+	}
+
+	public function test_nothing_is_trashed_where_the_trash_deletes_for_good() {
+		$editor = self::factory()->user->create( array( 'role' => 'editor' ) );
+		$id     = $this->page( array( 'post_title' => 'Página de prueba' ) );
+		$row    = $this->finding( 'post.test_page', 'post', $id );
+		add_filter( 'mdia_trash_is_recoverable', '__return_false' );
+
+		$this->assertSame( 'mdia_no_trash', \MDIA\Checks\Finding_Actions::trash( (int) $row['id'], $editor )->get_error_code() );
+		$this->assertSame( 'publish', get_post_status( $id ) );
+		wp_set_current_user( $editor );
+		$this->assertFalse( \MDIA\Rest\Api::prepare_finding( $row )['can_trash'] );
+	}
+
+	public function test_trashing_keeps_what_people_decided_about_the_page() {
+		$editor = self::factory()->user->create( array( 'role' => 'editor' ) );
+		$id     = $this->page( array( 'post_title' => 'Testing' ) );
+		$image  = (int) $this->finding( 'post.featured_image', 'post', $id )['id'];
+		\MDIA\Checks\Finding_Actions::waive( $image, $editor );
+
+		$this->assertTrue( \MDIA\Checks\Finding_Actions::trash( (int) $this->finding( 'post.test_page', 'post', $id )['id'], $editor ) );
+
+		$this->assertSame( 'trash', get_post_status( $id ) );
+		$this->assertNull( $this->finding( 'post.test_page', 'post', $id ) );
+		$this->assertNull( $this->finding( 'post.metadesc', 'post', $id ) );
+		$this->assertSame( 'waived', ( new Findings() )->get( $image )['status'], 'Restoring the page from the trash does not ask again.' );
+	}
+
 	public function test_a_page_named_as_a_test_is_a_test_page() {
 		$id = $this->page( array( 'post_title' => 'Prueba 2' ) );
 

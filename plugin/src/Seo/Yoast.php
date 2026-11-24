@@ -120,6 +120,11 @@ final class Yoast implements Adapter {
 		return $this->render( $template, $term );
 	}
 
+	public function term_raw_description_meta( int $term_id, string $taxonomy ): string {
+		$term = get_term( $term_id, $taxonomy );
+		return $term && ! is_wp_error( $term ) ? trim( (string) \WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy, 'desc' ) ) : '';
+	}
+
 	public function set_term_description_meta( int $term_id, string $taxonomy, string $text ): bool {
 		\WPSEO_Taxonomy_Meta::set_value( $term_id, $taxonomy, 'wpseo_desc', sanitize_text_field( self::literal( $text ) ) );
 		return true;

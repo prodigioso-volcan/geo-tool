@@ -5,7 +5,7 @@ use MDIA\Checks\Detail;
 class DetailTest extends WP_UnitTestCase {
 
 	public function test_every_code_a_check_emits_reads_as_a_sentence() {
-		$codes = array( 'missing', 'too_short', 'too_long', 'same_as_title', 'duplicate', 'meta_missing', 'noindex', 'default_content', 'filler_text', 'several_h1', 'skipped_level', 'several_h1,skipped_level', 'blocks_all', 'long_site_name', 'test_title', 'fail' );
+		$codes = array( 'missing', 'too_short', 'too_long', 'same_as_title', 'duplicate', 'meta_missing', 'noindex', 'default_content', 'filler_text', 'several_h1', 'skipped_level', 'several_h1,skipped_level', 'blocks_all', 'long_site_name', 'test_title', 'maybe_test', 'fail' );
 		foreach ( $codes as $code ) {
 			$text = Detail::text( 'post.metadesc', $code, '' );
 			$this->assertNotSame( '', $text, $code );

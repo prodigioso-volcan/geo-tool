@@ -75,14 +75,42 @@ final class Placeholder {
 			|| in_array( mb_strtolower( trim( $title ) ), self::DEFAULT_TITLES, true );
 	}
 
-	/**
-	 * A title made only of a test word, with or without a number: "Test", "Prueba 2",
-	 * "Página de prueba". A real title that merely contains the word is not one.
-	 */
-	public static function is_test_title( string $title ): bool {
-		$title = mb_strtolower( trim( (string) preg_replace( '/\s+/u', ' ', $title ) ) );
+	public static function is_default_title( string $title ): bool {
+		return in_array( mb_strtolower( trim( $title ) ), self::DEFAULT_TITLES, true );
+	}
 
-		return (bool) preg_match( '/^((p[aá]gina|entrada|post|page)( de)? )?(pruebas?|test(ing)?|dummy|borrar|lorem ipsum|asdf+|sin t[ií]tulo|untitled)( (page|post|p[aá]gina|entrada))?( ?\d+)?$/u', $title );
+	/**
+	 * Whether a title is only a test word. 'sure' when nothing else explains it ("Página de
+	 * prueba", "Test 2", "Lorem ipsum"); 'maybe' when a real page could be called that
+	 * ("Testing" in a software company, "Pruebas" in a laboratory, "Untitled 3" in a portfolio).
+	 * A real title that merely contains the word ("Pruebas diagnósticas") is neither.
+	 *
+	 * @return string 'sure', 'maybe' or ''.
+	 */
+	public static function test_title( string $title ): string {
+		$title = mb_strtolower( trim( (string) preg_replace( '/\s+/u', ' ', $title ) ) );
+		$word  = '(pruebas?|prov(a|es)|test)';
+		$thing = '(p[aàá]gina|entrada|post|page)';
+
+		$sure = array(
+			"/^$thing( de)? $word( ?\d+)?$/u",              // Página de prueba, Pàgina de prova.
+			"/^$word $thing( ?\d+)?$/u",                     // Test page.
+			"/^$word ?\d+$/u",                               // Prueba 2, Test 3.
+			'/^(lorem ipsum|borrar|esborrar|asdf+)( ?\d+)?$/u',
+			'/^(sin t[ií]tulo|sense t[ií]tol|untitled)$/u',
+		);
+		foreach ( $sure as $pattern ) {
+			if ( preg_match( $pattern, $title ) ) {
+				return 'sure';
+			}
+		}
+
+		$maybe = "/^($word|testing|dummy|(sin t[ií]tulo|sense t[ií]tol|untitled) ?\d+)$/u";
+		return preg_match( $maybe, $title ) ? 'maybe' : '';
+	}
+
+	public static function is_test_title( string $title ): bool {
+		return '' !== self::test_title( $title );
 	}
 
 	public static function is_default_tagline( string $tagline ): bool {

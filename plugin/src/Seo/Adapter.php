@@ -59,6 +59,11 @@ interface Adapter {
 
 	public function term_description_meta( int $term_id, string $taxonomy ): string;
 
+	/**
+	 * Description typed for the term in the SEO plugin, before templates. '' when nobody wrote one.
+	 */
+	public function term_raw_description_meta( int $term_id, string $taxonomy ): string;
+
 	public function set_term_description_meta( int $term_id, string $taxonomy, string $text ): bool;
 
 	/**

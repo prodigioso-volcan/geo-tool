@@ -96,7 +96,7 @@ Reúne lo que falta en páginas, entradas, categorías y autores. Hay dos tipos 
 - **Los que se corrigen con un texto** (metadescripción, título SEO, extracto, descripción de categoría). Puedes pedir una propuesta a la IA o escribirlo tú. El contador te dice si el texto cabe en el tamaño recomendado.
 - **Los que se corrigen en el editor** (imagen destacada, encabezados, texto de relleno, campos vacíos). El botón **Editar** te lleva al sitio.
 
-Las **páginas de prueba** no se tratan como contenido por completar: se marcan para eliminar y no reciben ningún otro aviso. El botón **Enviar a la papelera** las retira de la web; se pueden recuperar desde la papelera de WordPress. Si una de ellas es contenido real, acéptala como está y se revisará como cualquier otra.
+Las **páginas de prueba** no se tratan como contenido por completar: se marcan para eliminar y no reciben ningún otro aviso. El botón **Enviar a la papelera** las retira de la web; se pueden recuperar desde la papelera de WordPress. Si una de ellas es contenido real, acéptala como está y se revisará como cualquier otra. Un título que también podría ser real («Testing», «Pruebas») es solo una sugerencia y no silencia los demás avisos. La portada, la página de entradas, la política de privacidad y las páginas de la tienda nunca se marcan, y si la web tiene la papelera desactivada el botón no aparece.
 
 **Aceptar como está** descarta un aviso que no aplica. En los avisos obligatorios solo puede hacerlo un administrador, y el panel lo sigue contando como excepción.
 
@@ -119,7 +119,7 @@ Comprueba los ajustes generales. Cada aviso tiene un botón que abre el ajuste q
 |---|---|---|
 | Imágenes | Texto alternativo en la biblioteca y en cada página | Obligatoria |
 | Páginas y entradas | Metadescripción: existe, mide entre 120 y 155 caracteres, no repite el título ni la de otra página | Obligatoria |
-| Páginas y entradas | Página de prueba para eliminar: el contenido de ejemplo de WordPress («Hello world!», «Sample Page») o una página titulada «Prueba», «Test 2»… | Obligatoria |
+| Páginas y entradas | Página de prueba para eliminar: el contenido de ejemplo de WordPress («Hello world!», «Sample Page») o una página titulada «Página de prueba», «Test 2»… | Obligatoria |
 | Páginas y entradas | Restos de plantilla: «lorem ipsum» o cifras sin rellenar («+xxx») | Obligatoria |
 | Páginas y entradas | Título en buscadores: no pasa de 60 caracteres ni se repite | Recomendada |
 | Páginas y entradas | Extracto en las entradas | Recomendada |

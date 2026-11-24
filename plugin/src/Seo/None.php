@@ -67,6 +67,10 @@ final class None implements Adapter {
 		return '';
 	}
 
+	public function term_raw_description_meta( int $term_id, string $taxonomy ): string {
+		return '';
+	}
+
 	public function set_term_description_meta( int $term_id, string $taxonomy, string $text ): bool {
 		return false;
 	}

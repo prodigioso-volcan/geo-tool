@@ -35,6 +35,7 @@ final class Detail {
 			'meta_missing'    => __( 'The description exists, but the one shown in search results is empty.', 'geo-tool' ),
 			'noindex'         => __( 'This published page asks search engines not to show it.', 'geo-tool' ),
 			'test_title'      => __( 'Its title says it is a test.', 'geo-tool' ),
+			'maybe_test'      => __( 'Its title looks like a test. If it is a real page, accept it as it is.', 'geo-tool' ),
 			'default_content' => __( 'It still has the sample content WordPress ships with.', 'geo-tool' ),
 			'filler_text'     => __( 'It contains filler text (lorem ipsum or similar).', 'geo-tool' ),
 			'several_h1'      => __( 'The content has more than one H1.', 'geo-tool' ),

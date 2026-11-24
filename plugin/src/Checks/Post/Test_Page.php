@@ -50,25 +50,61 @@ final class Test_Page extends Post_Check {
 
 	protected function check( \WP_Post $post ): ?array {
 		$detail = self::detect( $post );
-		return '' === $detail ? array() : array( $this->fail( $detail ) );
+		if ( '' === $detail ) {
+			return array();
+		}
+		// A title a real page could have is a suggestion, not something that blocks the delivery.
+		return array( $this->fail( $detail, '', '', self::MAYBE === $detail ? self::RECOMMENDED : self::REQUIRED ) );
 	}
 
+	public const MAYBE = 'maybe_test';
+
 	/**
-	 * @return string 'default_content', 'test_title' or '' when the page looks real.
+	 * @return string 'default_content', 'test_title', 'maybe_test' or '' when the page looks real.
 	 */
 	public static function detect( \WP_Post $post ): string {
-		if ( Placeholder::is_default_content( $post->post_name, $post->post_title ) ) {
+		if ( self::is_special( (int) $post->ID ) ) {
+			return '';
+		}
+		// The sample page renamed and rewritten keeps its old address; the title is what tells.
+		if ( Placeholder::is_default_title( $post->post_title ) ) {
 			return 'default_content';
 		}
-		return Placeholder::is_test_title( $post->post_title ) ? 'test_title' : '';
+		$kind = Placeholder::test_title( $post->post_title );
+		if ( 'sure' === $kind ) {
+			return 'test_title';
+		}
+		return 'maybe' === $kind ? self::MAYBE : '';
 	}
 
 	/**
-	 * Whether the page is to be deleted rather than completed: it looks like a test and
-	 * nobody has said it is real content.
+	 * Pages the site is built on (home, posts page, privacy policy, shop pages) are never tests,
+	 * whatever they are called.
+	 */
+	public static function is_special( int $post_id ): bool {
+		$special = array(
+			(int) get_option( 'page_on_front' ),
+			(int) get_option( 'page_for_posts' ),
+			(int) get_option( 'wp_page_for_privacy_policy' ),
+		);
+		foreach ( array( 'shop', 'cart', 'checkout', 'myaccount', 'terms' ) as $page ) {
+			$special[] = (int) get_option( 'woocommerce_' . $page . '_page_id' );
+		}
+
+		/**
+		 * Filters the ids of pages that are never treated as test pages.
+		 *
+		 * @param int[] $special Page ids.
+		 */
+		return in_array( $post_id, array_map( 'intval', (array) apply_filters( 'mdia_special_pages', array_filter( $special ) ) ), true );
+	}
+
+	/**
+	 * Whether the page is to be deleted rather than completed: it can only be a test and
+	 * nobody has said it is real content. The other checks stand aside for it.
 	 */
 	public static function is_pending( \WP_Post $post ): bool {
-		if ( '' === self::detect( $post ) ) {
+		if ( ! in_array( self::detect( $post ), array( 'default_content', 'test_title' ), true ) ) {
 			return false;
 		}
 		$row = ( new Findings() )->find( self::ID, 'post', (int) $post->ID, '' );

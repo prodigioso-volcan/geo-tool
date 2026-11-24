@@ -4,7 +4,7 @@ Tags: seo, geo, alt text, meta description, ai
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -67,6 +67,13 @@ New versions published in the project's GitHub repository show up in the Plugins
 The plugin relies on WP-Cron. If the dashboard shows background tasks in red, check that WP-Cron works on the site or set up a server cron job.
 
 == Changelog ==
+
+= 0.4.1 =
+* "Send to the trash" is not offered where the trash is switched off, because the page would be deleted for good.
+* Test pages: the home page, the posts page, the privacy policy and shop pages are never flagged. A sample page that was renamed is a real page. Titles a real page could have ("Testing", "Pruebas", "Untitled 3") are only a suggestion and silence no other check. Catalan titles are recognised.
+* Trashing a test page keeps what people had decided about it, in case it is restored.
+* Undo of a category description is no longer blocked when only the way the SEO plugin renders it changed.
+* Dashboard: images are counted apart from the other required items.
 
 = 0.4.0 =
 * Beyond images: checks meta descriptions, SEO titles, excerpts, headings, leftover filler text, empty ACF fields, featured images, category descriptions, author profiles and 15 site settings.

@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GEO Tool by JUNGLE 0.4.0\n"
+"Project-Id-Version: GEO Tool by JUNGLE 0.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/geo-tool\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-24T13:17:47+00:00\n"
+"POT-Creation-Date: 2026-11-24T13:28:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: geo-tool\n"
@@ -164,30 +164,34 @@ msgid "Its title says it is a test."
 msgstr ""
 
 #: src/Checks/Detail.php:38
-msgid "It still has the sample content WordPress ships with."
+msgid "Its title looks like a test. If it is a real page, accept it as it is."
 msgstr ""
 
 #: src/Checks/Detail.php:39
-msgid "It contains filler text (lorem ipsum or similar)."
+msgid "It still has the sample content WordPress ships with."
 msgstr ""
 
 #: src/Checks/Detail.php:40
-msgid "The content has more than one H1."
+msgid "It contains filler text (lorem ipsum or similar)."
 msgstr ""
 
 #: src/Checks/Detail.php:41
-msgid "The site name is long and it is added to the title of every page, so search engines cut the titles. Take it out of the title templates of the SEO plugin, or accept it as it is."
+msgid "The content has more than one H1."
 msgstr ""
 
 #: src/Checks/Detail.php:42
-msgid "A heading level is skipped (an H2 followed by an H4, for instance)."
+msgid "The site name is long and it is added to the title of every page, so search engines cut the titles. Take it out of the title templates of the SEO plugin, or accept it as it is."
 msgstr ""
 
 #: src/Checks/Detail.php:43
-msgid "robots.txt keeps every crawler out of the whole site."
+msgid "A heading level is skipped (an H2 followed by an H4, for instance)."
 msgstr ""
 
 #: src/Checks/Detail.php:44
+msgid "robots.txt keeps every crawler out of the whole site."
+msgstr ""
+
+#: src/Checks/Detail.php:45
 msgid "This is not in place yet."
 msgstr ""
 
@@ -223,31 +227,31 @@ msgstr ""
 msgid "Only test pages can be deleted from here."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:244
-msgid "This page is the home page or the posts page of the site. Choose another one in Settings > Reading first."
+#: src/Checks/Finding_Actions.php:245
+msgid "The trash is switched off on this site, so the page would be deleted for good. Delete it from the list of pages instead."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:247
+#: src/Checks/Finding_Actions.php:248
 msgid "The page could not be sent to the trash."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:264
+#: src/Checks/Finding_Actions.php:289
 msgid "There is no applied change to undo here."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:270
+#: src/Checks/Finding_Actions.php:295
 msgid "The text was changed after it was approved. Undoing would overwrite that change."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:307
+#: src/Checks/Finding_Actions.php:332
 msgid "Unknown field."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:335
+#: src/Checks/Finding_Actions.php:360
 msgid "This item no longer exists."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:341
+#: src/Checks/Finding_Actions.php:366
 msgid "You are not allowed to do this."
 msgstr ""
 
@@ -772,12 +776,12 @@ msgstr ""
 
 #: assets/src/components/labels.js:13
 #: assets/src/components/labels.js:26
-#: assets/src/tabs/Dashboard.js:403
+#: assets/src/tabs/Dashboard.js:414
 msgid "To review"
 msgstr ""
 
 #: assets/src/components/labels.js:14
-#: assets/src/tabs/Dashboard.js:397
+#: assets/src/tabs/Dashboard.js:408
 msgid "To generate"
 msgstr ""
 
@@ -787,7 +791,7 @@ msgstr ""
 
 #: assets/src/components/labels.js:16
 #: assets/src/components/labels.js:29
-#: assets/src/tabs/Dashboard.js:409
+#: assets/src/tabs/Dashboard.js:420
 msgid "Applied"
 msgstr ""
 
@@ -802,7 +806,7 @@ msgstr ""
 
 #: assets/src/components/labels.js:19
 #: assets/src/components/labels.js:28
-#: assets/src/tabs/Dashboard.js:415
+#: assets/src/tabs/Dashboard.js:426
 msgid "Errors"
 msgstr ""
 
@@ -1069,34 +1073,42 @@ msgid_plural "%d recommended items left."
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/src/tabs/Dashboard.js:299
+#. translators: %d: number of images.
+#: assets/src/tabs/Dashboard.js:296
+#, js-format
+msgid "%d image without a correct alt text."
+msgid_plural "%d images without a correct alt text."
+msgstr[0] ""
+msgstr[1] ""
+
+#: assets/src/tabs/Dashboard.js:310
 msgid "No SEO plugin is active. Meta descriptions, SEO titles and most site checks need Yoast SEO or Rank Math; until one is active they are not checked."
 msgstr ""
 
 #. translators: %d: number of exceptions.
-#: assets/src/tabs/Dashboard.js:309
+#: assets/src/tabs/Dashboard.js:320
 #, js-format
 msgid "%d required check was accepted as it is by an administrator."
 msgid_plural "%d required checks were accepted as they are by an administrator."
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/src/tabs/Dashboard.js:336
+#: assets/src/tabs/Dashboard.js:347
 msgid "What is left to do"
 msgstr ""
 
-#: assets/src/tabs/Dashboard.js:342
+#: assets/src/tabs/Dashboard.js:353
 msgid "No page, category, author or site check is pending."
 msgstr ""
 
 #. translators: 1: images with correct alt text, 2: total images, 3: percentage.
-#: assets/src/tabs/Dashboard.js:377
+#: assets/src/tabs/Dashboard.js:388
 #, js-format
 msgid "%1$d of %2$d images have correct alt text (%3$d%%)"
 msgstr ""
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Dashboard.js:434
+#: assets/src/tabs/Dashboard.js:445
 #: assets/src/wizard/Wizard.js:401
 #, js-format
 msgid "Generate proposal for %d image"
@@ -1104,41 +1116,41 @@ msgid_plural "Generate proposals for %d images"
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/src/tabs/Dashboard.js:446
+#: assets/src/tabs/Dashboard.js:457
 msgid "Fix the AI connector first."
 msgstr ""
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Dashboard.js:457
+#: assets/src/tabs/Dashboard.js:468
 #, js-format
 msgid "%d image in the generation queue."
 msgid_plural "%d images in the generation queue."
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/src/tabs/Dashboard.js:471
+#: assets/src/tabs/Dashboard.js:482
 #: assets/src/tabs/Findings.js:335
 msgid "Pause"
 msgstr ""
 
-#: assets/src/tabs/Dashboard.js:481
+#: assets/src/tabs/Dashboard.js:492
 msgid "System"
 msgstr ""
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Dashboard.js:512
+#: assets/src/tabs/Dashboard.js:523
 #, js-format
 msgid "%d image in the media library is not shown on any published page. It is not counted."
 msgid_plural "%d images in the media library are not shown on any published page. They are not counted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/src/tabs/Dashboard.js:521
+#: assets/src/tabs/Dashboard.js:532
 msgid "See them"
 msgstr ""
 
 #. translators: %d: number of uses.
-#: assets/src/tabs/Dashboard.js:530
+#: assets/src/tabs/Dashboard.js:541
 #, js-format
 msgid "%d use of an image is inside a page builder. The plugin updates the media library but cannot rewrite that page."
 msgid_plural "%d uses of images are inside a page builder. The plugin updates the media library but cannot rewrite those pages."

@@ -72,12 +72,21 @@ class SeoRulesTest extends TestCase {
 		$this->assertSame( '', Placeholder::filler_excerpt( 'La fundación promueve la investigación biomédica.' ) );
 	}
 
-	public function test_titles_that_are_only_a_test_word_are_test_pages() {
-		foreach ( array( 'Prueba', 'prueba 2', 'Página de prueba', 'Pagina de pruebas', 'Test', 'TEST 3', 'Test page', 'Testing', 'Entrada de prueba', 'Borrar', 'Dummy', 'Lorem ipsum', 'asdf', 'Sin título', 'Untitled' ) as $title ) {
-			$this->assertTrue( Placeholder::is_test_title( $title ), $title );
+	public function test_titles_that_can_only_be_a_test_are_sure() {
+		foreach ( array( 'prueba 2', 'Página de prueba', 'Pagina de pruebas', 'TEST 3', 'Test page', 'Entrada de prueba', 'Borrar', 'Lorem ipsum', 'asdf', 'Sin título', 'Untitled', 'Pàgina de prova', 'Prova 2', 'Sense títol' ) as $title ) {
+			$this->assertSame( 'sure', Placeholder::test_title( $title ), $title );
 		}
+	}
+
+	public function test_a_single_word_that_may_be_a_real_page_is_only_a_maybe() {
+		foreach ( array( 'Prueba', 'Pruebas', 'Test', 'Testing', 'Dummy', 'Prova', 'Untitled 3', 'Sin título 2' ) as $title ) {
+			$this->assertSame( 'maybe', Placeholder::test_title( $title ), $title );
+		}
+	}
+
+	public function test_real_titles_that_contain_a_test_word_are_not_tests() {
 		foreach ( array( 'Pruebas diagnósticas', 'Test de esfuerzo', 'Demo', 'La Fundación', 'Banco de pruebas de software', '' ) as $title ) {
-			$this->assertFalse( Placeholder::is_test_title( $title ), $title );
+			$this->assertSame( '', Placeholder::test_title( $title ), $title );
 		}
 	}
 
@@ -87,6 +96,8 @@ class SeoRulesTest extends TestCase {
 		$this->assertTrue( Placeholder::is_default_content( 'sample-page', 'Sample Page' ) );
 		$this->assertTrue( Placeholder::is_default_content( 'pagina-ejemplo', 'Página de ejemplo' ) );
 		$this->assertFalse( Placeholder::is_default_content( 'la-fundacion', 'La Fundación' ) );
+		$this->assertTrue( Placeholder::is_default_title( 'Hello world!' ) );
+		$this->assertFalse( Placeholder::is_default_title( 'Inicio' ) );
 	}
 
 	public function test_default_tagline_is_recognised() {

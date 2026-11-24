@@ -524,7 +524,7 @@ final class Api {
 			'view_url'       => 'post' === $row['target_type'] ? (string) get_permalink( $target_id ) : '',
 			'can_edit'       => $check->can_edit( get_current_user_id(), $target_id ),
 			'can_waive'      => $check->can_edit( get_current_user_id(), $target_id ) && ( 'required' !== $row['severity'] || $manager ),
-			'can_trash'      => \MDIA\Checks\Post\Test_Page::ID === $row['check_id'] && 'waived' !== $row['status'] && current_user_can( 'delete_post', $target_id ),
+			'can_trash'      => \MDIA\Checks\Finding_Actions::can_trash( $row, get_current_user_id() ),
 			'can_undo'       => 'applied' === $row['status'] && null !== $row['previous_value'] && \MDIA\Checks\Finding_Actions::is_untouched( $row, $check ),
 		);
 	}

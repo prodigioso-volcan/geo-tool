@@ -264,12 +264,12 @@ msgstr "Repetido"
 
 #: assets/src/components/labels.js:13
 #: assets/src/components/labels.js:26
-#: assets/src/tabs/Dashboard.js:403
+#: assets/src/tabs/Dashboard.js:414
 msgid "To review"
 msgstr "Por revisar"
 
 #: assets/src/components/labels.js:14
-#: assets/src/tabs/Dashboard.js:397
+#: assets/src/tabs/Dashboard.js:408
 msgid "To generate"
 msgstr "Por generar"
 
@@ -279,7 +279,7 @@ msgstr "Aplicando"
 
 #: assets/src/components/labels.js:16
 #: assets/src/components/labels.js:29
-#: assets/src/tabs/Dashboard.js:409
+#: assets/src/tabs/Dashboard.js:420
 msgid "Applied"
 msgstr "Aplicadas"
 
@@ -294,7 +294,7 @@ msgstr "Ignoradas"
 
 #: assets/src/components/labels.js:19
 #: assets/src/components/labels.js:28
-#: assets/src/tabs/Dashboard.js:415
+#: assets/src/tabs/Dashboard.js:426
 msgid "Errors"
 msgstr "Errores"
 
@@ -468,13 +468,13 @@ msgstr[0] "%d imagen en cola para generar."
 msgstr[1] "%d imágenes en cola para generar."
 
 #. translators: 1: images with correct alt text, 2: total images, 3: percentage.
-#: assets/src/tabs/Dashboard.js:377
+#: assets/src/tabs/Dashboard.js:388
 #, js-format
 msgid "%1$d of %2$d images have correct alt text (%3$d%%)"
 msgstr "%1$d de %2$d imágenes tienen un texto alternativo correcto (%3$d %%)"
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Dashboard.js:434
+#: assets/src/tabs/Dashboard.js:445
 #: assets/src/wizard/Wizard.js:401
 #, js-format
 msgid "Generate proposal for %d image"
@@ -482,25 +482,25 @@ msgid_plural "Generate proposals for %d images"
 msgstr[0] "Generar propuesta para %d imagen"
 msgstr[1] "Generar propuestas para %d imágenes"
 
-#: assets/src/tabs/Dashboard.js:446
+#: assets/src/tabs/Dashboard.js:457
 msgid "Fix the AI connector first."
 msgstr "Antes hay que arreglar el conector de IA."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Dashboard.js:457
+#: assets/src/tabs/Dashboard.js:468
 #, js-format
 msgid "%d image in the generation queue."
 msgid_plural "%d images in the generation queue."
 msgstr[0] "%d imagen en la cola de generación."
 msgstr[1] "%d imágenes en la cola de generación."
 
-#: assets/src/tabs/Dashboard.js:471
+#: assets/src/tabs/Dashboard.js:482
 #: assets/src/tabs/Findings.js:335
 msgid "Pause"
 msgstr "Pausar"
 
 #. translators: %d: number of uses.
-#: assets/src/tabs/Dashboard.js:530
+#: assets/src/tabs/Dashboard.js:541
 #, js-format
 msgid "%d use of an image is inside a page builder. The plugin updates the media library but cannot rewrite that page."
 msgid_plural "%d uses of images are inside a page builder. The plugin updates the media library but cannot rewrite those pages."
@@ -837,27 +837,27 @@ msgstr "La descripción existe, pero la que se muestra en los resultados de bús
 msgid "This published page asks search engines not to show it."
 msgstr "Esta página publicada pide a los buscadores que no la muestren."
 
-#: src/Checks/Detail.php:38
+#: src/Checks/Detail.php:39
 msgid "It still has the sample content WordPress ships with."
 msgstr "Conserva el contenido de ejemplo que trae WordPress."
 
-#: src/Checks/Detail.php:39
+#: src/Checks/Detail.php:40
 msgid "It contains filler text (lorem ipsum or similar)."
 msgstr "Contiene texto de relleno (lorem ipsum o parecido)."
 
-#: src/Checks/Detail.php:40
+#: src/Checks/Detail.php:41
 msgid "The content has more than one H1."
 msgstr "El contenido tiene más de un H1."
 
-#: src/Checks/Detail.php:42
+#: src/Checks/Detail.php:43
 msgid "A heading level is skipped (an H2 followed by an H4, for instance)."
 msgstr "Se salta un nivel de encabezado (por ejemplo, un H2 seguido de un H4)."
 
-#: src/Checks/Detail.php:43
+#: src/Checks/Detail.php:44
 msgid "robots.txt keeps every crawler out of the whole site."
 msgstr "El archivo robots.txt impide el paso de todos los rastreadores a todo el sitio."
 
-#: src/Checks/Detail.php:44
+#: src/Checks/Detail.php:45
 msgid "This is not in place yet."
 msgstr "Todavía no está configurado."
 
@@ -877,19 +877,19 @@ msgstr "No se ha podido guardar el texto."
 msgid "A new proposal cannot be requested for this item in its current state."
 msgstr "No se puede pedir una nueva propuesta para este elemento en su estado actual."
 
-#: src/Checks/Finding_Actions.php:264
+#: src/Checks/Finding_Actions.php:289
 msgid "There is no applied change to undo here."
 msgstr "Aquí no hay ningún cambio aplicado que deshacer."
 
-#: src/Checks/Finding_Actions.php:307
+#: src/Checks/Finding_Actions.php:332
 msgid "Unknown field."
 msgstr "Campo desconocido."
 
-#: src/Checks/Finding_Actions.php:335
+#: src/Checks/Finding_Actions.php:360
 msgid "This item no longer exists."
 msgstr "Este elemento ya no existe."
 
-#: src/Checks/Finding_Actions.php:341
+#: src/Checks/Finding_Actions.php:366
 msgid "You are not allowed to do this."
 msgstr "No tienes permiso para hacer esto."
 
@@ -1259,18 +1259,18 @@ msgid "Open the list."
 msgstr "Abrir la lista."
 
 #. translators: %d: number of exceptions.
-#: assets/src/tabs/Dashboard.js:309
+#: assets/src/tabs/Dashboard.js:320
 #, js-format
 msgid "%d required check was accepted as it is by an administrator."
 msgid_plural "%d required checks were accepted as they are by an administrator."
 msgstr[0] "Un administrador ha aceptado como está %d comprobación obligatoria."
 msgstr[1] "Un administrador ha aceptado como están %d comprobaciones obligatorias."
 
-#: assets/src/tabs/Dashboard.js:336
+#: assets/src/tabs/Dashboard.js:347
 msgid "What is left to do"
 msgstr "Qué falta por hacer"
 
-#: assets/src/tabs/Dashboard.js:342
+#: assets/src/tabs/Dashboard.js:353
 msgid "No page, category, author or site check is pending."
 msgstr "No queda pendiente ninguna comprobación de páginas, categorías, autores ni del sitio."
 
@@ -1292,19 +1292,19 @@ msgid_plural "%d proposals to review"
 msgstr[0] "%d propuesta por revisar"
 msgstr[1] "%d propuestas por revisar"
 
-#: assets/src/tabs/Dashboard.js:481
+#: assets/src/tabs/Dashboard.js:492
 msgid "System"
 msgstr "Sistema"
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Dashboard.js:512
+#: assets/src/tabs/Dashboard.js:523
 #, js-format
 msgid "%d image in the media library is not shown on any published page. It is not counted."
 msgid_plural "%d images in the media library are not shown on any published page. They are not counted."
 msgstr[0] "%d imagen de la biblioteca de medios no aparece en ninguna página publicada. No se cuenta."
 msgstr[1] "%d imágenes de la biblioteca de medios no aparecen en ninguna página publicada. No se cuentan."
 
-#: assets/src/tabs/Dashboard.js:521
+#: assets/src/tabs/Dashboard.js:532
 msgid "See them"
 msgstr "Verlas"
 
@@ -1388,7 +1388,7 @@ msgstr "Aquí no queda nada pendiente."
 msgid "Nothing here."
 msgstr "Aquí no hay nada."
 
-#: src/Checks/Detail.php:41
+#: src/Checks/Detail.php:42
 msgid "The site name is long and it is added to the title of every page, so search engines cut the titles. Take it out of the title templates of the SEO plugin, or accept it as it is."
 msgstr "El nombre del sitio es largo y se añade al título de todas las páginas, así que los buscadores cortan los títulos. Quítalo de las plantillas de título del plugin de SEO o acéptalo como está."
 
@@ -1400,7 +1400,7 @@ msgstr "Este elemento ya está decidido. Deshazlo o vuelve a revisarlo antes."
 msgid "The AI is not allowed to read page text. An administrator can allow it in the settings."
 msgstr "La IA no tiene permiso para leer el texto de las páginas. Un administrador puede permitirlo en los ajustes."
 
-#: src/Checks/Finding_Actions.php:270
+#: src/Checks/Finding_Actions.php:295
 msgid "The text was changed after it was approved. Undoing would overwrite that change."
 msgstr "El texto se cambió después de aprobarlo. Deshacer sobrescribiría ese cambio."
 
@@ -1408,7 +1408,7 @@ msgstr "El texto se cambió después de aprobarlo. Deshacer sobrescribiría ese 
 msgid "GEO Tool fills in the fields of the SEO plugin (Yoast SEO or Rank Math), which is what publishes them. Without one, titles and descriptions cannot be checked or written."
 msgstr "GEO Tool rellena los campos del plugin de SEO (Yoast SEO o Rank Math), que es quien los publica. Sin uno de ellos no se pueden comprobar ni escribir títulos y descripciones."
 
-#: assets/src/tabs/Dashboard.js:299
+#: assets/src/tabs/Dashboard.js:310
 msgid "No SEO plugin is active. Meta descriptions, SEO titles and most site checks need Yoast SEO or Rank Math; until one is active they are not checked."
 msgstr "No hay ningún plugin de SEO activo. Las metadescripciones, los títulos SEO y casi todas las comprobaciones del sitio necesitan Yoast SEO o Rank Math; hasta que haya uno activo no se comprueban."
 
@@ -1428,11 +1428,7 @@ msgstr "Su título indica que es una prueba."
 msgid "Only test pages can be deleted from here."
 msgstr "Desde aquí solo se pueden eliminar páginas de prueba."
 
-#: src/Checks/Finding_Actions.php:244
-msgid "This page is the home page or the posts page of the site. Choose another one in Settings > Reading first."
-msgstr "Esta página es la portada o la página de entradas del sitio. Elige antes otra en Ajustes > Lectura."
-
-#: src/Checks/Finding_Actions.php:247
+#: src/Checks/Finding_Actions.php:248
 msgid "The page could not be sent to the trash."
 msgstr "No se ha podido enviar la página a la papelera."
 
@@ -1486,3 +1482,19 @@ msgid "%d recommended item left."
 msgid_plural "%d recommended items left."
 msgstr[0] "%d recomendada pendiente."
 msgstr[1] "%d recomendadas pendientes."
+
+#: src/Checks/Detail.php:38
+msgid "Its title looks like a test. If it is a real page, accept it as it is."
+msgstr "Su título parece de prueba. Si es una página real, acéptala como está."
+
+#: src/Checks/Finding_Actions.php:245
+msgid "The trash is switched off on this site, so the page would be deleted for good. Delete it from the list of pages instead."
+msgstr "Esta web tiene la papelera desactivada, así que la página se borraría para siempre. Bórrala desde el listado de páginas."
+
+#. translators: %d: number of images.
+#: assets/src/tabs/Dashboard.js:296
+#, js-format
+msgid "%d image without a correct alt text."
+msgid_plural "%d images without a correct alt text."
+msgstr[0] "%d imagen sin un texto alternativo correcto."
+msgstr[1] "%d imágenes sin un texto alternativo correcto."

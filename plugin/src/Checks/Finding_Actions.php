@@ -234,20 +234,45 @@ final class Finding_Actions {
 			return $row;
 		}
 		$post = Post\Test_Page::ID === $row['check_id'] ? get_post( (int) $row['target_id'] ) : null;
-		if ( ! $post || 'waived' === $row['status'] || '' === Post\Test_Page::detect( $post ) ) {
+		if ( ! $post || 'waived' === $row['status'] || 'publish' !== $post->post_status || '' === Post\Test_Page::detect( $post ) ) {
 			return new \WP_Error( 'mdia_not_test_page', __( 'Only test pages can be deleted from here.', 'geo-tool' ) );
 		}
 		if ( ! user_can( $user_id, 'delete_post', $post->ID ) ) {
 			return self::forbidden();
 		}
-		if ( in_array( (int) $post->ID, array( (int) get_option( 'page_on_front' ), (int) get_option( 'page_for_posts' ) ), true ) ) {
-			return new \WP_Error( 'mdia_in_use', __( 'This page is the home page or the posts page of the site. Choose another one in Settings > Reading first.', 'geo-tool' ) );
+		// Where WordPress has no trash, "trashing" deletes for good: that is never done from here.
+		if ( ! self::trash_is_recoverable() ) {
+			return new \WP_Error( 'mdia_no_trash', __( 'The trash is switched off on this site, so the page would be deleted for good. Delete it from the list of pages instead.', 'geo-tool' ) );
 		}
 		if ( ! wp_trash_post( $post->ID ) ) {
 			return new \WP_Error( 'mdia_apply_failed', __( 'The page could not be sent to the trash.', 'geo-tool' ) );
 		}
-		( new Findings() )->delete_for_target( 'post', (int) $post->ID );
+		// Out of the site: nothing is pending about it. What people decided stays, in case it comes back.
+		\MDIA\Content\Page_Text::flush();
+		Engine::evaluate( 'post', (int) $post->ID );
 		return true;
+	}
+
+	/**
+	 * Whether the button can be offered: the same conditions the action checks, without the action.
+	 */
+	public static function can_trash( array $row, int $user_id ): bool {
+		$post = Post\Test_Page::ID === $row['check_id'] ? get_post( (int) $row['target_id'] ) : null;
+		return $post
+			&& 'waived' !== $row['status']
+			&& 'publish' === $post->post_status
+			&& '' !== Post\Test_Page::detect( $post )
+			&& user_can( $user_id, 'delete_post', $post->ID )
+			&& self::trash_is_recoverable();
+	}
+
+	private static function trash_is_recoverable(): bool {
+		/**
+		 * Filters whether a trashed page can be recovered on this site.
+		 *
+		 * @param bool $recoverable False when EMPTY_TRASH_DAYS is 0.
+		 */
+		return (bool) apply_filters( 'mdia_trash_is_recoverable', defined( 'EMPTY_TRASH_DAYS' ) && EMPTY_TRASH_DAYS > 0 );
 	}
 
 	/**
@@ -319,7 +344,7 @@ final class Finding_Actions {
 	 * was recorded are given the benefit of the doubt.
 	 */
 	public static function is_untouched( array $row, Check $check ): bool {
-		return null === ( $row['applied_value'] ?? null ) || (string) $row['applied_value'] === $check->written( (int) $row['target_id'] );
+		return null === ( $row['applied_value'] ?? null ) || $check->was_written( (string) $row['applied_value'], (int) $row['target_id'] );
 	}
 
 	/**

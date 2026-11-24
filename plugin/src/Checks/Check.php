@@ -94,6 +94,13 @@ abstract class Check {
 	}
 
 	/**
+	 * Whether what an approval recorded is still what is there.
+	 */
+	public function was_written( string $recorded, int $target_id ): bool {
+		return $recorded === $this->written( $target_id );
+	}
+
+	/**
 	 * Restores a previous value on undo. Defaults to applying it.
 	 */
 	public function restore( int $target_id, string $value ): bool {

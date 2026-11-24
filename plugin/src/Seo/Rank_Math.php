@@ -150,6 +150,10 @@ final class Rank_Math implements Adapter {
 		return self::is_automatic( $template ) ? '' : $this->render( $template, $term );
 	}
 
+	public function term_raw_description_meta( int $term_id, string $taxonomy ): string {
+		return trim( (string) get_term_meta( $term_id, 'rank_math_description', true ) );
+	}
+
 	public function set_term_description_meta( int $term_id, string $taxonomy, string $text ): bool {
 		$text = sanitize_text_field( self::literal( $text ) );
 		if ( '' === $text ) {

@@ -253,6 +253,21 @@ class TextFlowTest extends WP_UnitTestCase {
 		$this->assertSame( $later, \MDIA\Seo\Seo::adapter()->term_description_meta( $cat, 'category' ) );
 	}
 
+	public function test_undo_of_a_term_is_not_blocked_by_how_the_seo_plugin_renders_its_field() {
+		$cat = self::factory()->category->create( array( 'name' => 'Vela', 'description' => 'Rutas en velero por las rías gallegas, con mapas, mareas y consejos para cada nivel de experiencia.' ) );
+		self::factory()->post->create( array( 'post_status' => 'publish', 'post_category' => array( $cat ) ) );
+		Engine::evaluate( 'term', $cat );
+		$row = $this->finding( 'term.description', $cat, 'term' );
+		Finding_Actions::approve( $row['id'], 'Rutas en velero por las rías gallegas, con mapas y mareas, pensadas para quien busca en la web.', $this->editor );
+
+		$applied = ( new Findings() )->get( $row['id'] )['applied_value'];
+		$this->assertStringContainsString( 'pensadas para quien busca', $applied );
+
+		// The same text, shown differently (a variable of the SEO plugin resolving to something else).
+		add_filter( 'wpseo_replacements', static fn( $replacements ) => $replacements + array( 'busca' => 'BUSCA' ) );
+		$this->assertTrue( Finding_Actions::undo( $row['id'], $this->editor ) );
+	}
+
 	public function test_only_an_accepted_finding_can_be_put_back_under_review() {
 		$id  = $this->page();
 		$fid = $this->finding( 'post.metadesc', $id )['id'];

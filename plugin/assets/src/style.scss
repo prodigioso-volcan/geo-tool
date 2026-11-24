@@ -309,35 +309,6 @@
 	}
 }
 
-.mdia-tiles--areas {
-	margin-top: 0;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.mdia-area__state {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	font-size: 18px;
-	font-weight: 600;
-}
-
-.mdia-todo {
-	margin: 0;
-
-	li {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-		gap: 4px 10px;
-		margin-bottom: 10px;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-}
-
 .mdia-tag--required {
 	border-color: #b32d2e;
 	color: #8a2424;
@@ -475,7 +446,11 @@
 	}
 
 	&__state {
+		display: flex;
+		align-items: center;
+		gap: 6px;
 		font-size: 14px;
+		font-weight: 600;
 	}
 
 	&__count {
@@ -753,8 +728,23 @@
 		border-left: 0;
 	}
 
+}
+
+// The admin bar of WordPress is taller below this width.
+@media (max-width: 782px) {
+
 	.mdia-bulk {
 		top: 46px;
+	}
+}
+
+// Where the system replaces colours, the chosen status still has to stand out.
+@media (forced-colors: active) {
+
+	.mdia-chips input:checked + span {
+		outline: 3px solid;
+		outline-offset: -3px;
+		font-weight: 600;
 	}
 }
 
