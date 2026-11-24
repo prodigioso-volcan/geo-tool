@@ -16,7 +16,7 @@ final class Menu {
 
 	public const SLUG = 'mdia';
 
-	private const HOOK = 'media_page_mdia';
+	private const HOOK = 'toplevel_page_mdia';
 
 	public static function register(): void {
 		add_action( 'admin_menu', array( self::class, 'add_page' ) );
@@ -24,17 +24,19 @@ final class Menu {
 	}
 
 	public static function url( string $tab = '' ): string {
-		$url = admin_url( 'upload.php?page=' . self::SLUG );
+		$url = admin_url( 'admin.php?page=' . self::SLUG );
 		return '' === $tab ? $url : add_query_arg( 'tab', $tab, $url );
 	}
 
 	public static function add_page(): void {
-		add_media_page(
+		add_menu_page(
 			'GEO Tool',
 			'GEO Tool',
 			'mdia_review',
 			self::SLUG,
-			array( self::class, 'render' )
+			array( self::class, 'render' ),
+			'dashicons-search',
+			58
 		);
 	}
 
@@ -70,6 +72,19 @@ final class Menu {
 			'connectorsUrl' => admin_url( 'options-connectors.php' ),
 			'siteHealthUrl' => admin_url( 'site-health.php' ),
 			'maxLength'     => \MDIA\AI\Response_Sanitizer::MAX_LENGTH,
+			'textConsent'   => (bool) Settings::get( 'text_consent' ),
+			'seoPlugin'     => \MDIA\Seo\Seo::adapter()->name(),
+			'checks'        => array_values(
+				array_map(
+					static fn( $check ): array => array(
+						'id'    => $check->id(),
+						'label' => $check->label(),
+						'fix'   => $check->fix(),
+						'area'  => \MDIA\Health\Status::area_of( $check->target_type() ),
+					),
+					\MDIA\Checks\Registry::all()
+				)
+			),
 		);
 		wp_add_inline_script( 'mdia-admin', 'window.mdiaData = ' . wp_json_encode( $data ) . ';', 'before' );
 	}

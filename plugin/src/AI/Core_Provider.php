@@ -133,11 +133,25 @@ final class Core_Provider implements Provider {
 		return $valid;
 	}
 
+	/**
+	 * Output tokens allowed per request. The texts are short, but models that reason before
+	 * answering spend output tokens on it and return nothing if the limit is tight.
+	 */
+	public static function max_tokens(): int {
+		/**
+		 * Filters the output token limit of each AI request.
+		 *
+		 * @param int $tokens Default 2000.
+		 */
+		$tokens = apply_filters( 'mdia_max_tokens', 2000 );
+		return max( 200, min( 8000, is_numeric( $tokens ) ? (int) $tokens : 0 ) );
+	}
+
 	private function builder( string $system, string $prompt, string $data_uri = '' ) {
 		$builder = wp_ai_client_prompt()
 			->using_system_instruction( $system )
 			->with_text( $prompt )
-			->using_max_tokens( 200 );
+			->using_max_tokens( self::max_tokens() );
 
 		if ( '' !== $data_uri ) {
 			$builder = $builder->with_file( $data_uri );

@@ -11,6 +11,7 @@ class GeneratorTest extends WP_UnitTestCase {
 
 	public function set_up() {
 		parent::set_up();
+		$this->images_in_use = true;
 		$this->fake = MDIA_Fake_Provider::install();
 		Settings::update( array( 'auto_generate_new' => false, 'wizard_done' => true ) );
 	}
@@ -34,6 +35,7 @@ class GeneratorTest extends WP_UnitTestCase {
 	}
 
 	public function test_prompt_carries_context_and_language() {
+		$this->images_in_use = false; // The page each image is on is part of what is checked.
 		$id = $this->make_real_image( 300, 200, 'jpeg', 'IMG_2034' );
 		$this->make_post( $this->image_block( $id, 'IMG_2034' ), array( 'post_title' => 'Rutas por las Rías Baixas' ) );
 

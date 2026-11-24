@@ -12,6 +12,7 @@ class StatusTest extends WP_UnitTestCase {
 		parent::set_up();
 		\MDIA\Settings::update( array( 'auto_generate_new' => false, 'wizard_done' => true ) );
 		$this->fake = MDIA_Fake_Provider::install();
+		add_filter( 'mdia_checks', '__return_empty_array' );
 		update_option( 'mdia_full_audit', array( 'running' => false, 'started_at' => gmdate( 'c' ), 'finished_at' => gmdate( 'c' ) ) );
 	}
 
@@ -84,11 +85,23 @@ class StatusTest extends WP_UnitTestCase {
 	}
 
 	public function test_images_to_generate_are_amber() {
-		$this->make_image();
+		$this->show_on_a_page( $this->make_image() );
 
 		$status = Status::compute( true );
 		$this->assertSame( 'amber', $status['state'] );
 		$this->assertSame( 1, $status['counts']['to_generate'] );
+	}
+
+	public function test_images_no_page_uses_are_counted_apart_and_do_not_block_green() {
+		$this->make_image();
+		$this->make_image( 'Vista aérea del puerto de Vigo' );
+
+		$status = Status::compute( true );
+		$this->assertSame( 1, $status['counts']['unused'] );
+		$this->assertSame( 1, $status['counts']['total'], 'Only images in use are measured.' );
+		$this->assertSame( 0, $status['counts']['to_generate'] );
+		$this->assertSame( 'green', $status['areas']['images']['state'] );
+		$this->assertSame( 0, $status['areas']['images']['pending'] );
 	}
 
 	public function test_decisions_by_people_count_as_correct() {
@@ -209,6 +222,78 @@ class StatusTest extends WP_UnitTestCase {
 		ob_start();
 		\MDIA\Admin\Dashboard_Widget::render();
 		$html = ob_get_clean();
-		$this->assertStringContainsString( 'upload.php?page=mdia', $html );
+		$this->assertStringContainsString( 'admin.php?page=mdia', $html );
+	}
+
+	private function with_checks(): void {
+		remove_all_filters( 'mdia_checks' );
+		// A site whose settings are all in order, so each test controls what fails.
+		add_filter( 'mdia_checks', static fn( $checks ) => array_filter( $checks, static fn( $check ) => 'site' !== $check->target_type() ) );
+	}
+
+	public function test_areas_are_reported_with_their_totals() {
+		$this->with_checks();
+		if ( ! class_exists( 'WPSEO_Meta' ) ) {
+			$this->markTestSkipped( 'Yoast SEO is not installed.' );
+		}
+		$a = self::factory()->post->create( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Uno' ) );
+		$b = self::factory()->post->create( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Dos' ) );
+		\MDIA\Seo\Seo::adapter()->set_post_description( $b, 'Cinco rutas a pie por la costa de las Rías Baixas, con mapas, tiempos y consejos para cada tramo.' );
+		\MDIA\Checks\Engine::evaluate( 'post', $b );
+		foreach ( ( new \MDIA\Data\Findings() )->query( array( 'target_id' => $b, 'per_page' => 50 ) )['items'] as $row ) {
+			( new \MDIA\Data\Findings() )->delete( $row['id'] );
+		}
+
+		$status = Status::compute( true );
+
+		$this->assertSame( array( 'images', 'pages', 'taxonomy', 'site' ), array_keys( $status['areas'] ) );
+		$this->assertSame( 2, $status['areas']['pages']['total'] );
+		$this->assertSame( 1, $status['areas']['pages']['pending'] );
+		$this->assertSame( 'red', $status['areas']['pages']['state'], 'A missing meta description is required.' );
+		$this->assertSame( 'red', $status['state'] );
+		$todo = wp_list_pluck( $status['todo'], 'count', 'check_id' );
+		$this->assertSame( 1, $todo['post.metadesc'] );
+		$this->assertSame( 'required', $status['todo'][0]['severity'], 'Required items come first.' );
+		$this->assertNotSame( '', $status['todo'][0]['label'] );
+	}
+
+	public function test_recommended_findings_are_amber_and_waived_required_ones_are_green_with_exceptions() {
+		$this->with_checks();
+		$findings = new \MDIA\Data\Findings();
+		$findings->upsert( 'post.featured_image', 'post', 4001, array( 'status' => 'open', 'severity' => 'recommended' ) );
+		$this->assertSame( 'amber', Status::compute( true )['state'] );
+
+		$findings->upsert( 'post.featured_image', 'post', 4001, array( 'status' => 'waived' ) );
+		$findings->upsert( 'post.metadesc', 'post', 4001, array( 'status' => 'waived', 'severity' => 'required', 'reviewed_by' => 1 ) );
+		$status = Status::compute( true );
+
+		$this->assertSame( 'green', $status['state'] );
+		$this->assertSame( 1, $status['exceptions'], 'Only required checks accepted as they are count as exceptions.' );
+	}
+
+	public function test_text_findings_are_counted_by_what_is_left_to_do() {
+		remove_filter( 'mdia_checks', '__return_empty_array' );
+		$findings = new \MDIA\Data\Findings();
+		$findings->upsert( 'post.metadesc', 'post', 4101, array( 'status' => 'open', 'severity' => 'required' ) );
+		$findings->upsert( 'post.metadesc', 'post', 4102, array( 'status' => 'error', 'severity' => 'required', 'queued' => 1 ) );
+		$findings->upsert( 'post.metadesc', 'post', 4103, array( 'status' => 'proposed', 'severity' => 'required', 'proposed_value' => 'x' ) );
+		$findings->upsert( 'post.featured_image', 'post', 4101, array( 'status' => 'open', 'severity' => 'recommended' ) );
+
+		$this->assertSame(
+			array( 'to_generate' => 2, 'to_review' => 1, 'queued' => 1 ),
+			Status::compute()['texts'],
+			'Only the checks that are fixed with a text count here.'
+		);
+	}
+
+	public function test_site_checks_feed_the_site_area() {
+		remove_all_filters( 'mdia_checks' );
+		update_option( 'blog_public', '0' );
+
+		$status = Status::compute( true );
+
+		$this->assertSame( 'red', $status['areas']['site']['state'] );
+		$this->assertGreaterThan( 0, $status['areas']['site']['pending'] );
+		$this->assertContains( 'site.visible', wp_list_pluck( $status['todo'], 'check_id' ) );
 	}
 }

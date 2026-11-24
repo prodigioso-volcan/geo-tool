@@ -11,9 +11,9 @@ defined( 'ABSPATH' ) || exit;
 
 final class Schema {
 
-	public const DB_VERSION = 1;
+	public const DB_VERSION = 4;
 
-	public const TABLES = array( 'mdia_items', 'mdia_usages', 'mdia_changes' );
+	public const TABLES = array( 'mdia_items', 'mdia_usages', 'mdia_changes', 'mdia_findings' );
 
 	private const CAPS = array(
 		'administrator' => array( 'mdia_manage', 'mdia_review' ),
@@ -59,6 +59,7 @@ final class Schema {
 				issues varchar(190) NOT NULL DEFAULT '',
 				occurrences smallint(5) unsigned NOT NULL DEFAULT 1,
 				manageable tinyint(1) NOT NULL DEFAULT 1,
+				kind varchar(10) NOT NULL DEFAULT '',
 				PRIMARY KEY  (id),
 				UNIQUE KEY usage_key (attachment_id,post_id,manageable),
 				KEY post_id (post_id)
@@ -82,7 +83,41 @@ final class Schema {
 			) $charset;"
 		);
 
+		// Version 2: one row per failed (or decided) SEO/GEO check and target.
+		dbDelta(
+			"CREATE TABLE {$wpdb->prefix}mdia_findings (
+				id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+				check_id varchar(40) NOT NULL,
+				target_type varchar(10) NOT NULL,
+				target_id bigint(20) unsigned NOT NULL DEFAULT 0,
+				target_key varchar(100) NOT NULL DEFAULT '',
+				status varchar(20) NOT NULL DEFAULT 'open',
+				severity varchar(12) NOT NULL DEFAULT 'recommended',
+				current_value text NULL,
+				proposed_value text NULL,
+				previous_value text NULL,
+				applied_value text NULL,
+				detail text NULL,
+				provider varchar(50) NULL,
+				model varchar(100) NULL,
+				attempts tinyint(3) unsigned NOT NULL DEFAULT 0,
+				queued tinyint(1) NOT NULL DEFAULT 0,
+				last_error text NULL,
+				reviewed_by bigint(20) unsigned NULL,
+				updated_at datetime NULL,
+				generated_at datetime NULL,
+				resolved_at datetime NULL,
+				PRIMARY KEY  (id),
+				UNIQUE KEY target (check_id,target_type,target_id,target_key),
+				KEY status (status),
+				KEY target_lookup (target_type,target_id)
+			) $charset;"
+		);
+
 		self::grant_capabilities();
+
+		// Rows written before usages had a kind: what the plugin can rewrite is content, the rest a page builder.
+		$wpdb->query( "UPDATE {$wpdb->prefix}mdia_usages SET kind = IF( manageable = 1, 'content', 'builder' ) WHERE kind = ''" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		update_option( 'mdia_db_version', self::DB_VERSION, false );
 	}
@@ -133,6 +168,10 @@ final class Schema {
 		foreach ( $options as $option ) {
 			delete_option( $option );
 		}
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $wpdb->esc_like( '_transient_timeout_mdia_' ) . '%' ) );
+		$wpdb->query( "DELETE FROM {$wpdb->postmeta} WHERE meta_key IN ('_mdia_fp_desc','_mdia_fp_title')" );
+		$wpdb->query( "DELETE FROM {$wpdb->termmeta} WHERE meta_key = '_mdia_wrote_seo_desc'" );
+		wp_cache_flush();
 
 		foreach ( self::CAPS as $role_name => $caps ) {
 			$role = get_role( $role_name );

@@ -70,13 +70,15 @@ export default function Settings( { onRunWizard } ) {
 						disabled={ busy }
 						onClick={ () =>
 							run(
-								async () =>
-									setValues(
-										await saveSettings( {
-											daily_limit: values.daily_limit,
-											auto_generate_new: values.auto_generate_new,
-										} )
-									),
+								async () => {
+									const saved = await saveSettings( {
+										daily_limit: values.daily_limit,
+										auto_generate_new: values.auto_generate_new,
+										text_consent: !! values.text_consent,
+									} );
+									window.mdiaData.textConsent = !! saved.text_consent;
+									setValues( saved );
+								},
 								__( 'Settings saved.', 'geo-tool' )
 							)
 						}

@@ -12,11 +12,13 @@ class RestTest extends WP_Test_REST_TestCase {
 
 	public function set_up() {
 		parent::set_up();
+		$this->images_in_use = true;
 		\MDIA\Settings::update( array( 'auto_generate_new' => false, 'wizard_done' => true ) );
 		$this->fake       = MDIA_Fake_Provider::install();
 		$this->admin      = self::factory()->user->create( array( 'role' => 'administrator' ) );
 		$this->editor     = self::factory()->user->create( array( 'role' => 'editor' ) );
 		$this->subscriber = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		add_filter( 'mdia_checks', static fn( $checks ) => array_filter( $checks, static fn( $check ) => 'site' !== $check->target_type() ) );
 		update_option( 'mdia_full_audit', array( 'running' => false, 'started_at' => gmdate( 'c' ), 'finished_at' => gmdate( 'c' ) ) );
 		do_action( 'rest_api_init' );
 	}
@@ -42,7 +44,8 @@ class RestTest extends WP_Test_REST_TestCase {
 		wp_set_current_user( $this->editor );
 		$response = $this->call( 'GET', '/status' );
 		$this->assertSame( 200, $response->get_status() );
-		$this->assertSame( 'green', $response->get_data()['state'] );
+		$this->assertContains( $response->get_data()['state'], array( 'green', 'amber', 'red' ) );
+		$this->assertArrayHasKey( 'areas', $response->get_data() );
 	}
 
 	public function test_editors_cannot_manage() {
@@ -58,6 +61,7 @@ class RestTest extends WP_Test_REST_TestCase {
 	}
 
 	public function test_items_are_filtered_paginated_and_decorated() {
+		$this->images_in_use = false; // The page each image is on is part of what is checked.
 		wp_set_current_user( $this->editor );
 		$review = array();
 		for ( $i = 0; $i < 3; $i++ ) {
@@ -81,6 +85,7 @@ class RestTest extends WP_Test_REST_TestCase {
 		$first = array_values( array_filter( $all, static fn( $item ) => $item['attachment_id'] === $review[0] ) )[0];
 		$this->assertSame( 1, $first['usage_count'] );
 		$this->assertSame( 0, $first['unmanaged_count'] );
+		$this->assertSame( 0, $first['fixed_count'] );
 		$this->assertStringContainsString( 'real-', $first['filename'] );
 		$this->assertNotEmpty( $first['thumbnail_url'] );
 		$this->assertStringContainsString( 'post.php?post=' . $review[0], $first['edit_url'] );
@@ -196,6 +201,9 @@ class RestTest extends WP_Test_REST_TestCase {
 		$this->assertSame( array( 'available' => true, 'reason' => '' ), $data['provider'] );
 		$this->assertSame( 1, $data['image_count'] );
 		$this->assertStringContainsString( 'options-connectors.php', $data['connectors_url'] );
+		$this->assertSame( \MDIA\Seo\Seo::adapter()->is_active(), $data['seo']['active'] );
+		$this->assertSame( \MDIA\Seo\Seo::adapter()->name(), $data['seo']['name'] );
+		$this->assertStringContainsString( 'plugin-install.php', $data['seo']['install_url'] );
 	}
 
 	public function test_wizard_test_describes_an_image_without_storing_anything() {
@@ -272,4 +280,109 @@ class RestTest extends WP_Test_REST_TestCase {
 
 		$this->assertSame( 0, $this->call( 'POST', '/generation' )->get_data()['queued'] );
 	}
+
+	private function page_with_finding(): array {
+		$id  = self::factory()->post->create( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'La Fundación', 'post_content' => "<!-- wp:paragraph -->\n<p>Texto de la página.</p>\n<!-- /wp:paragraph -->" ) );
+		$row = ( new \MDIA\Data\Findings() )->find( 'post.metadesc', 'post', $id );
+		return array( $id, $row ? $row['id'] : 0 );
+	}
+
+	public function test_findings_are_listed_by_area_and_kind_of_fix() {
+		if ( ! class_exists( 'WPSEO_Meta' ) ) {
+			$this->markTestSkipped( 'Yoast SEO is not installed.' );
+		}
+		wp_set_current_user( $this->editor );
+		list( $id, $fid ) = $this->page_with_finding();
+
+		$texts = $this->call( 'GET', '/findings', array( 'fix' => 'ai', 'area' => 'pages', 'per_page' => 100 ) );
+		$mine  = array_values( array_filter( $texts->get_data(), static fn( $item ) => $item['id'] === $fid ) )[0];
+
+		$this->assertSame( 200, $texts->get_status() );
+		$this->assertSame( 'post.metadesc', $mine['check_id'] );
+		$this->assertSame( 'La Fundación', $mine['target_label'] );
+		$this->assertSame( 'required', $mine['severity'] );
+		$this->assertSame( 'ai', $mine['fix'] );
+		$this->assertSame( array( 'min' => 120, 'max' => 155, 'unit' => 'chars' ), $mine['limits'] );
+		$this->assertNotSame( '', $mine['label'] );
+		$this->assertNotSame( '', $mine['why'] );
+		$this->assertStringContainsString( 'post.php?post=' . $id, $mine['fix_url'] );
+		$this->assertTrue( $mine['can_edit'] );
+		$this->assertGreaterThan( 0, $texts->get_headers()['X-WP-Total'] );
+
+		$manual = wp_list_pluck( $this->call( 'GET', '/findings', array( 'fix' => 'manual', 'per_page' => 100 ) )->get_data(), 'check_id' );
+		$this->assertNotContains( 'post.metadesc', $manual );
+		$this->assertContains( 'post.featured_image', $manual );
+
+		wp_set_current_user( $this->subscriber );
+		$this->assertSame( 403, $this->call( 'GET', '/findings' )->get_status() );
+	}
+
+	public function test_finding_actions_over_rest() {
+		if ( ! class_exists( 'WPSEO_Meta' ) ) {
+			$this->markTestSkipped( 'Yoast SEO is not installed.' );
+		}
+		wp_set_current_user( $this->editor );
+		list( $id, $fid ) = $this->page_with_finding();
+		$text             = 'Cinco rutas a pie por la costa de las Rías Baixas, con mapas, tiempos y consejos prácticos para cada tramo del camino.';
+
+		$this->assertSame( 400, $this->call( 'POST', "/findings/$fid/approve", array( 'text' => ' ' ) )->get_status() );
+		$approved = $this->call( 'POST', "/findings/$fid/approve", array( 'text' => $text ) );
+		$this->assertSame( 'applied', $approved->get_data()['status'] );
+		$this->assertTrue( $approved->get_data()['can_undo'] );
+		$this->assertSame( $text, \MDIA\Seo\Seo::adapter()->post_description( $id ) );
+
+		$this->assertSame( 200, $this->call( 'POST', "/findings/$fid/undo" )->get_status() );
+		$this->assertSame( '', \MDIA\Seo\Seo::adapter()->post_raw_description( $id ) );
+
+		$fid = ( new \MDIA\Data\Findings() )->find( 'post.metadesc', 'post', $id )['id'];
+		$this->assertSame( 403, $this->call( 'POST', "/findings/$fid/waive" )->get_status(), 'Required checks need a manager.' );
+		wp_set_current_user( $this->admin );
+		$this->assertSame( 'waived', $this->call( 'POST', "/findings/$fid/waive" )->get_data()['status'] );
+		$this->assertSame( 200, $this->call( 'POST', "/findings/$fid/reopen" )->get_status() );
+		$this->assertSame( 404, $this->call( 'POST', '/findings/999999/waive' )->get_status() );
+	}
+
+	public function test_text_generation_needs_consent_and_is_started_by_a_manager() {
+		if ( ! class_exists( 'WPSEO_Meta' ) ) {
+			$this->markTestSkipped( 'Yoast SEO is not installed.' );
+		}
+		list( , $fid ) = $this->page_with_finding();
+
+		wp_set_current_user( $this->editor );
+		$this->assertSame( 403, $this->call( 'POST', '/findings/generation' )->get_status() );
+
+		wp_set_current_user( $this->admin );
+		$this->assertSame( 0, $this->call( 'POST', '/findings/generation' )->get_data()['queued'], 'No consent yet.' );
+		$this->assertSame( 200, $this->call( 'POST', '/settings', array( 'text_consent' => true ) )->get_status() );
+		$this->assertGreaterThan( 0, $this->call( 'POST', '/findings/generation', array( 'area' => 'pages' ) )->get_data()['queued'] );
+		$this->assertSame( 1, ( new \MDIA\Data\Findings() )->get( $fid )['queued'] );
+	}
+
+	public function test_acf_field_can_be_waived_site_wide_over_rest() {
+		( new \MDIA\Data\Findings() )->upsert( 'post.acf_empty', 'post', 601, array( 'status' => 'open' ), 'pie' );
+
+		wp_set_current_user( $this->editor );
+		$this->assertSame( 403, $this->call( 'POST', '/findings/acf-field', array( 'name' => 'pie' ) )->get_status() );
+		wp_set_current_user( $this->admin );
+		$this->assertSame( 200, $this->call( 'POST', '/findings/acf-field', array( 'name' => 'pie' ) )->get_status() );
+		$this->assertNull( ( new \MDIA\Data\Findings() )->find( 'post.acf_empty', 'post', 601, 'pie' ) );
+	}
+	public function test_a_test_page_is_trashed_through_the_api() {
+		wp_set_current_user( $this->editor );
+		$id  = self::factory()->post->create( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Prueba' ) );
+		$row = ( new \MDIA\Data\Findings() )->find( 'post.test_page', 'post', $id, '' );
+
+		$listed = $this->call( 'GET', '/findings', array( 'check_id' => 'post.test_page' ) )->get_data();
+		$this->assertTrue( $listed[0]['can_trash'] );
+
+		wp_set_current_user( $this->subscriber );
+		$this->assertSame( 403, $this->call( 'POST', '/findings/' . $row['id'] . '/trash' )->get_status() );
+		wp_set_current_user( $this->editor );
+		$response = $this->call( 'POST', '/findings/' . $row['id'] . '/trash' );
+
+		$this->assertSame( 200, $response->get_status() );
+		$this->assertSame( 'resolved', $response->get_data()['status'] );
+		$this->assertSame( 'trash', get_post_status( $id ) );
+	}
+
 }

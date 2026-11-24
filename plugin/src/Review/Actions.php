@@ -76,7 +76,7 @@ final class Actions {
 			return $row;
 		}
 		// Applied and decorative images hold a decision that has "undo"; a paid request must not silently reset it.
-		if ( ! in_array( $row['status'], array( 'needs_review', 'needs_generation', 'error', 'ignored' ), true ) ) {
+		if ( ! in_array( $row['status'], array( 'needs_review', 'needs_generation', 'error', 'ignored', 'unused' ), true ) ) {
 			return new \WP_Error( 'mdia_invalid_status', __( 'A new proposal cannot be requested for this image in its current state.', 'geo-tool' ) );
 		}
 
@@ -89,9 +89,10 @@ final class Actions {
 				'attempts'     => 0,
 				'human_locked' => 0,
 				'queued'       => 0,
+				'provider'     => null,
 			)
 		);
-		Scheduler::enqueue_generation( array( $attachment_id ) );
+		Scheduler::enqueue_generation( array( $attachment_id ), true );
 		return true;
 	}
 

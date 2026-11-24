@@ -19,11 +19,6 @@ msgstr ""
 msgid "GEO Tool by JUNGLE"
 msgstr "GEO Tool by JUNGLE"
 
-#. Description of the plugin
-#: geo-tool.php
-msgid "Audits image alt text in the media library and in published content, and proposes better alt text with AI for human review."
-msgstr "Revisa el texto alternativo de las imágenes en la biblioteca de medios y en el contenido publicado, y propone con IA textos mejores para que una persona los revise."
-
 #: geo-tool.php:29
 msgid "GEO Tool by JUNGLE requires WordPress 7.0 or later."
 msgstr "GEO Tool by JUNGLE necesita WordPress 7.0 o superior."
@@ -67,15 +62,15 @@ msgstr[1] "%d propuestas esperan tu revisión."
 msgid "Open the alt text dashboard"
 msgstr "Abrir el panel de textos alternativos"
 
-#: src/Admin/Menu.php:45
+#: src/Admin/Menu.php:47
 msgid "The plugin interface has not been built. Run the build step and reload."
 msgstr "La interfaz del plugin no está compilada. Ejecuta la compilación y recarga la página."
 
-#: src/Admin/Menu.php:49
+#: src/Admin/Menu.php:51
 msgid "Loading…"
 msgstr "Cargando…"
 
-#: src/Admin/Menu.php:50
+#: src/Admin/Menu.php:52
 msgid "This screen needs JavaScript."
 msgstr "Esta pantalla necesita JavaScript."
 
@@ -84,7 +79,7 @@ msgid "The configured AI provider cannot describe images."
 msgstr "El proveedor de IA configurado no puede describir imágenes."
 
 #: src/AI/Generator.php:101
-#: src/Rest/Api.php:363
+#: src/Rest/Api.php:620
 msgid "The AI provider did not return a usable description."
 msgstr "El proveedor de IA no ha devuelto una descripción utilizable."
 
@@ -122,96 +117,96 @@ msgstr "%1$d de %2$d imágenes tienen un texto alternativo correcto."
 msgid "Accessibility"
 msgstr "Accesibilidad"
 
-#: src/Health/Status.php:83
+#: src/Health/Status.php:226
 msgid "AI connector"
 msgstr "Conector de IA"
 
-#: src/Health/Status.php:88
+#: src/Health/Status.php:231
 msgid "No AI provider is connected. Add an API key in Settings > Connectors."
 msgstr "No hay ningún proveedor de IA conectado. Añade una clave de API en Ajustes > Conectores."
 
-#: src/Health/Status.php:89
+#: src/Health/Status.php:232
 #: assets/src/wizard/Wizard.js:68
 msgid "The connected AI provider cannot describe images. Connect one that accepts image input."
 msgstr "El proveedor de IA conectado no puede describir imágenes. Conecta uno que admita imágenes."
 
-#: src/Health/Status.php:95
+#: src/Health/Status.php:238
 msgid "The provider is not available."
 msgstr "El proveedor no está disponible."
 
 #. translators: %s: error message returned by the AI provider.
-#: src/Health/Status.php:97
+#: src/Health/Status.php:240
 #, php-format
 msgid "The last request to the AI provider failed: %s"
 msgstr "La última petición al proveedor de IA ha fallado: %s"
 
 #. translators: %s: human-readable time difference, e.g. "2 hours".
-#: src/Health/Status.php:102
+#: src/Health/Status.php:245
 #, php-format
 msgid "Connected. Last successful answer %s ago."
 msgstr "Conectado. Última respuesta correcta hace %s."
 
-#: src/Health/Status.php:103
+#: src/Health/Status.php:246
 msgid "Connected. Not used yet."
 msgstr "Conectado. Aún no se ha usado."
 
-#: src/Health/Status.php:109
+#: src/Health/Status.php:252
 msgid "Background tasks"
 msgstr "Tareas en segundo plano"
 
-#: src/Health/Status.php:114
+#: src/Health/Status.php:257
 msgid "Tasks are waiting but none has run in the last 24 hours. Check that WP-Cron works on this site."
 msgstr "Hay tareas esperando, pero ninguna se ha ejecutado en las últimas 24 horas. Comprueba que WP-Cron funciona en este sitio."
 
-#: src/Health/Status.php:118
+#: src/Health/Status.php:261
 msgid "No task has needed to run yet."
 msgstr "Todavía no ha hecho falta ejecutar ninguna tarea."
 
 #. translators: %s: human-readable time difference, e.g. "4 mins".
-#: src/Health/Status.php:120
+#: src/Health/Status.php:263
 #, php-format
 msgid "Last run %s ago."
 msgstr "Última ejecución hace %s."
 
-#: src/Health/Status.php:126
+#: src/Health/Status.php:269
 msgid "Published content"
 msgstr "Contenido publicado"
 
 #. translators: %d: number of pages.
-#: src/Health/Status.php:135
+#: src/Health/Status.php:278
 #, php-format
 msgid "%d page still shows an image with missing or poor alt text."
 msgid_plural "%d pages still show an image with missing or poor alt text."
 msgstr[0] "%d página sigue mostrando una imagen sin texto alternativo o con uno deficiente."
 msgstr[1] "%d páginas siguen mostrando una imagen sin texto alternativo o con uno deficiente."
 
-#: src/Health/Status.php:138
+#: src/Health/Status.php:281
 msgid "In sync with the media library."
 msgstr "Sincronizado con la biblioteca de medios."
 
-#: src/Health/Status.php:142
+#: src/Health/Status.php:285
 msgid "Daily AI usage"
 msgstr "Uso diario de IA"
 
 #. translators: 1: calls used today, 2: daily limit.
-#: src/Health/Status.php:144
+#: src/Health/Status.php:287
 #, php-format
 msgid "%1$d of %2$d requests used today."
 msgstr "Hoy se han usado %1$d de %2$d peticiones."
 
-#: src/Health/Status.php:147
+#: src/Health/Status.php:290
 msgid "Generation resumes tomorrow."
 msgstr "La generación continúa mañana."
 
-#: src/Rest/Api.php:333
+#: src/Rest/Api.php:590
 msgid "The media library has no images to test with."
 msgstr "La biblioteca de medios no tiene imágenes con las que probar."
 
-#: src/Rest/Api.php:338
+#: src/Rest/Api.php:595
 msgid "No AI provider that accepts images is connected."
 msgstr "No hay conectado ningún proveedor de IA que admita imágenes."
 
-#: src/Rest/Api.php:348
+#: src/Rest/Api.php:605
 msgid "The daily limit of AI requests has been reached."
 msgstr "Se ha alcanzado el límite diario de peticiones de IA."
 
@@ -219,31 +214,27 @@ msgstr "Se ha alcanzado el límite diario de peticiones de IA."
 msgid "The alt text cannot be empty. Mark the image as decorative instead."
 msgstr "El texto alternativo no puede estar vacío. Si la imagen no lo necesita, márcala como decorativa."
 
-#: src/Review/Actions.php:112
+#: src/Review/Actions.php:113
 msgid "There is no applied change to undo for this image."
 msgstr "Esta imagen no tiene ningún cambio aplicado que deshacer."
 
-#: src/Review/Actions.php:206
+#: src/Review/Actions.php:207
 msgid "You are not allowed to review alt text."
 msgstr "No tienes permiso para revisar textos alternativos."
 
-#: src/Review/Actions.php:211
+#: src/Review/Actions.php:212
 msgid "This image is not tracked by the plugin."
 msgstr "El plugin no hace seguimiento de esta imagen."
 
-#: src/Review/Actions.php:214
+#: src/Review/Actions.php:215
 msgid "A change is still being applied to this image. Try again in a moment."
 msgstr "Todavía se está aplicando un cambio a esta imagen. Vuelve a intentarlo en un momento."
 
-#: assets/src/App.js:43
+#: assets/src/App.js:65
 msgid "Dashboard"
 msgstr "Panel"
 
-#: assets/src/App.js:44
-msgid "Review"
-msgstr "Revisión"
-
-#: assets/src/App.js:49
+#: assets/src/App.js:73
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -272,12 +263,13 @@ msgid "Duplicate"
 msgstr "Repetido"
 
 #: assets/src/components/labels.js:13
-#: assets/src/tabs/Dashboard.js:190
+#: assets/src/components/labels.js:26
+#: assets/src/tabs/Dashboard.js:403
 msgid "To review"
 msgstr "Por revisar"
 
 #: assets/src/components/labels.js:14
-#: assets/src/tabs/Dashboard.js:184
+#: assets/src/tabs/Dashboard.js:397
 msgid "To generate"
 msgstr "Por generar"
 
@@ -286,12 +278,13 @@ msgid "Applying"
 msgstr "Aplicando"
 
 #: assets/src/components/labels.js:16
-#: assets/src/tabs/Dashboard.js:196
+#: assets/src/components/labels.js:29
+#: assets/src/tabs/Dashboard.js:409
 msgid "Applied"
 msgstr "Aplicadas"
 
 #: assets/src/components/labels.js:17
-#: assets/src/components/ReviewRow.js:225
+#: assets/src/components/ReviewRow.js:286
 msgid "Decorative"
 msgstr "Decorativa"
 
@@ -300,7 +293,8 @@ msgid "Ignored"
 msgstr "Ignoradas"
 
 #: assets/src/components/labels.js:19
-#: assets/src/tabs/Dashboard.js:202
+#: assets/src/components/labels.js:28
+#: assets/src/tabs/Dashboard.js:415
 msgid "Errors"
 msgstr "Errores"
 
@@ -324,8 +318,8 @@ msgstr "Límite diario de peticiones de IA"
 msgid "The plugin stops when it reaches this number and continues the next day. It protects you from unexpected costs."
 msgstr "El plugin se detiene al llegar a este número y continúa al día siguiente. Así evitas costes inesperados."
 
-#: assets/src/components/Preferences.js:44
-#: assets/src/wizard/Wizard.js:141
+#: assets/src/components/Preferences.js:57
+#: assets/src/wizard/Wizard.js:152
 msgid "Privacy: to describe an image, the plugin sends a reduced copy of it to the AI provider you connected. Nothing is sent to anyone else."
 msgstr "Privacidad: para describir una imagen, el plugin envía una copia reducida al proveedor de IA que has conectado. No se envía nada a nadie más."
 
@@ -341,28 +335,30 @@ msgstr "Marcada como decorativa."
 msgid "Ignored."
 msgstr "Ignorada."
 
+#: assets/src/components/FindingRow.js:12
 #: assets/src/components/ReviewRow.js:18
 msgid "A new proposal has been requested."
 msgstr "Se ha pedido una propuesta nueva."
 
+#: assets/src/components/FindingRow.js:13
 #: assets/src/components/ReviewRow.js:19
 msgid "Change undone."
 msgstr "Cambio deshecho."
 
 #. translators: %s: image name.
-#: assets/src/components/ReviewRow.js:71
+#: assets/src/components/ReviewRow.js:82
 #, js-format
 msgid "Select %s"
 msgstr "Seleccionar %s"
 
 #. translators: %s: image name.
-#: assets/src/components/ReviewRow.js:85
+#: assets/src/components/ReviewRow.js:96
 #, js-format
 msgid "Open %s in the media library"
 msgstr "Abrir %s en la biblioteca de medios"
 
 #. translators: %d: number of pages.
-#: assets/src/components/ReviewRow.js:98
+#: assets/src/components/ReviewRow.js:109
 #, js-format
 msgid "Used on %d page"
 msgid_plural "Used on %d pages"
@@ -370,95 +366,101 @@ msgstr[0] "Se usa en %d página"
 msgstr[1] "Se usa en %d páginas"
 
 #. translators: %d: number of pages.
-#: assets/src/components/ReviewRow.js:111
+#: assets/src/components/ReviewRow.js:136
 #, js-format
 msgid "%d in a page builder (not updated)"
 msgid_plural "%d in page builders (not updated)"
 msgstr[0] "%d en un constructor visual (no se actualiza)"
 msgstr[1] "%d en constructores visuales (no se actualizan)"
 
-#: assets/src/components/ReviewRow.js:125
+#: assets/src/components/ReviewRow.js:150
 msgid "Current alt text:"
 msgstr "Texto alternativo actual:"
 
-#: assets/src/components/ReviewRow.js:128
+#: assets/src/components/ReviewRow.js:153
 msgid "(empty)"
 msgstr "(vacío)"
 
 #. translators: %s: image name.
-#: assets/src/components/ReviewRow.js:161
+#: assets/src/components/ReviewRow.js:202
 #, js-format
 msgid "Proposed alt text for %s"
 msgstr "Texto alternativo propuesto para %s"
 
 #. translators: 1: current length, 2: recommended maximum.
-#: assets/src/components/ReviewRow.js:177
+#: assets/src/components/ReviewRow.js:218
 #, js-format
 msgid "%1$d of %2$d recommended characters"
 msgstr "%1$d de %2$d caracteres recomendados"
 
-#: assets/src/components/ReviewRow.js:191
+#: assets/src/components/FindingRow.js:203
+#: assets/src/components/ReviewRow.js:251
 msgid "Approve"
 msgstr "Aprobar"
 
-#: assets/src/components/ReviewRow.js:197
+#: assets/src/components/FindingRow.js:212
+#: assets/src/components/ReviewRow.js:257
 msgid "Regenerate"
 msgstr "Regenerar"
 
-#: assets/src/components/ReviewRow.js:205
+#: assets/src/components/ReviewRow.js:265
 msgid "Generate now"
 msgstr "Generar ahora"
 
-#: assets/src/components/ReviewRow.js:210
+#: assets/src/components/FindingRow.js:234
+#: assets/src/components/ReviewRow.js:270
 msgid "In the generation queue…"
 msgstr "En la cola de generación…"
 
-#: assets/src/components/ReviewRow.js:216
+#: assets/src/components/ReviewRow.js:276
 msgid "Retry"
 msgstr "Reintentar"
 
-#: assets/src/components/ReviewRow.js:227
+#: assets/src/components/ReviewRow.js:239
+#: assets/src/components/ReviewRow.js:288
 msgid "Ignore"
 msgstr "Ignorar"
 
-#: assets/src/components/ReviewRow.js:233
+#: assets/src/components/ReviewRow.js:245
+#: assets/src/components/ReviewRow.js:294
 msgid "Generate proposal"
 msgstr "Generar propuesta"
 
-#: assets/src/components/ReviewRow.js:236
+#: assets/src/components/FindingRow.js:300
+#: assets/src/components/ReviewRow.js:297
 msgid "Undo"
 msgstr "Deshacer"
 
-#: assets/src/components/ReviewRow.js:239
+#: assets/src/components/ReviewRow.js:300
 msgid "Applying to the library and your pages…"
 msgstr "Aplicando en la biblioteca y en tus páginas…"
 
-#: assets/src/tabs/Dashboard.js:18
+#: assets/src/tabs/Dashboard.js:19
 msgid "OK"
 msgstr "Correcto"
 
-#: assets/src/tabs/Dashboard.js:19
+#: assets/src/tabs/Dashboard.js:20
 msgid "Attention"
 msgstr "Atención"
 
-#: assets/src/tabs/Dashboard.js:20
+#: assets/src/tabs/Dashboard.js:21
 msgid "Problem"
 msgstr "Problema"
 
 #. translators: 1: number of images, 2: name of the group, e.g. "To review".
-#: assets/src/tabs/Dashboard.js:32
+#: assets/src/tabs/Dashboard.js:33
 #, js-format
 msgid "%1$d images: %2$s. Open the list."
 msgstr "%1$d imágenes: %2$s. Abrir la lista."
 
 #. translators: 1: number of images, 2: sentence with today's AI usage.
-#: assets/src/tabs/Dashboard.js:96
+#: assets/src/tabs/Dashboard.js:208
 #, js-format
 msgid "Generate proposals for %1$d images? Each one is a paid request to your AI provider. %2$s Nothing is published until you review it."
 msgstr "¿Generar propuestas para %1$d imágenes? Cada una es una petición de pago a tu proveedor de IA. %2$s No se publica nada hasta que lo revises."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Dashboard.js:113
+#: assets/src/tabs/Dashboard.js:225
 #, js-format
 msgid "%d image queued for generation."
 msgid_plural "%d images queued for generation."
@@ -466,46 +468,39 @@ msgstr[0] "%d imagen en cola para generar."
 msgstr[1] "%d imágenes en cola para generar."
 
 #. translators: 1: images with correct alt text, 2: total images, 3: percentage.
-#: assets/src/tabs/Dashboard.js:155
+#: assets/src/tabs/Dashboard.js:377
 #, js-format
 msgid "%1$d of %2$d images have correct alt text (%3$d%%)"
 msgstr "%1$d de %2$d imágenes tienen un texto alternativo correcto (%3$d %%)"
 
-#: assets/src/tabs/Dashboard.js:173
-msgid "Auditing the media library and your content…"
-msgstr "Revisando la biblioteca de medios y tu contenido…"
-
 #. translators: %d: number of images.
-#: assets/src/tabs/Dashboard.js:221
-#: assets/src/wizard/Wizard.js:386
+#: assets/src/tabs/Dashboard.js:434
+#: assets/src/wizard/Wizard.js:401
 #, js-format
 msgid "Generate proposal for %d image"
 msgid_plural "Generate proposals for %d images"
 msgstr[0] "Generar propuesta para %d imagen"
 msgstr[1] "Generar propuestas para %d imágenes"
 
-#: assets/src/tabs/Dashboard.js:233
+#: assets/src/tabs/Dashboard.js:446
 msgid "Fix the AI connector first."
 msgstr "Antes hay que arreglar el conector de IA."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Dashboard.js:244
+#: assets/src/tabs/Dashboard.js:457
 #, js-format
 msgid "%d image in the generation queue."
 msgid_plural "%d images in the generation queue."
 msgstr[0] "%d imagen en la cola de generación."
 msgstr[1] "%d imágenes en la cola de generación."
 
-#: assets/src/tabs/Dashboard.js:258
+#: assets/src/tabs/Dashboard.js:471
+#: assets/src/tabs/Findings.js:335
 msgid "Pause"
 msgstr "Pausar"
 
-#: assets/src/tabs/Dashboard.js:268
-msgid "Checks"
-msgstr "Comprobaciones"
-
 #. translators: %d: number of uses.
-#: assets/src/tabs/Dashboard.js:296
+#: assets/src/tabs/Dashboard.js:530
 #, js-format
 msgid "%d use of an image is inside a page builder. The plugin updates the media library but cannot rewrite that page."
 msgid_plural "%d uses of images are inside a page builder. The plugin updates the media library but cannot rewrite those pages."
@@ -513,7 +508,7 @@ msgstr[0] "%d uso de una imagen está dentro de un constructor visual. El plugin
 msgstr[1] "%d usos de imágenes están dentro de un constructor visual. El plugin actualiza la biblioteca de medios, pero no puede reescribir esas páginas."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Review.js:136
+#: assets/src/tabs/Review.js:145
 #, js-format
 msgid "%d image approved."
 msgid_plural "%d images approved."
@@ -521,71 +516,82 @@ msgstr[0] "%d imagen aprobada."
 msgstr[1] "%d imágenes aprobadas."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Review.js:149
+#: assets/src/tabs/Review.js:158
 #, js-format
 msgid "%d image could not be approved."
 msgid_plural "%d images could not be approved."
 msgstr[0] "No se ha podido aprobar %d imagen."
 msgstr[1] "No se han podido aprobar %d imágenes."
 
-#: assets/src/tabs/Review.js:189
+#: assets/src/tabs/Findings.js:360
+#: assets/src/tabs/Review.js:199
 msgid "Status"
 msgstr "Estado"
 
-#: assets/src/tabs/Review.js:192
+#: assets/src/tabs/Findings.js:366
+#: assets/src/tabs/Review.js:205
 msgid "All"
 msgstr "Todos"
 
-#: assets/src/tabs/Review.js:206
+#: assets/src/tabs/Review.js:225
 msgid "Problem detected"
 msgstr "Problema detectado"
 
-#: assets/src/tabs/Review.js:209
+#: assets/src/tabs/Findings.js:386
+#: assets/src/tabs/Review.js:228
 msgid "Any"
 msgstr "Cualquiera"
 
-#: assets/src/tabs/Review.js:218
+#: assets/src/tabs/Review.js:237
 msgid "Search by text or title"
 msgstr "Buscar por texto o título"
 
-#: assets/src/tabs/Review.js:234
+#: assets/src/tabs/Review.js:253
 msgid "No images here."
 msgstr "No hay imágenes aquí."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Review.js:256
+#: assets/src/tabs/Review.js:275
 #, js-format
 msgid "%d image"
 msgid_plural "%d images"
 msgstr[0] "%d imagen"
 msgstr[1] "%d imágenes"
 
-#: assets/src/tabs/Review.js:250
+#: assets/src/tabs/Findings.js:430
+#: assets/src/tabs/Review.js:269
 msgid "Select all on this page"
 msgstr "Seleccionar todas las de esta página"
 
+#. translators: %d: number of selected items.
 #. translators: %d: number of selected images.
-#: assets/src/tabs/Review.js:283
+#: assets/src/tabs/Findings.js:463
+#: assets/src/tabs/Review.js:302
 #, js-format
 msgid "Approve selected (%d)"
 msgstr "Aprobar seleccionadas (%d)"
 
-#: assets/src/tabs/Review.js:321
+#: assets/src/tabs/Findings.js:505
+#: assets/src/tabs/Review.js:340
 msgid "Pages"
 msgstr "Páginas"
 
-#: assets/src/tabs/Review.js:328
+#: assets/src/tabs/Findings.js:512
+#: assets/src/tabs/Review.js:347
 msgid "Previous"
 msgstr "Anterior"
 
 #. translators: 1: current page, 2: total pages.
-#: assets/src/tabs/Review.js:59
-#: assets/src/tabs/Review.js:333
+#: assets/src/tabs/Findings.js:86
+#: assets/src/tabs/Findings.js:517
+#: assets/src/tabs/Review.js:61
+#: assets/src/tabs/Review.js:352
 #, js-format
 msgid "Page %1$d of %2$d"
 msgstr "Página %1$d de %2$d"
 
-#: assets/src/tabs/Review.js:343
+#: assets/src/tabs/Findings.js:527
+#: assets/src/tabs/Review.js:362
 msgid "Next"
 msgstr "Siguiente"
 
@@ -594,43 +600,43 @@ msgstr "Siguiente"
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: assets/src/tabs/Settings.js:80
+#: assets/src/tabs/Settings.js:82
 msgid "Settings saved."
 msgstr "Ajustes guardados."
 
-#: assets/src/tabs/Settings.js:84
+#: assets/src/tabs/Settings.js:86
 msgid "Save settings"
 msgstr "Guardar ajustes"
 
-#: assets/src/tabs/Settings.js:91
+#: assets/src/tabs/Settings.js:93
 msgid "AI provider"
 msgstr "Proveedor de IA"
 
-#: assets/src/tabs/Settings.js:95
+#: assets/src/tabs/Settings.js:97
 msgid "The plugin uses the AI provider connected in WordPress. API keys are managed there, never by this plugin."
 msgstr "El plugin usa el proveedor de IA conectado en WordPress. Las claves de API se gestionan allí; este plugin nunca las toca."
 
-#: assets/src/tabs/Settings.js:101
+#: assets/src/tabs/Settings.js:103
 msgid "Open Connectors"
 msgstr "Abrir Conectores"
 
-#: assets/src/tabs/Settings.js:108
+#: assets/src/tabs/Settings.js:110
 msgid "Maintenance"
 msgstr "Mantenimiento"
 
-#: assets/src/tabs/Settings.js:117
+#: assets/src/tabs/Settings.js:119
 msgid "Audit started. It runs in the background; the dashboard shows the result."
 msgstr "Revisión iniciada. Se ejecuta en segundo plano; el panel muestra el resultado."
 
-#: assets/src/tabs/Settings.js:124
+#: assets/src/tabs/Settings.js:126
 msgid "Run full audit now"
 msgstr "Revisar todo ahora"
 
-#: assets/src/tabs/Settings.js:134
+#: assets/src/tabs/Settings.js:136
 msgid "Run setup wizard again"
 msgstr "Repetir el asistente de configuración"
 
-#: assets/src/tabs/Settings.js:137
+#: assets/src/tabs/Settings.js:139
 msgid "Site Health"
 msgstr "Salud del sitio"
 
@@ -662,81 +668,81 @@ msgstr "Todavía no hay ningún proveedor de IA conectado."
 msgid "To write alt text, the plugin needs an AI provider: OpenAI (ChatGPT), Anthropic (Claude) or Google (Gemini). You connect it with an API key, a code you create in your account with that provider."
 msgstr "Para escribir los textos alternativos, el plugin necesita un proveedor de IA: OpenAI (ChatGPT), Anthropic (Claude) o Google (Gemini). Se conecta con una clave de API, un código que creas en tu cuenta de ese proveedor."
 
-#: assets/src/wizard/Wizard.js:100
+#: assets/src/wizard/Wizard.js:111
 msgid "Open Connectors (new tab)"
 msgstr "Abrir Conectores (pestaña nueva)"
 
-#: assets/src/wizard/Wizard.js:103
+#: assets/src/wizard/Wizard.js:114
 msgid "Check again"
 msgstr "Volver a comprobar"
 
-#: assets/src/wizard/Wizard.js:109
-#: assets/src/wizard/Wizard.js:206
-#: assets/src/wizard/Wizard.js:330
+#: assets/src/wizard/Wizard.js:120
+#: assets/src/wizard/Wizard.js:217
+#: assets/src/wizard/Wizard.js:345
 msgid "Continue"
 msgstr "Continuar"
 
-#: assets/src/wizard/Wizard.js:150
+#: assets/src/wizard/Wizard.js:161
 msgid "The media library has no images yet, so there is nothing to test with. You can continue."
 msgstr "La biblioteca de medios aún no tiene imágenes, así que no hay con qué probar. Puedes continuar."
 
-#: assets/src/wizard/Wizard.js:159
+#: assets/src/wizard/Wizard.js:170
 msgid "Asking the AI to describe one of your images…"
 msgstr "Pidiendo a la IA que describa una de tus imágenes…"
 
-#: assets/src/wizard/Wizard.js:173
+#: assets/src/wizard/Wizard.js:184
 msgid "Generated alt text:"
 msgstr "Texto alternativo generado:"
 
-#: assets/src/wizard/Wizard.js:181
+#: assets/src/wizard/Wizard.js:192
 msgid "This was only a test: nothing has been saved."
 msgstr "Solo era una prueba: no se ha guardado nada."
 
-#: assets/src/wizard/Wizard.js:192
+#: assets/src/wizard/Wizard.js:203
 msgid "Try again"
 msgstr "Volver a intentarlo"
 
-#: assets/src/wizard/Wizard.js:257
+#: assets/src/wizard/Wizard.js:272
 msgid "Save and continue"
 msgstr "Guardar y continuar"
 
-#: assets/src/wizard/Wizard.js:303
+#: assets/src/wizard/Wizard.js:318
 msgid "Checking every image in the library and in your pages. This uses no AI and costs nothing."
 msgstr "Revisando todas las imágenes de la biblioteca y de tus páginas. Esto no usa IA ni tiene coste."
 
 #. translators: 1: images that need alt text, 2: total images.
-#: assets/src/wizard/Wizard.js:314
+#: assets/src/wizard/Wizard.js:329
 #, js-format
 msgid "%1$d of %2$d images need alt text."
 msgstr "%1$d de %2$d imágenes necesitan texto alternativo."
 
-#: assets/src/wizard/Wizard.js:358
+#: assets/src/wizard/Wizard.js:373
 msgid "Everything is ready. You can ask the AI for proposals now; you will review each one before anything changes on your site."
 msgstr "Todo está listo. Ya puedes pedir propuestas a la IA; revisarás cada una antes de que cambie nada en tu web."
 
-#: assets/src/wizard/Wizard.js:362
+#: assets/src/wizard/Wizard.js:377
 msgid "Everything is ready, and no image needs alt text right now."
 msgstr "Todo está listo y ahora mismo ninguna imagen necesita texto alternativo."
 
-#: assets/src/wizard/Wizard.js:401
+#: assets/src/wizard/Wizard.js:416
 msgid "Go to dashboard"
 msgstr "Ir al panel"
 
 #. translators: 1: step number, 2: total steps, 3: step name.
-#: assets/src/wizard/Wizard.js:438
+#: assets/src/wizard/Wizard.js:453
 #, js-format
 msgid "Step %1$d of %2$d: %3$s"
 msgstr "Paso %1$d de %2$d: %3$s"
 
-#: src/Health/Status.php:130
+#: src/Health/Status.php:273
 msgid "The site has not been fully audited yet."
 msgstr "Todavía no se ha revisado el sitio completo."
 
-#: assets/src/components/ReviewRow.js:139
+#: assets/src/components/ReviewRow.js:164
 msgid "The media library text is good; only a page is missing it. Approving copies it there. No AI is used."
 msgstr "El texto de la biblioteca de medios es bueno; solo falta en alguna página. Al aprobar se copia allí. No se usa IA."
 
-#: src/AI/Generator.php:208
+#: src/AI/Generator.php:230
 msgid "The AI provider returned an error. An administrator can see the details."
 msgstr "El proveedor de IA ha devuelto un error. Un administrador puede ver el detalle."
 
@@ -744,11 +750,11 @@ msgstr "El proveedor de IA ha devuelto un error. Un administrador puede ver el d
 msgid "A new proposal cannot be requested for this image in its current state."
 msgstr "No se puede pedir una propuesta nueva para esta imagen en su estado actual."
 
-#: assets/src/wizard/Wizard.js:135
+#: assets/src/wizard/Wizard.js:146
 msgid "The plugin will ask the AI to describe one image from your media library, to check that everything works."
 msgstr "El plugin pedirá a la IA que describa una imagen de tu biblioteca de medios, para comprobar que todo funciona."
 
-#: assets/src/wizard/Wizard.js:197
+#: assets/src/wizard/Wizard.js:208
 msgid "Run the test"
 msgstr "Hacer la prueba"
 
@@ -756,15 +762,18 @@ msgstr "Hacer la prueba"
 msgid "The image was not sent because its embedded data (such as location) could not be removed on this server."
 msgstr "No se ha enviado la imagen porque en este servidor no se han podido eliminar sus datos incrustados (como la ubicación)."
 
+#. translators: %d: number of selected items.
 #. translators: %d: number of selected images.
-#: assets/src/tabs/Review.js:263
+#: assets/src/tabs/Findings.js:443
+#: assets/src/tabs/Review.js:282
 #, js-format
 msgid "%d selected"
 msgid_plural "%d selected"
 msgstr[0] "%d seleccionada"
 msgstr[1] "%d seleccionadas"
 
-#: assets/src/tabs/Review.js:286
+#: assets/src/tabs/Findings.js:466
+#: assets/src/tabs/Review.js:305
 msgid "Approve selected"
 msgstr "Aprobar seleccionadas"
 
@@ -776,3 +785,704 @@ msgstr "JUNGLE"
 #: assets/src/wizard/Wizard.js:84
 msgid "An API key is billed by use and is separate from a ChatGPT, Claude or Gemini subscription. Describing an image usually costs a fraction of a cent. Other connectors exist, including one that uses a ChatGPT plan without a key."
 msgstr "Una clave de API se factura por uso y es independiente de una suscripción a ChatGPT, Claude o Gemini. Describir una imagen suele costar una fracción de céntimo. Hay otros conectores, incluido uno que usa un plan de ChatGPT sin clave."
+
+#. Description of the plugin
+#: geo-tool.php
+msgid "Checks that a site is ready for search engines and AI assistants: image alt text, meta descriptions, titles, empty fields and site settings. Proposes the missing texts with AI for human review."
+msgstr "Comprueba que una web está lista para los buscadores y los asistentes de IA: texto alternativo de las imágenes, metadescripciones, títulos, campos vacíos y ajustes del sitio. Propone con IA los textos que faltan para que una persona los revise."
+
+#. translators: %s: label of a custom field.
+#: src/Checks/Detail.php:18
+#, php-format
+msgid "The field \"%s\" is empty on this page."
+msgstr "El campo «%s» está vacío en esta página."
+
+#. translators: %s: fragment of the page text.
+#: src/Checks/Detail.php:22
+#, php-format
+msgid "It contains filler text: \"%s\""
+msgstr "Contiene texto de relleno: «%s»"
+
+#. translators: %s: comma-separated names of AI crawlers.
+#: src/Checks/Detail.php:26
+#, php-format
+msgid "robots.txt keeps these AI crawlers out: %s."
+msgstr "El archivo robots.txt impide el paso a estos rastreadores de IA: %s."
+
+#: src/Checks/Detail.php:30
+msgid "It is empty."
+msgstr "Está vacío."
+
+#: src/Checks/Detail.php:31
+msgid "It is too short to be useful."
+msgstr "Es demasiado corto para ser útil."
+
+#: src/Checks/Detail.php:32
+msgid "It is too long: search engines will cut it."
+msgstr "Es demasiado largo: los buscadores lo cortarán."
+
+#: src/Checks/Detail.php:33
+msgid "It only repeats the title of the page."
+msgstr "Solo repite el título de la página."
+
+#: src/Checks/Detail.php:34
+msgid "Another page has exactly the same text."
+msgstr "Otra página tiene exactamente el mismo texto."
+
+#: src/Checks/Detail.php:35
+msgid "The description exists, but the one shown in search results is empty."
+msgstr "La descripción existe, pero la que se muestra en los resultados de búsqueda está vacía."
+
+#: src/Checks/Detail.php:36
+msgid "This published page asks search engines not to show it."
+msgstr "Esta página publicada pide a los buscadores que no la muestren."
+
+#: src/Checks/Detail.php:38
+msgid "It still has the sample content WordPress ships with."
+msgstr "Conserva el contenido de ejemplo que trae WordPress."
+
+#: src/Checks/Detail.php:39
+msgid "It contains filler text (lorem ipsum or similar)."
+msgstr "Contiene texto de relleno (lorem ipsum o parecido)."
+
+#: src/Checks/Detail.php:40
+msgid "The content has more than one H1."
+msgstr "El contenido tiene más de un H1."
+
+#: src/Checks/Detail.php:42
+msgid "A heading level is skipped (an H2 followed by an H4, for instance)."
+msgstr "Se salta un nivel de encabezado (por ejemplo, un H2 seguido de un H4)."
+
+#: src/Checks/Detail.php:43
+msgid "robots.txt keeps every crawler out of the whole site."
+msgstr "El archivo robots.txt impide el paso de todos los rastreadores a todo el sitio."
+
+#: src/Checks/Detail.php:44
+msgid "This is not in place yet."
+msgstr "Todavía no está configurado."
+
+#: src/Checks/Finding_Actions.php:28
+msgid "This check is not fixed by writing a text here."
+msgstr "Esta comprobación no se corrige escribiendo un texto aquí."
+
+#: src/Checks/Finding_Actions.php:40
+msgid "The text cannot be empty."
+msgstr "El texto no puede estar vacío."
+
+#: src/Checks/Finding_Actions.php:57
+msgid "The text could not be saved."
+msgstr "No se ha podido guardar el texto."
+
+#: src/Checks/Finding_Actions.php:202
+msgid "A new proposal cannot be requested for this item in its current state."
+msgstr "No se puede pedir una nueva propuesta para este elemento en su estado actual."
+
+#: src/Checks/Finding_Actions.php:264
+msgid "There is no applied change to undo here."
+msgstr "Aquí no hay ningún cambio aplicado que deshacer."
+
+#: src/Checks/Finding_Actions.php:307
+msgid "Unknown field."
+msgstr "Campo desconocido."
+
+#: src/Checks/Finding_Actions.php:335
+msgid "This item no longer exists."
+msgstr "Este elemento ya no existe."
+
+#: src/Checks/Finding_Actions.php:341
+msgid "You are not allowed to do this."
+msgstr "No tienes permiso para hacer esto."
+
+#: src/Checks/Post/Acf_Empty.php:24
+msgid "Custom field left empty"
+msgstr "Campo personalizado vacío"
+
+#: src/Checks/Post/Acf_Empty.php:28
+msgid "A content field nobody filled in usually means a blank spot on the page."
+msgstr "Un campo de contenido que nadie ha rellenado suele ser un hueco en blanco en la página."
+
+#: src/Checks/Post/Excerpt.php:17
+msgid "Excerpt"
+msgstr "Extracto"
+
+#: src/Checks/Post/Excerpt.php:21
+msgid "Listings, feeds and shared links use the excerpt. Without one, WordPress cuts the first lines of the text."
+msgstr "Los listados, los feeds y los enlaces compartidos usan el extracto. Si no lo hay, WordPress corta las primeras líneas del texto."
+
+#: src/Checks/Post/Featured_Image.php:17
+msgid "Featured image"
+msgstr "Imagen destacada"
+
+#: src/Checks/Post/Featured_Image.php:21
+msgid "It is the image shown when the page is shared and in listings."
+msgstr "Es la imagen que se muestra al compartir la página y en los listados."
+
+#: src/Checks/Post/Headings.php:20
+msgid "Heading structure"
+msgstr "Estructura de encabezados"
+
+#: src/Checks/Post/Headings.php:24
+msgid "Screen readers, search engines and AI assistants read headings as the outline of the page. More than one H1 or a skipped level breaks it."
+msgstr "Los lectores de pantalla, los buscadores y los asistentes de IA leen los encabezados como el esquema de la página. Más de un H1 o un nivel saltado lo rompen."
+
+#: src/Checks/Post/Metadesc.php:29
+msgid "Meta description"
+msgstr "Metadescripción"
+
+#: src/Checks/Post/Metadesc.php:33
+msgid "It is the summary search engines and AI assistants show for the page. Without it they make one up."
+msgstr "Es el resumen de la página que muestran los buscadores y los asistentes de IA. Si falta, se lo inventan."
+
+#: src/Checks/Post/Noindex.php:19
+msgid "Page hidden from search engines"
+msgstr "Página oculta a los buscadores"
+
+#: src/Checks/Post/Noindex.php:23
+msgid "A page marked as \"noindex\" never shows up in search results or AI answers. Confirm it is on purpose."
+msgstr "Una página marcada como «noindex» no aparece nunca en los resultados de búsqueda ni en las respuestas de la IA. Confirma que es a propósito."
+
+#: src/Checks/Post/Placeholder_Content.php:24
+msgid "Leftover template content"
+msgstr "Restos de plantilla"
+
+#: src/Checks/Post/Seo_Title.php:24
+msgid "Title shown in search results"
+msgstr "Título en los resultados de búsqueda"
+
+#: src/Checks/Post/Seo_Title.php:28
+msgid "Search engines cut titles longer than about 60 characters, and two pages with the same title compete with each other."
+msgstr "Los buscadores cortan los títulos de más de unos 60 caracteres, y dos páginas con el mismo título compiten entre sí."
+
+#: src/Checks/Registry.php:31
+msgid "Author biography"
+msgstr "Biografía del autor"
+
+#: src/Checks/Registry.php:32
+msgid "Search engines and AI assistants weigh who wrote a text. An author with no biography is an unknown."
+msgstr "Los buscadores y los asistentes de IA valoran quién ha escrito un texto. Un autor sin biografía es un desconocido."
+
+#: src/Checks/Registry.php:37
+msgid "Author public name"
+msgstr "Nombre público del autor"
+
+#: src/Checks/Registry.php:38
+msgid "The name shown on articles should be a real name, not the login name."
+msgstr "El nombre que aparece en los artículos debe ser un nombre real, no el nombre de usuario."
+
+#: src/Checks/Site/Catalogue.php:45
+msgid "SEO plugin"
+msgstr "Plugin de SEO"
+
+#: src/Checks/Site/Catalogue.php:53
+msgid "Visible to search engines"
+msgstr "Visible para los buscadores"
+
+#: src/Checks/Site/Catalogue.php:54
+msgid "While \"Discourage search engines\" is ticked, the whole site asks not to be indexed."
+msgstr "Mientras esté marcada la casilla «Pedir a los motores de búsqueda que no indexen este sitio», toda la web pide no ser indexada."
+
+#: src/Checks/Site/Catalogue.php:61
+msgid "Site title and tagline"
+msgstr "Título y descripción corta del sitio"
+
+#: src/Checks/Site/Catalogue.php:62
+msgid "They appear in every page title and tell search engines and AI assistants what the site is."
+msgstr "Aparecen en el título de todas las páginas y dicen a los buscadores y a los asistentes de IA qué es el sitio."
+
+#: src/Checks/Site/Catalogue.php:69
+msgid "Home page meta description"
+msgstr "Metadescripción de la portada"
+
+#: src/Checks/Site/Catalogue.php:70
+msgid "It is the summary of the whole site in search results."
+msgstr "Es el resumen de todo el sitio en los resultados de búsqueda."
+
+#: src/Checks/Site/Catalogue.php:78
+msgid "Who is behind the site"
+msgstr "Quién está detrás del sitio"
+
+#: src/Checks/Site/Catalogue.php:79
+msgid "The organisation name and logo go into the structured data that search engines and AI assistants use to identify the publisher."
+msgstr "El nombre y el logotipo de la organización van en los datos estructurados con los que los buscadores y los asistentes de IA identifican a quien publica."
+
+#: src/Checks/Site/Catalogue.php:86
+msgid "XML sitemap"
+msgstr "Mapa del sitio XML"
+
+#: src/Checks/Site/Catalogue.php:87
+msgid "The sitemap is how crawlers find every page."
+msgstr "El mapa del sitio es la forma en que los rastreadores encuentran todas las páginas."
+
+#: src/Checks/Site/Catalogue.php:94
+msgid "robots.txt"
+msgstr "robots.txt"
+
+#: src/Checks/Site/Catalogue.php:95
+msgid "A robots.txt that keeps crawlers out makes the site invisible, in search results or in AI answers."
+msgstr "Un robots.txt que impide el paso a los rastreadores hace invisible el sitio, en los resultados de búsqueda o en las respuestas de la IA."
+
+#: src/Checks/Site/Catalogue.php:114
+msgid "Structured data"
+msgstr "Datos estructurados"
+
+#: src/Checks/Site/Catalogue.php:115
+msgid "Structured data tells machines what each page is: an article, an organisation, who wrote it and when."
+msgstr "Los datos estructurados dicen a las máquinas qué es cada página: un artículo, una organización, quién lo escribió y cuándo."
+
+#: src/Checks/Site/Catalogue.php:122
+msgid "llms.txt"
+msgstr "llms.txt"
+
+#: src/Checks/Site/Catalogue.php:123
+msgid "An llms.txt file gives AI assistants a short guide to the most important pages of the site."
+msgstr "Un archivo llms.txt da a los asistentes de IA una guía breve de las páginas más importantes del sitio."
+
+#: src/Checks/Site/Catalogue.php:135
+msgid "Default image for sharing"
+msgstr "Imagen por defecto al compartir"
+
+#: src/Checks/Site/Catalogue.php:136
+msgid "It is the image shown when a page without its own image is shared."
+msgstr "Es la imagen que se muestra al compartir una página que no tiene imagen propia."
+
+#: src/Checks/Site/Catalogue.php:143
+msgid "Permalinks"
+msgstr "Enlaces permanentes"
+
+#: src/Checks/Site/Catalogue.php:144
+msgid "Addresses like \"?p=123\" say nothing about the page. Use readable ones."
+msgstr "Las direcciones como «?p=123» no dicen nada de la página. Usa direcciones legibles."
+
+#: src/Checks/Site/Catalogue.php:151
+msgid "HTTPS"
+msgstr "HTTPS"
+
+#: src/Checks/Site/Catalogue.php:152
+msgid "Browsers and search engines mark sites without HTTPS as not secure."
+msgstr "Los navegadores y los buscadores marcan como no seguros los sitios sin HTTPS."
+
+#: src/Checks/Site/Catalogue.php:159
+msgid "Site icon"
+msgstr "Icono del sitio"
+
+#: src/Checks/Site/Catalogue.php:160
+msgid "It is the icon in browser tabs, bookmarks and some search results."
+msgstr "Es el icono de las pestañas del navegador, los marcadores y algunos resultados de búsqueda."
+
+#: src/Checks/Site/Catalogue.php:167
+msgid "Site name in page titles"
+msgstr "Nombre del sitio en los títulos"
+
+#: src/Checks/Site/Catalogue.php:168
+msgid "The site name is added to the title of every page. Search engines cut titles longer than about 60 characters."
+msgstr "El nombre del sitio se añade al título de todas las páginas. Los buscadores cortan los títulos de más de unos 60 caracteres."
+
+#: src/Checks/Term_Description.php:25
+msgid "Category or tag description"
+msgstr "Descripción de categoría o etiqueta"
+
+#: src/Checks/Term_Description.php:29
+msgid "Category and tag pages are indexed too. Without a description they have no summary to show."
+msgstr "Las páginas de categoría y de etiqueta también se indexan. Sin descripción no tienen resumen que mostrar."
+
+#: src/Checks/Text_Generator.php:118
+msgid "The AI provider did not return a usable text."
+msgstr "El proveedor de IA no ha devuelto un texto utilizable."
+
+#: assets/src/App.js:66
+#: assets/src/components/labels.js:39
+msgid "Images"
+msgstr "Imágenes"
+
+#: assets/src/App.js:67
+msgid "Texts"
+msgstr "Textos"
+
+#: assets/src/App.js:68
+#: assets/src/components/labels.js:42
+msgid "Site"
+msgstr "Sitio"
+
+#: assets/src/components/FindingRow.js:9
+msgid "Approved and saved."
+msgstr "Aprobado y guardado."
+
+#: assets/src/components/FindingRow.js:10
+msgid "Accepted as it is."
+msgstr "Aceptado como está."
+
+#: assets/src/components/FindingRow.js:11
+msgid "Back under review."
+msgstr "Vuelve a estar en revisión."
+
+#. translators: 1: name of the check, 2: page or item it is about.
+#: assets/src/components/FindingRow.js:95
+#, js-format
+msgid "Select %1$s: %2$s"
+msgstr "Seleccionar %1$s: %2$s"
+
+#: assets/src/components/FindingRow.js:125
+msgid "To fix"
+msgstr "Por corregir"
+
+#: assets/src/components/FindingRow.js:137
+msgid "Current text:"
+msgstr "Texto actual:"
+
+#. translators: 1: name of the text, e.g. "Meta description", 2: page it belongs to.
+#: assets/src/components/FindingRow.js:158
+#, js-format
+msgid "Text for %1$s: %2$s"
+msgstr "Texto para %1$s: %2$s"
+
+#. translators: 1: current number of words, 2: minimum, 3: maximum.
+#: assets/src/components/FindingRow.js:177
+#, js-format
+msgid "%1$d words (recommended: %2$d to %3$d)"
+msgstr "%1$d palabras (recomendado: de %2$d a %3$d)"
+
+#. translators: 1: current number of characters, 2: minimum, 3: maximum.
+#: assets/src/components/FindingRow.js:187
+#, js-format
+msgid "%1$d characters (recommended: %2$d to %3$d)"
+msgstr "%1$d caracteres (recomendado: de %2$d a %3$d)"
+
+#: assets/src/components/FindingRow.js:213
+msgid "Propose with AI"
+msgstr "Proponer con IA"
+
+#: assets/src/components/FindingRow.js:222
+#: assets/src/components/FindingRow.js:227
+msgid "Write it myself"
+msgstr "Escribirlo yo"
+
+#: assets/src/components/FindingRow.js:270
+msgid "Open the setting"
+msgstr "Abrir el ajuste"
+
+#: assets/src/components/FindingRow.js:271
+msgid "Edit"
+msgstr "Editar"
+
+#: assets/src/components/FindingRow.js:279
+msgid "Accept as it is"
+msgstr "Aceptar como está"
+
+#: assets/src/components/FindingRow.js:289
+msgid "This field is optional on every page"
+msgstr "Este campo es opcional en todas las páginas"
+
+#: assets/src/components/FindingRow.js:297
+msgid "Review again"
+msgstr "Volver a revisar"
+
+#: assets/src/components/labels.js:21
+msgid "Not used on any page"
+msgstr "Sin uso en ninguna página"
+
+#: assets/src/components/labels.js:25
+msgid "Pending"
+msgstr "Pendientes"
+
+#: assets/src/components/labels.js:27
+msgid "To do"
+msgstr "Por hacer"
+
+#: assets/src/components/labels.js:30
+msgid "Accepted as it is"
+msgstr "Aceptados como están"
+
+#: assets/src/components/labels.js:34
+msgid "Required"
+msgstr "Obligatorio"
+
+#: assets/src/components/labels.js:35
+msgid "Recommended"
+msgstr "Recomendado"
+
+#: assets/src/components/labels.js:40
+msgid "Pages and posts"
+msgstr "Páginas y entradas"
+
+#: assets/src/components/labels.js:41
+msgid "Categories and authors"
+msgstr "Categorías y autores"
+
+#: assets/src/components/Preferences.js:45
+msgid "Allow the AI to read page text to write meta descriptions and other texts"
+msgstr "Permitir que la IA lea el texto de las páginas para escribir metadescripciones y otros textos"
+
+#: assets/src/components/Preferences.js:49
+msgid "To propose a meta description, an SEO title, an excerpt or a category description, the plugin sends the visible text of that page to the AI provider you connected. Without this permission those texts are only listed for you to write by hand."
+msgstr "Para proponer una metadescripción, un título SEO, un extracto o la descripción de una categoría, el plugin envía el texto visible de esa página al proveedor de IA que has conectado. Sin este permiso, esos textos solo se listan para que los escribas a mano."
+
+#. translators: %d: number of pages.
+#: assets/src/components/ReviewRow.js:122
+#, js-format
+msgid "%d with a text set by the theme"
+msgid_plural "%d with a text set by the theme"
+msgstr[0] "%d con un texto que fija el tema"
+msgstr[1] "%d con un texto que fija el tema"
+
+#: assets/src/components/ReviewRow.js:172
+msgid "The theme always shows this image without alt text, as decoration. A description would not reach the page, so the proposal is to mark it as decorative. No AI is used."
+msgstr "El tema muestra siempre esta imagen sin texto alternativo, como adorno. Una descripción no llegaría a la página, así que se propone marcarla como decorativa. No se usa IA."
+
+#: assets/src/components/ReviewRow.js:180
+msgid "No published page shows this image, so it is not counted as pending. You can still ask for a description."
+msgstr "Ninguna página publicada muestra esta imagen, así que no cuenta como pendiente. Aun así puedes pedir una descripción."
+
+#: assets/src/components/ReviewRow.js:232
+msgid "Mark as decorative"
+msgstr "Marcar como decorativa"
+
+#: assets/src/components/ReviewRow.js:237
+msgid "Describe it anyway"
+msgstr "Describirla de todos modos"
+
+#. translators: %d: number of items with something to fix.
+#: assets/src/tabs/Dashboard.js:71
+#, js-format
+msgid "%d pending"
+msgid_plural "%d pending"
+msgstr[0] "%d pendiente"
+msgstr[1] "%d pendientes"
+
+#. translators: 1: number of items with something to fix, 2: total.
+#: assets/src/tabs/Dashboard.js:76
+#, js-format
+msgid "%1$d pending of %2$d"
+msgstr "%1$d pendientes de %2$d"
+
+#: assets/src/tabs/Dashboard.js:82
+msgid "Open the list."
+msgstr "Abrir la lista."
+
+#. translators: %d: number of exceptions.
+#: assets/src/tabs/Dashboard.js:309
+#, js-format
+msgid "%d required check was accepted as it is by an administrator."
+msgid_plural "%d required checks were accepted as they are by an administrator."
+msgstr[0] "Un administrador ha aceptado como está %d comprobación obligatoria."
+msgstr[1] "Un administrador ha aceptado como están %d comprobaciones obligatorias."
+
+#: assets/src/tabs/Dashboard.js:336
+msgid "What is left to do"
+msgstr "Qué falta por hacer"
+
+#: assets/src/tabs/Dashboard.js:342
+msgid "No page, category, author or site check is pending."
+msgstr "No queda pendiente ninguna comprobación de páginas, categorías, autores ni del sitio."
+
+#. translators: %d: number of pages or items.
+#. translators: %d: number of items.
+#: assets/src/tabs/Dashboard.js:128
+#: assets/src/tabs/Findings.js:436
+#, js-format
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d elemento"
+msgstr[1] "%d elementos"
+
+#. translators: %d: number of proposals.
+#: assets/src/tabs/Dashboard.js:109
+#, js-format
+msgid "%d proposal to review"
+msgid_plural "%d proposals to review"
+msgstr[0] "%d propuesta por revisar"
+msgstr[1] "%d propuestas por revisar"
+
+#: assets/src/tabs/Dashboard.js:481
+msgid "System"
+msgstr "Sistema"
+
+#. translators: %d: number of images.
+#: assets/src/tabs/Dashboard.js:512
+#, js-format
+msgid "%d image in the media library is not shown on any published page. It is not counted."
+msgid_plural "%d images in the media library are not shown on any published page. They are not counted."
+msgstr[0] "%d imagen de la biblioteca de medios no aparece en ninguna página publicada. No se cuenta."
+msgstr[1] "%d imágenes de la biblioteca de medios no aparecen en ninguna página publicada. No se cuentan."
+
+#: assets/src/tabs/Dashboard.js:521
+msgid "See them"
+msgstr "Verlas"
+
+#. translators: %d: number of texts.
+#: assets/src/tabs/Findings.js:166
+#, js-format
+msgid "%d text approved."
+msgid_plural "%d texts approved."
+msgstr[0] "%d texto aprobado."
+msgstr[1] "%d textos aprobados."
+
+#. translators: %d: number of texts.
+#: assets/src/tabs/Findings.js:174
+#, js-format
+msgid "%d text could not be approved."
+msgid_plural "%d texts could not be approved."
+msgstr[0] "No se ha podido aprobar %d texto."
+msgstr[1] "No se han podido aprobar %d textos."
+
+#. translators: %d: number of texts.
+#: assets/src/tabs/Findings.js:197
+#, js-format
+msgid "Generate proposals for %d texts? Each one is a paid request to your AI provider, which receives the visible text of the page. Nothing is published until you review it."
+msgstr "¿Generar propuestas para %d textos? Cada una es una petición de pago a tu proveedor de IA, que recibe el texto visible de la página. No se publica nada hasta que lo revises."
+
+#. translators: %d: number of texts.
+#: assets/src/tabs/Findings.js:213
+#, js-format
+msgid "%d text queued for generation."
+msgid_plural "%d texts queued for generation."
+msgstr[0] "%d texto en cola para generar."
+msgstr[1] "%d textos en cola para generar."
+
+#. translators: %s: internal name of a custom field.
+#: assets/src/tabs/Findings.js:239
+#, js-format
+msgid "Stop reporting the field \"%s\" when it is empty, on every page?"
+msgstr "¿Dejar de avisar cuando el campo «%s» esté vacío, en todas las páginas?"
+
+#. translators: %d: number of texts.
+#: assets/src/tabs/Findings.js:287
+#, js-format
+msgid "Propose %d text with AI"
+msgid_plural "Propose %d texts with AI"
+msgstr[0] "Proponer %d texto con IA"
+msgstr[1] "Proponer %d textos con IA"
+
+#. translators: %d: number of texts.
+#: assets/src/tabs/Findings.js:302
+#, js-format
+msgid "%d text is waiting to be written. The AI can propose it if you allow it to read the page text."
+msgid_plural "%d texts are waiting to be written. The AI can propose them if you allow it to read the page text."
+msgstr[0] "Hay %d texto por escribir. La IA puede proponerlo si le permites leer el texto de la página."
+msgstr[1] "Hay %d textos por escribir. La IA puede proponerlos si le permites leer el texto de las páginas."
+
+#: assets/src/tabs/Findings.js:312
+msgid "Open settings"
+msgstr "Abrir los ajustes"
+
+#. translators: %d: number of texts.
+#: assets/src/tabs/Findings.js:321
+#, js-format
+msgid "%d text in the generation queue."
+msgid_plural "%d texts in the generation queue."
+msgstr[0] "%d texto en la cola de generación."
+msgstr[1] "%d textos en la cola de generación."
+
+#: assets/src/tabs/Findings.js:348
+msgid "Where"
+msgstr "Dónde"
+
+#: assets/src/tabs/Findings.js:383
+msgid "Check"
+msgstr "Comprobación"
+
+#: assets/src/tabs/Findings.js:412
+msgid "Nothing pending here."
+msgstr "Aquí no queda nada pendiente."
+
+#: assets/src/tabs/Findings.js:413
+msgid "Nothing here."
+msgstr "Aquí no hay nada."
+
+#: src/Checks/Detail.php:41
+msgid "The site name is long and it is added to the title of every page, so search engines cut the titles. Take it out of the title templates of the SEO plugin, or accept it as it is."
+msgstr "El nombre del sitio es largo y se añade al título de todas las páginas, así que los buscadores cortan los títulos. Quítalo de las plantillas de título del plugin de SEO o acéptalo como está."
+
+#: src/Checks/Finding_Actions.php:35
+msgid "This item has already been decided. Undo it or review it again first."
+msgstr "Este elemento ya está decidido. Deshazlo o vuelve a revisarlo antes."
+
+#: src/Checks/Finding_Actions.php:206
+msgid "The AI is not allowed to read page text. An administrator can allow it in the settings."
+msgstr "La IA no tiene permiso para leer el texto de las páginas. Un administrador puede permitirlo en los ajustes."
+
+#: src/Checks/Finding_Actions.php:270
+msgid "The text was changed after it was approved. Undoing would overwrite that change."
+msgstr "El texto se cambió después de aprobarlo. Deshacer sobrescribiría ese cambio."
+
+#: src/Checks/Site/Catalogue.php:46
+msgid "GEO Tool fills in the fields of the SEO plugin (Yoast SEO or Rank Math), which is what publishes them. Without one, titles and descriptions cannot be checked or written."
+msgstr "GEO Tool rellena los campos del plugin de SEO (Yoast SEO o Rank Math), que es quien los publica. Sin uno de ellos no se pueden comprobar ni escribir títulos y descripciones."
+
+#: assets/src/tabs/Dashboard.js:299
+msgid "No SEO plugin is active. Meta descriptions, SEO titles and most site checks need Yoast SEO or Rank Math; until one is active they are not checked."
+msgstr "No hay ningún plugin de SEO activo. Las metadescripciones, los títulos SEO y casi todas las comprobaciones del sitio necesitan Yoast SEO o Rank Math; hasta que haya uno activo no se comprueban."
+
+#: assets/src/wizard/Wizard.js:93
+msgid "No SEO plugin is active. Image alt text works without one, but meta descriptions, SEO titles and most site checks need Yoast SEO or Rank Math."
+msgstr "No hay ningún plugin de SEO activo. El texto alternativo de las imágenes funciona sin él, pero las metadescripciones, los títulos SEO y casi todas las comprobaciones del sitio necesitan Yoast SEO o Rank Math."
+
+#: assets/src/wizard/Wizard.js:98
+msgid "Install one (new tab)"
+msgstr "Instalar uno (pestaña nueva)"
+
+#: src/Checks/Detail.php:37
+msgid "Its title says it is a test."
+msgstr "Su título indica que es una prueba."
+
+#: src/Checks/Finding_Actions.php:238
+msgid "Only test pages can be deleted from here."
+msgstr "Desde aquí solo se pueden eliminar páginas de prueba."
+
+#: src/Checks/Finding_Actions.php:244
+msgid "This page is the home page or the posts page of the site. Choose another one in Settings > Reading first."
+msgstr "Esta página es la portada o la página de entradas del sitio. Elige antes otra en Ajustes > Lectura."
+
+#: src/Checks/Finding_Actions.php:247
+msgid "The page could not be sent to the trash."
+msgstr "No se ha podido enviar la página a la papelera."
+
+#: src/Checks/Post/Placeholder_Content.php:28
+msgid "Filler text must not be public on a finished site."
+msgstr "El texto de relleno no debe estar publicado en una web terminada."
+
+#: src/Checks/Post/Test_Page.php:34
+msgid "Test page to delete"
+msgstr "Página de prueba para eliminar"
+
+#: src/Checks/Post/Test_Page.php:38
+msgid "Test pages and the sample content WordPress ships with must not be public on a finished site. Delete it or, if it is real content, accept it as it is."
+msgstr "Las páginas de prueba y el contenido de ejemplo que trae WordPress no deben estar publicados en una web terminada. Elimínala o, si es contenido real, acéptala como está."
+
+#: assets/src/components/FindingRow.js:14
+msgid "Sent to the trash."
+msgstr "Enviada a la papelera."
+
+#. translators: %s: title of a page.
+#: assets/src/components/FindingRow.js:245
+#, js-format
+msgid "Send \"%s\" to the trash? It stops being public. You can recover it from the trash of WordPress."
+msgstr "¿Enviar «%s» a la papelera? Dejará de estar publicada. Puedes recuperarla desde la papelera de WordPress."
+
+#: assets/src/components/FindingRow.js:256
+#: assets/src/components/FindingRow.js:261
+msgid "Send to the trash"
+msgstr "Enviar a la papelera"
+
+#: src/Checks/Finding_Actions.php:168
+msgid "Only an item accepted as it is can be reviewed again."
+msgstr "Solo se puede volver a revisar un elemento aceptado como está."
+
+#: assets/src/tabs/Dashboard.js:266
+msgid "Nothing is pending: the site is ready to deliver."
+msgstr "No queda nada pendiente: la web está lista para entregar."
+
+#. translators: %d: number of things to fix.
+#: assets/src/tabs/Dashboard.js:274
+#, js-format
+msgid "%d required item left before delivery."
+msgid_plural "%d required items left before delivery."
+msgstr[0] "Queda %d cosa obligatoria antes de entregar."
+msgstr[1] "Quedan %d cosas obligatorias antes de entregar."
+
+#. translators: %d: number of things to fix.
+#: assets/src/tabs/Dashboard.js:285
+#, js-format
+msgid "%d recommended item left."
+msgid_plural "%d recommended items left."
+msgstr[0] "%d recomendada pendiente."
+msgstr[1] "%d recomendadas pendientes."

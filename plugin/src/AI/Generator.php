@@ -184,6 +184,28 @@ final class Generator {
 	}
 
 	/**
+	 * Counts a provider error. Three in a row, whatever is being generated, stop the queue.
+	 *
+	 * @return bool Whether the queue was paused.
+	 */
+	public static function register_failure( string $message ): bool {
+		$failures = (int) get_option( self::FAILURES_OPTION, 0 ) + 1;
+		update_option( self::FAILURES_OPTION, $failures, false );
+
+		if ( $failures >= self::MAX_CONSECUTIVE_FAILURES ) {
+			Scheduler::pause_generation();
+			self::set_health( false, 'failed', $message );
+			return true;
+		}
+		return false;
+	}
+
+	public static function register_success(): void {
+		delete_option( self::FAILURES_OPTION );
+		self::set_health( true );
+	}
+
+	/**
 	 * Forgets a previous provider failure. Called when a person starts generation again.
 	 */
 	public static function clear_health(): void {

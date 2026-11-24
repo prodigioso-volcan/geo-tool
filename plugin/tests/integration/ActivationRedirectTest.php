@@ -19,7 +19,7 @@ class ActivationRedirectTest extends WP_UnitTestCase {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		set_transient( 'mdia_activation_redirect', 1, 60 );
 
-		$this->assertSame( admin_url( 'upload.php?page=mdia' ), Activation::redirect_target() );
+		$this->assertSame( admin_url( 'admin.php?page=mdia' ), Activation::redirect_target() );
 		$this->assertFalse( get_transient( 'mdia_activation_redirect' ) );
 		$this->assertNull( Activation::redirect_target() );
 	}

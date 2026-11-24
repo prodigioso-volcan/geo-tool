@@ -2,7 +2,7 @@ import { TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 /**
- * The two preferences shared by the settings tab and the setup wizard.
+ * The preferences shared by the settings tab and the setup wizard.
  *
  * @param {Object}   props
  * @param {Object}   props.values   daily_limit and auto_generate_new.
@@ -39,6 +39,19 @@ export default function Preferences( { values, onChange } ) {
 				onChange={ ( value ) =>
 					onChange( { daily_limit: parseInt( value, 10 ) || 1 } )
 				}
+			/>
+			<ToggleControl
+				__nextHasNoMarginBottom
+				label={ __(
+					'Allow the AI to read page text to write meta descriptions and other texts',
+					'geo-tool'
+				) }
+				help={ __(
+					'To propose a meta description, an SEO title, an excerpt or a category description, the plugin sends the visible text of that page to the AI provider you connected. Without this permission those texts are only listed for you to write by hand.',
+					'geo-tool'
+				) }
+				checked={ !! values.text_consent }
+				onChange={ ( value ) => onChange( { text_consent: value } ) }
 			/>
 			<p className="mdia-muted">
 				{ __(

@@ -11,6 +11,7 @@ class ReviewFlowTest extends WP_UnitTestCase {
 
 	public function set_up() {
 		parent::set_up();
+		$this->images_in_use = true;
 		\MDIA\Settings::update( array( 'auto_generate_new' => false, 'wizard_done' => true ) );
 		$this->editor = self::factory()->user->create( array( 'role' => 'editor' ) );
 	}

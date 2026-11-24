@@ -32,6 +32,7 @@ final class Plugin {
 
 		Install\Schema::maybe_upgrade();
 		Audit\Hooks::register();
+		Checks\Hooks::register();
 		Queue\Scheduler::register();
 		Health\Site_Health::register();
 		Admin\Dashboard_Widget::register();

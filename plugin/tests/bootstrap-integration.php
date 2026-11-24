@@ -18,6 +18,14 @@ require_once $mdia_tests_dir . '/includes/functions.php';
 tests_add_filter(
 	'muplugins_loaded',
 	static function () use ( $mdia_root ) {
+		// Rank Math does nothing until its setup screen is completed or skipped.
+		define( 'RANK_MATH_REGISTRATION_SKIP', true );
+		// Third-party plugins the SEO/GEO checks integrate with, when present in the test WordPress.
+		foreach ( array( 'wordpress-seo/wp-seo.php', 'seo-by-rank-math/rank-math.php', 'secure-custom-fields/secure-custom-fields.php' ) as $mdia_dependency ) {
+			if ( is_readable( WP_PLUGIN_DIR . '/' . $mdia_dependency ) ) {
+				require WP_PLUGIN_DIR . '/' . $mdia_dependency;
+			}
+		}
 		require $mdia_root . '/geo-tool.php';
 	}
 );

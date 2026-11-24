@@ -8,6 +8,7 @@ class SchedulerTest extends WP_UnitTestCase {
 
 	public function set_up() {
 		parent::set_up();
+		$this->images_in_use = true;
 		// Uploads would otherwise queue their own generation and blur what each test checks.
 		\MDIA\Settings::update( array( 'auto_generate_new' => false, 'wizard_done' => true ) );
 	}
@@ -27,7 +28,8 @@ class SchedulerTest extends WP_UnitTestCase {
 
 	public function test_full_audit_covers_every_post_and_image_in_batches() {
 		global $wpdb;
-		$images = array();
+		$this->images_in_use = false; // This one counts pages and usages exactly.
+		$images              = array();
 		for ( $i = 0; $i < 120; $i++ ) {
 			$images[] = $this->make_image();
 		}

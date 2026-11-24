@@ -15,7 +15,7 @@ class SchemaTest extends WP_UnitTestCase {
 		$this->assertTrue( $this->table_exists( 'mdia_items' ) );
 		$this->assertTrue( $this->table_exists( 'mdia_usages' ) );
 		$this->assertTrue( $this->table_exists( 'mdia_changes' ) );
-		$this->assertSame( 1, (int) get_option( 'mdia_db_version' ) );
+		$this->assertSame( Schema::DB_VERSION, (int) get_option( 'mdia_db_version' ) );
 		$this->assertTrue( get_role( 'administrator' )->has_cap( 'mdia_manage' ) );
 		$this->assertTrue( get_role( 'administrator' )->has_cap( 'mdia_review' ) );
 		$this->assertTrue( get_role( 'editor' )->has_cap( 'mdia_review' ) );
@@ -32,7 +32,16 @@ class SchemaTest extends WP_UnitTestCase {
 		as_schedule_single_action( time() + HOUR_IN_SECONDS, 'mdia_generate_item', array( 987 ), 'mdia' );
 		as_schedule_single_action( time() + HOUR_IN_SECONDS, 'other_plugin_action', array(), 'other' );
 
+		$marked = self::factory()->post->create();
+		update_post_meta( $marked, '_mdia_fp_desc', 'abc' );
+		update_post_meta( $marked, '_mdia_fp_title', 'abc' );
+		set_transient( 'mdia_status', array( 'state' => 'green' ), 60 );
+
 		Schema::uninstall();
+
+		$this->assertSame( '', get_post_meta( $marked, '_mdia_fp_desc', true ) );
+		$this->assertSame( '', get_post_meta( $marked, '_mdia_fp_title', true ) );
+		$this->assertSame( 0, (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE '\\_transient%mdia\\_%'" ) );
 
 		$tables  = array( $this->table_exists( 'mdia_items' ), $this->table_exists( 'mdia_usages' ), $this->table_exists( 'mdia_changes' ) );
 		$options = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->options} WHERE option_name LIKE 'mdia\\_%'" );

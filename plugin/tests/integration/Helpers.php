@@ -5,6 +5,16 @@
 
 trait MDIA_Test_Helpers {
 
+	/**
+	 * Suites about generating and reviewing work with images that some page shows:
+	 * one that no page uses is left alone by the plugin.
+	 */
+	protected bool $images_in_use = false;
+
+	protected function show_on_a_page( int $id ): int {
+		return $this->make_post( $this->theme_block( 'library', $id ) );
+	}
+
 	protected function make_image( string $alt = '', string $file = '', string $mime = 'image/jpeg' ): int {
 		static $n = 0;
 		++$n;
@@ -19,6 +29,9 @@ trait MDIA_Test_Helpers {
 		if ( '' !== $alt ) {
 			update_post_meta( $id, '_wp_attachment_image_alt', $alt );
 		}
+		if ( $this->images_in_use ) {
+			$this->show_on_a_page( $id );
+		}
 		return $id;
 	}
 
@@ -26,6 +39,38 @@ trait MDIA_Test_Helpers {
 		$alt = esc_attr( $alt );
 		$src = esc_url( (string) wp_get_attachment_url( $id ) );
 		return "<!-- wp:image {\"id\":$id} -->\n<figure class=\"wp-block-image\"><img src=\"$src\" alt=\"$alt\" class=\"wp-image-$id\"/></figure>\n<!-- /wp:image -->";
+	}
+
+	/**
+	 * Two blocks painted when the page is shown, like the ones a theme builds with ACF:
+	 * one takes the alt text from the media library, the other always writes its own.
+	 */
+	protected function register_theme_blocks(): void {
+		if ( WP_Block_Type_Registry::get_instance()->is_registered( 'mdia-test/library' ) ) {
+			return;
+		}
+		register_block_type(
+			'mdia-test/library',
+			array(
+				'attributes'      => array( 'id' => array( 'type' => 'integer' ) ),
+				'render_callback' => static fn( array $attrs ): string => '<div class="hero">' . wp_get_attachment_image( (int) $attrs['id'], 'full' ) . '</div>',
+			)
+		);
+		register_block_type(
+			'mdia-test/fixed',
+			array(
+				'attributes'      => array(
+					'id'  => array( 'type' => 'integer' ),
+					'alt' => array( 'type' => 'string', 'default' => '' ),
+				),
+				'render_callback' => static fn( array $attrs ): string => sprintf( '<img src="%s" alt="%s">', esc_url( wp_get_attachment_url( (int) $attrs['id'] ) ), esc_attr( $attrs['alt'] ) ),
+			)
+		);
+	}
+
+	protected function theme_block( string $kind, int $id, string $alt = '' ): string {
+		$this->register_theme_blocks();
+		return sprintf( '<!-- wp:mdia-test/%s %s /-->', $kind, wp_json_encode( array( 'id' => $id, 'alt' => $alt ) ) );
 	}
 
 	protected function make_post( string $content, array $args = array() ): int {
@@ -110,6 +155,9 @@ trait MDIA_Test_Helpers {
 		);
 		if ( '' !== $alt ) {
 			update_post_meta( $id, '_wp_attachment_image_alt', $alt );
+		}
+		if ( $this->images_in_use ) {
+			$this->show_on_a_page( $id );
 		}
 		return $id;
 	}

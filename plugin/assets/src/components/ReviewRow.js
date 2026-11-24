@@ -33,6 +33,9 @@ export default function ReviewRow( {
 	const name = item.title || item.filename;
 	const status = item.status;
 	const length = [ ...text ].length;
+	// The theme always shows it without alt text: the proposal is to mark it as decorative.
+	const themeProposal = status === 'needs_review' && item.provider === 'theme';
+	const hasProposal = status === 'needs_review' && ! themeProposal;
 
 	const run = async ( action, data ) => {
 		setBusy( action );
@@ -61,9 +64,17 @@ export default function ReviewRow( {
 	);
 
 	return (
-		<li className="mdia-row" data-id={ item.attachment_id } tabIndex="-1">
+		<li
+			className={ `mdia-row mdia-row--${
+				[ 'ok', 'applied', 'decorative', 'ignored' ].includes( status )
+					? 'done'
+					: ( status === 'unused' && 'idle' ) || 'required'
+			}` }
+			data-id={ item.attachment_id }
+			tabIndex="-1"
+		>
 			<div className="mdia-row__select">
-				{ status === 'needs_review' && (
+				{ hasProposal && (
 					<input
 						type="checkbox"
 						aria-label={ sprintf(
@@ -104,6 +115,20 @@ export default function ReviewRow( {
 							item.usage_count
 						) }
 					</span>
+					{ item.fixed_count > 0 && (
+						<span>
+							{ sprintf(
+								/* translators: %d: number of pages. */
+								_n(
+									'%d with a text set by the theme',
+									'%d with a text set by the theme',
+									item.fixed_count,
+									'geo-tool'
+								),
+								item.fixed_count
+							) }
+						</span>
+					) }
 					{ item.unmanaged_count > 0 && (
 						<span>
 							{ sprintf(
@@ -142,6 +167,22 @@ export default function ReviewRow( {
 						) }
 					</p>
 				) }
+				{ themeProposal && (
+					<p className="mdia-muted">
+						{ __(
+							'The theme always shows this image without alt text, as decoration. A description would not reach the page, so the proposal is to mark it as decorative. No AI is used.',
+							'geo-tool'
+						) }
+					</p>
+				) }
+				{ status === 'unused' && (
+					<p className="mdia-muted">
+						{ __(
+							'No published page shows this image, so it is not counted as pending. You can still ask for a description.',
+							'geo-tool'
+						) }
+					</p>
+				) }
 				{ status === 'error' && (
 					<Notice status="error" isDismissible={ false }>
 						{ item.last_error }
@@ -153,7 +194,7 @@ export default function ReviewRow( {
 					</Notice>
 				) }
 
-				{ status === 'needs_review' && (
+				{ hasProposal && (
 					<TextareaControl
 						__nextHasNoMarginBottom
 						label={ sprintf(
@@ -184,7 +225,26 @@ export default function ReviewRow( {
 				) }
 
 				<div className="mdia-row__actions">
-					{ status === 'needs_review' && (
+					{ themeProposal && (
+						<>
+							{ action(
+								'decorative',
+								__( 'Mark as decorative', 'geo-tool' ),
+								'primary'
+							) }
+							{ action(
+								'regenerate',
+								__( 'Describe it anyway', 'geo-tool' )
+							) }
+							{ action( 'ignore', __( 'Ignore', 'geo-tool' ) ) }
+						</>
+					) }
+					{ status === 'unused' &&
+						action(
+							'regenerate',
+							__( 'Generate proposal', 'geo-tool' )
+						) }
+					{ hasProposal && (
 						<>
 							{ action(
 								'approve',
@@ -216,9 +276,10 @@ export default function ReviewRow( {
 							__( 'Retry', 'geo-tool' ),
 							'primary'
 						) }
-					{ [ 'needs_review', 'needs_generation', 'error' ].includes(
-						status
-					) && (
+					{ ! themeProposal &&
+						[ 'needs_review', 'needs_generation', 'error' ].includes(
+							status
+						) && (
 						<>
 							{ action(
 								'decorative',

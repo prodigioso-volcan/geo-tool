@@ -16,6 +16,69 @@ class UsageIndexerTest extends WP_UnitTestCase {
 		$this->assertSame( 'Vista aérea del puerto de Vigo', $this->usages( $b )[0]['alt'] );
 	}
 
+	public function test_an_image_written_in_the_content_is_a_content_usage() {
+		$a = $this->make_image();
+		$this->make_post( $this->image_block( $a ) );
+
+		$this->assertSame( 'content', $this->usages( $a )[0]['kind'] );
+	}
+
+	public function test_an_image_painted_by_a_block_with_the_library_text_follows_the_library() {
+		$a = $this->make_image( 'Vista aérea del puerto de Vigo' );
+		$this->make_post( $this->theme_block( 'library', $a ) );
+
+		$row = $this->usages( $a )[0];
+		$this->assertSame( 'library', $row['kind'] );
+		$this->assertSame( '0', $row['manageable'], 'There is nothing to rewrite in the saved content.' );
+		$this->assertSame( '', $row['issues'], 'The media library entry carries the problem, not the page.' );
+		$this->assertSame( 'Vista aérea del puerto de Vigo', get_post_meta( $a, '_wp_attachment_image_alt', true ), 'Probing writes nothing.' );
+	}
+
+	public function test_an_image_whose_alt_is_written_by_the_theme_is_fixed() {
+		$empty = $this->make_image( 'Vista aérea del puerto de Vigo' );
+		$text  = $this->make_image();
+		$this->make_post( $this->theme_block( 'fixed', $empty ) . $this->theme_block( 'fixed', $text, 'Logotipo' ) );
+
+		$this->assertSame( 'fixed', $this->usages( $empty )[0]['kind'] );
+		$this->assertSame( '', $this->usages( $empty )[0]['alt'] );
+		$this->assertSame( 'fixed', $this->usages( $text )[0]['kind'] );
+		$this->assertSame( 'Logotipo', $this->usages( $text )[0]['alt'] );
+	}
+
+	public function test_an_image_used_both_ways_counts_as_following_the_library() {
+		$a = $this->make_image();
+		$this->make_post( $this->theme_block( 'fixed', $a ) . $this->theme_block( 'library', $a ) );
+
+		$this->assertSame( 'library', $this->usages( $a )[0]['kind'] );
+	}
+
+	public function test_the_featured_image_follows_the_library() {
+		$a    = $this->make_image();
+		$post = $this->make_post( '<p>Texto</p>' );
+		set_post_thumbnail( $post, $a );
+		( new Usage_Indexer() )->index_post( $post );
+
+		$this->assertSame( 'library', $this->usages( $a )[0]['kind'] );
+	}
+
+	public function test_probing_does_not_leak_into_the_page_text_used_by_other_checks() {
+		$a    = $this->make_image( 'Vista aérea del puerto de Vigo' );
+		$post = $this->make_post( $this->theme_block( 'library', $a ) );
+
+		\MDIA\Content\Page_Text::flush();
+		( new Usage_Indexer() )->index_post( $post );
+
+		$this->assertStringContainsString( 'Vista aérea del puerto de Vigo', \MDIA\Content\Page_Text::html( $post ) );
+		$this->assertStringNotContainsString( 'mdia-probe', \MDIA\Content\Page_Text::html( $post ) );
+	}
+
+	public function test_only_published_pages_are_composed() {
+		$a = $this->make_image();
+		$this->make_post( $this->theme_block( 'library', $a ), array( 'post_status' => 'draft' ) );
+
+		$this->assertCount( 0, $this->usages( $a ) );
+	}
+
 	public function test_removed_image_loses_its_row_and_is_reported_as_affected() {
 		$a    = $this->make_image();
 		$b    = $this->make_image();

@@ -21,6 +21,7 @@ const STATUS_ORDER = [
 	'decorative',
 	'ignored',
 	'ok',
+	'unused',
 ];
 
 export default function Review( { status, onStatusChange } ) {
@@ -29,7 +30,7 @@ export default function Review( { status, onStatusChange } ) {
 	const [ page, setPage ] = useState( 1 );
 	const [ data, setData ] = useState( null );
 	const [ selected, setSelected ] = useState( [] );
-	// Text on screen for each proposal, including edits not yet approved.
+	// Only what the reviewer typed and has not approved yet; everything else is read from the image.
 	const [ texts, setTexts ] = useState( {} );
 	const announcePage = useRef( false );
 	const [ error, setError ] = useState( '' );
@@ -42,12 +43,13 @@ export default function Review( { status, onStatusChange } ) {
 			.then( ( result ) => {
 				setData( result );
 				setError( '' );
-				// Keep what the reviewer is typing; add the proposals that are new on screen.
+				// A proposal that arrives from the queue must show: only typed edits are kept.
 				setTexts( ( current ) => {
 					const next = {};
 					result.items.forEach( ( item ) => {
-						next[ item.attachment_id ] =
-							current[ item.attachment_id ] ?? item.proposed_alt;
+						if ( item.attachment_id in current ) {
+							next[ item.attachment_id ] = current[ item.attachment_id ];
+						}
 					} );
 					return next;
 				} );
@@ -104,10 +106,10 @@ export default function Review( { status, onStatusChange } ) {
 		setSelected( ( ids ) =>
 			ids.filter( ( id ) => id !== updated.attachment_id )
 		);
-		setTexts( ( current ) => ( {
-			...current,
-			[ updated.attachment_id ]: updated.proposed_alt,
-		} ) );
+		setTexts( ( current ) => {
+			const { [ updated.attachment_id ]: done, ...rest } = current;
+			return rest;
+		} );
 
 		// The button just used may be gone: never leave keyboard focus nowhere.
 		// After approving, continue with the next image; otherwise stay on this one.
@@ -128,7 +130,14 @@ export default function Review( { status, onStatusChange } ) {
 		setBusy( true );
 		try {
 			const result = await approveMany(
-				selected.map( ( id ) => ( { id, text: texts[ id ] ?? '' } ) )
+				selected.map( ( id ) => ( {
+					id,
+					text:
+						texts[ id ] ??
+						data.items.find( ( item ) => item.attachment_id === id )
+							?.proposed_alt ??
+						'',
+				} ) )
 			);
 			speak(
 				sprintf(
@@ -166,7 +175,10 @@ export default function Review( { status, onStatusChange } ) {
 
 	const selectable = data
 		? data.items
-				.filter( ( item ) => item.status === 'needs_review' )
+				.filter(
+					( item ) =>
+						item.status === 'needs_review' && item.provider !== 'theme'
+				)
 				.map( ( item ) => item.attachment_id )
 		: [];
 	const allSelected =
@@ -183,23 +195,30 @@ export default function Review( { status, onStatusChange } ) {
 	return (
 		<div className="mdia-review">
 			<div className="mdia-filters">
-				<SelectControl
-					__nextHasNoMarginBottom
-					__next40pxDefaultSize
-					label={ __( 'Status', 'geo-tool' ) }
-					value={ status }
-					options={ [
-						{ value: '', label: __( 'All', 'geo-tool' ) },
+				<fieldset className="mdia-chips">
+					<legend>{ __( 'Status', 'geo-tool' ) }</legend>
+					{ [
 						...STATUS_ORDER.map( ( value ) => ( {
 							value,
 							label: STATUS_LABELS[ value ],
 						} ) ),
-					] }
-					onChange={ ( value ) => {
-						setPage( 1 );
-						onStatusChange( value );
-					} }
-				/>
+						{ value: '', label: __( 'All', 'geo-tool' ) },
+					].map( ( option ) => (
+						<label key={ option.value || 'all' }>
+							<input
+								type="radio"
+								name="mdia-image-status"
+								value={ option.value }
+								checked={ status === option.value }
+								onChange={ () => {
+									setPage( 1 );
+									onStatusChange( option.value );
+								} }
+							/>
+							<span>{ option.label }</span>
+						</label>
+					) ) }
+				</fieldset>
 				<SelectControl
 					__nextHasNoMarginBottom
 					__next40pxDefaultSize

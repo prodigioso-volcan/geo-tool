@@ -26,7 +26,7 @@ final class Api {
 
 	public const NAMESPACE = 'mdia/v1';
 
-	public const STATUSES = array( 'ok', 'decorative', 'needs_generation', 'needs_review', 'applying', 'applied', 'ignored', 'error' );
+	public const STATUSES = array( 'ok', 'decorative', 'needs_generation', 'needs_review', 'applying', 'applied', 'ignored', 'error', 'unused' );
 
 	private const ISSUES = array( 'missing', 'filename', 'generic', 'too_short', 'too_long', 'duplicate' );
 
@@ -230,10 +230,147 @@ final class Api {
 						),
 						'auto_generate_new' => array( 'type' => 'boolean' ),
 						'wizard_done'       => array( 'type' => 'boolean' ),
+						'text_consent'      => array( 'type' => 'boolean' ),
 					),
 				),
 			)
 		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/findings',
+			array(
+				'methods'             => 'GET',
+				'permission_callback' => $review,
+				'callback'            => array( self::class, 'get_findings' ),
+				'args'                => array(
+					'area'     => array(
+						'type' => 'string',
+						'enum' => array_keys( Status::AREAS ),
+					),
+					'fix'      => array(
+						'type' => 'string',
+						'enum' => array( 'ai', 'manual', 'setting' ),
+					),
+					'status'   => array(
+						'type' => 'string',
+						'enum' => array( 'pending', 'open', 'proposed', 'applied', 'waived', 'error' ),
+					),
+					'check_id' => array(
+						'type'              => 'string',
+						'sanitize_callback' => 'sanitize_text_field',
+					),
+					'page'     => array(
+						'type'    => 'integer',
+						'minimum' => 1,
+						'default' => 1,
+					),
+					'per_page' => array(
+						'type'    => 'integer',
+						'minimum' => 1,
+						'maximum' => 100,
+						'default' => 20,
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/findings/approve',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => $review,
+				'callback'            => static fn( \WP_REST_Request $request ) => rest_ensure_response( \MDIA\Checks\Finding_Actions::approve_many( (array) $request['items'], get_current_user_id() ) ),
+				'args'                => array(
+					'items' => array(
+						'type'     => 'array',
+						'required' => true,
+						'minItems' => 1,
+						'maxItems' => 100,
+						'items'    => array(
+							'type'       => 'object',
+							'properties' => array(
+								'id'   => array(
+									'type'     => 'integer',
+									'minimum'  => 1,
+									'required' => true,
+								),
+								'text' => array(
+									'type'      => 'string',
+									'maxLength' => self::MAX_TEXT_LENGTH,
+								),
+							),
+						),
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/findings/generation',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => $manage,
+				'callback'            => array( self::class, 'start_text_generation' ),
+				'args'                => array(
+					'area' => array(
+						'type' => 'string',
+						'enum' => array_keys( Status::AREAS ),
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/findings/acf-field',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => $manage,
+				'callback'            => static function ( \WP_REST_Request $request ) {
+					$result = \MDIA\Checks\Finding_Actions::waive_acf_field( (string) $request['name'], get_current_user_id() );
+					return is_wp_error( $result ) ? self::with_status( $result ) : rest_ensure_response( array( 'waived' => true ) );
+				},
+				'args'                => array(
+					'name' => array(
+						'type'     => 'string',
+						'required' => true,
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/findings/(?P<id>\\d+)/approve',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => $review,
+				'callback'            => static fn( \WP_REST_Request $request ) => self::finding_result( (int) $request['id'], \MDIA\Checks\Finding_Actions::approve( (int) $request['id'], (string) $request['text'], get_current_user_id() ) ),
+				'args'                => $id_arg + array(
+					'text' => array(
+						'type'      => 'string',
+						'required'  => true,
+						'maxLength' => self::MAX_TEXT_LENGTH,
+					),
+				),
+			)
+		);
+
+		foreach ( array( 'waive', 'reopen', 'regenerate', 'undo', 'trash' ) as $action ) {
+			register_rest_route(
+				self::NAMESPACE,
+				'/findings/(?P<id>\\d+)/' . $action,
+				array(
+					'methods'             => 'POST',
+					'permission_callback' => $review,
+					'callback'            => static fn( \WP_REST_Request $request ) => self::finding_result( (int) $request['id'], \MDIA\Checks\Finding_Actions::$action( (int) $request['id'], get_current_user_id() ) ),
+					'args'                => $id_arg,
+				)
+			);
+		}
 
 		register_rest_route(
 			self::NAMESPACE,
@@ -263,7 +400,8 @@ final class Api {
 	}
 
 	public static function get_status() {
-		$status = Status::compute( true );
+		// Cached for a minute; every write of the plugin clears it, so polling stays cheap and current.
+		$status = Status::compute();
 
 		if ( ! current_user_can( 'mdia_manage' ) ) {
 			foreach ( $status['checks'] as &$check ) {
@@ -294,6 +432,120 @@ final class Api {
 		return $response;
 	}
 
+	public static function get_findings( \WP_REST_Request $request ) {
+		$args = array(
+			'page'     => (int) $request['page'],
+			'per_page' => (int) $request['per_page'],
+		);
+		if ( $request['area'] ) {
+			$args['target_type'] = Status::AREAS[ $request['area'] ];
+		}
+		if ( $request['status'] ) {
+			$args['status'] = 'pending' === $request['status'] ? \MDIA\Data\Findings::PENDING : $request['status'];
+		}
+
+		$checks = \MDIA\Checks\Registry::all();
+		if ( $request['check_id'] ) {
+			$args['check_id'] = (string) $request['check_id'];
+		} elseif ( $request['fix'] ) {
+			$args['check_id'] = array_keys( array_filter( $checks, static fn( $check ): bool => $check->fix() === $request['fix'] ) );
+			if ( ! $args['check_id'] ) {
+				$args['check_id'] = array( '-' );
+			}
+		}
+
+		$result   = ( new \MDIA\Data\Findings() )->query( $args );
+		$response = rest_ensure_response( array_values( array_filter( array_map( array( self::class, 'prepare_finding' ), $result['items'] ) ) ) );
+		$response->header( 'X-WP-Total', $result['total'] );
+		$response->header( 'X-WP-TotalPages', (int) ceil( $result['total'] / $args['per_page'] ) );
+		return $response;
+	}
+
+	/**
+	 * Queues AI proposals for every open text finding, in server-sized chunks.
+	 */
+	public static function start_text_generation( \WP_REST_Request $request ) {
+		$checks = array_keys( array_filter( \MDIA\Checks\Registry::all(), static fn( $check ): bool => 'ai' === $check->fix() ) );
+		$args   = array(
+			'check_id' => $checks ? $checks : array( '-' ),
+			'status'   => array( 'open', 'error' ),
+			'queued'   => false,
+			'per_page' => self::GENERATION_CHUNK,
+		);
+		if ( $request['area'] ) {
+			$args['target_type'] = Status::AREAS[ $request['area'] ];
+		}
+
+		Generator::clear_health();
+		$findings = new \MDIA\Data\Findings();
+		$queued   = Scheduler::enqueue_text_generation( wp_list_pluck( $findings->query( $args )['items'], 'id' ) );
+
+		return rest_ensure_response(
+			array(
+				'queued'    => $queued,
+				'remaining' => $queued ? $findings->query( $args )['total'] : 0,
+			)
+		);
+	}
+
+	public static function prepare_finding( array $row ): ?array {
+		$check = \MDIA\Checks\Registry::get( $row['check_id'] );
+		if ( ! $check ) {
+			return null;
+		}
+		$target_id = (int) $row['target_id'];
+		$manager   = current_user_can( 'mdia_manage' );
+		// Nobody is shown the title or the texts of a page they could not open.
+		if ( 'post' === $row['target_type'] && ! current_user_can( 'read_post', $target_id ) ) {
+			return null;
+		}
+
+		return array(
+			'id'             => (int) $row['id'],
+			'check_id'       => $row['check_id'],
+			'label'          => $check->label(),
+			'why'            => $check->why(),
+			'area'           => Status::area_of( $row['target_type'] ),
+			'fix'            => $check->fix(),
+			'severity'       => $row['severity'],
+			'status'         => $row['status'],
+			'queued'         => (bool) $row['queued'],
+			'problem'        => \MDIA\Checks\Detail::text( $row['check_id'], (string) $row['detail'], (string) $row['current_value'] ),
+			'target_type'    => $row['target_type'],
+			'target_id'      => $target_id,
+			'target_key'     => $row['target_key'],
+			'target_label'   => $check->target_label( $target_id ),
+			'current_value'  => (string) $row['current_value'],
+			'proposed_value' => (string) $row['proposed_value'],
+			'is_human'       => 'ai' === $check->fix() && $check->is_human_value( $target_id ),
+			'limits'         => 'ai' === $check->fix() ? $check->limits( $target_id ) : null,
+			'last_error'     => '' === (string) $row['last_error'] || $manager ? (string) $row['last_error'] : Generator::public_error(),
+			'fix_url'        => $check->fix_url( $target_id ),
+			'view_url'       => 'post' === $row['target_type'] ? (string) get_permalink( $target_id ) : '',
+			'can_edit'       => $check->can_edit( get_current_user_id(), $target_id ),
+			'can_waive'      => $check->can_edit( get_current_user_id(), $target_id ) && ( 'required' !== $row['severity'] || $manager ),
+			'can_trash'      => \MDIA\Checks\Post\Test_Page::ID === $row['check_id'] && 'waived' !== $row['status'] && current_user_can( 'delete_post', $target_id ),
+			'can_undo'       => 'applied' === $row['status'] && null !== $row['previous_value'] && \MDIA\Checks\Finding_Actions::is_untouched( $row, $check ),
+		);
+	}
+
+	/**
+	 * @param true|\WP_Error $result
+	 */
+	private static function finding_result( int $finding_id, $result ) {
+		if ( is_wp_error( $result ) ) {
+			return self::with_status( $result );
+		}
+		$row = ( new \MDIA\Data\Findings() )->get( $finding_id );
+		// A finding that now passes is gone: say so instead of failing.
+		return rest_ensure_response( $row ? self::prepare_finding( $row ) : array( 'id' => $finding_id, 'status' => 'resolved' ) );
+	}
+
+	private static function with_status( \WP_Error $error ): \WP_Error {
+		$error->add_data( array( 'status' => self::ERROR_STATUS[ $error->get_error_code() ] ?? 400 ) );
+		return $error;
+	}
+
 	public static function start_generation( \WP_REST_Request $request ) {
 		$items = new Items();
 		$limit = min( self::GENERATION_CHUNK, (int) ( $request['limit'] ?? self::GENERATION_CHUNK ) );
@@ -318,6 +570,11 @@ final class Api {
 				'wp_ok'          => version_compare( $wp_version, MDIA_MIN_WP, '>=' ),
 				'provider'       => Generator::provider()->availability(),
 				'connectors_url' => admin_url( 'options-connectors.php' ),
+				'seo'            => array(
+					'active'      => \MDIA\Seo\Seo::adapter()->is_active(),
+					'name'        => \MDIA\Seo\Seo::adapter()->name(),
+					'install_url' => admin_url( 'plugin-install.php?s=yoast+seo&tab=search&type=term' ),
+				),
 				'image_count'    => self::latest_image() ? array_sum( ( new Items() )->count_by_status() ) : 0,
 			)
 		);
@@ -377,10 +634,14 @@ final class Api {
 
 	public static function prepare_item( array $row ): array {
 		$id         = (int) $row['attachment_id'];
-		$manageable = 0;
-		$unmanaged  = 0;
+		$kinds = array(
+			\MDIA\Audit\Usage_Indexer::CONTENT => 0,
+			\MDIA\Audit\Usage_Indexer::LIBRARY => 0,
+			\MDIA\Audit\Usage_Indexer::FIXED   => 0,
+			\MDIA\Audit\Usage_Indexer::BUILDER => 0,
+		);
 		foreach ( ( new Usages() )->for_attachment( $id ) as $usage ) {
-			(int) $usage['manageable'] ? ++$manageable : ++$unmanaged;
+			++$kinds[ isset( $kinds[ $usage['kind'] ] ) ? $usage['kind'] : \MDIA\Audit\Usage_Indexer::BUILDER ];
 		}
 
 		return array(
@@ -397,8 +658,9 @@ final class Api {
 			'filename'        => wp_basename( (string) get_attached_file( $id ) ),
 			'thumbnail_url'   => (string) wp_get_attachment_image_url( $id, 'thumbnail' ),
 			'edit_url'        => admin_url( 'post.php?post=' . $id . '&action=edit' ),
-			'usage_count'     => $manageable,
-			'unmanaged_count' => $unmanaged,
+			'usage_count'     => $kinds['content'] + $kinds['library'] + $kinds['fixed'],
+			'fixed_count'     => $kinds['fixed'],
+			'unmanaged_count' => $kinds['builder'],
 			'can_undo'        => in_array( $row['status'], array( 'applied', 'decorative' ), true ) && array() !== ( new Changes() )->latest_batch( $id ),
 		);
 	}

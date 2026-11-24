@@ -105,13 +105,20 @@ final class Response_Sanitizer {
 	}
 
 	private static function truncate( string $text ): string {
-		if ( mb_strlen( $text ) <= self::MAX_LENGTH ) {
+		return self::cut( $text, self::MAX_LENGTH );
+	}
+
+	/**
+	 * Shortens a text to a maximum length, ending at a clause or a whole word, never mid-phrase.
+	 */
+	public static function cut( string $text, int $max ): string {
+		if ( mb_strlen( $text ) <= $max ) {
 			return $text;
 		}
 
-		$cut   = mb_substr( $text, 0, self::MAX_LENGTH + 1 );
+		$cut   = mb_substr( $text, 0, $max + 1 );
 		$space = mb_strrpos( $cut, ' ' );
-		$cut   = false !== $space && $space > self::MAX_LENGTH / 2 ? mb_substr( $cut, 0, $space ) : mb_substr( $cut, 0, self::MAX_LENGTH );
+		$cut   = false !== $space && $space > $max / 2 ? mb_substr( $cut, 0, $space ) : mb_substr( $cut, 0, $max );
 
 		// A quotation opened but cut before it closed would read as broken text.
 		if ( 1 === substr_count( $cut, '"' ) % 2 ) {
@@ -122,7 +129,7 @@ final class Response_Sanitizer {
 		$clause = false;
 		foreach ( self::CLAUSE_BREAKS as $break ) {
 			$position = mb_strrpos( $cut, $break );
-			if ( false !== $position && $position >= self::MAX_LENGTH / 2 && ( false === $clause || $position > $clause ) ) {
+			if ( false !== $position && $position >= $max / 2 && ( false === $clause || $position > $clause ) ) {
 				$clause = $position;
 			}
 		}

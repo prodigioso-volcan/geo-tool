@@ -7,11 +7,11 @@ class MenuTest extends WP_UnitTestCase {
 		$submenu = array();
 		$menu    = array();
 		do_action( 'admin_menu' );
-		set_current_screen( 'media_page_mdia' ); // Core callbacks on admin_enqueue_scripts read the screen.
-		return wp_list_pluck( $submenu['upload.php'] ?? array(), 2 );
+		set_current_screen( 'toplevel_page_mdia' ); // Core callbacks on admin_enqueue_scripts read the screen.
+		return wp_list_pluck( $menu, 2 );
 	}
 
-	public function test_reviewers_get_the_screen_under_media() {
+	public function test_reviewers_get_a_top_level_screen() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'editor' ) ) );
 
 		$this->assertContains( 'mdia', $this->submenu_slugs() );
@@ -24,7 +24,7 @@ class MenuTest extends WP_UnitTestCase {
 		do_action( 'admin_enqueue_scripts', 'upload.php' );
 		$this->assertFalse( wp_script_is( 'mdia-admin', 'enqueued' ) );
 
-		do_action( 'admin_enqueue_scripts', 'media_page_mdia' );
+		do_action( 'admin_enqueue_scripts', 'toplevel_page_mdia' );
 		$this->assertTrue( wp_script_is( 'mdia-admin', 'enqueued' ) );
 
 		$inline = implode( '', (array) wp_scripts()->get_data( 'mdia-admin', 'before' ) );
@@ -36,7 +36,7 @@ class MenuTest extends WP_UnitTestCase {
 	public function test_administrators_can_manage() {
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 		$this->submenu_slugs();
-		do_action( 'admin_enqueue_scripts', 'media_page_mdia' );
+		do_action( 'admin_enqueue_scripts', 'toplevel_page_mdia' );
 
 		$inline = implode( '', (array) wp_scripts()->get_data( 'mdia-admin', 'before' ) );
 		$this->assertStringContainsString( '"canManage":true', $inline );

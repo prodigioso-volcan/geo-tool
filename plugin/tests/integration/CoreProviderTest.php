@@ -50,6 +50,23 @@ class CoreProviderTest extends WP_UnitTestCase {
 		);
 	}
 
+	public function test_answers_have_room_for_models_that_think_before_writing() {
+		// A model that reasons first spends output tokens on it: with 200 it never got to the text.
+		$this->assertSame( 2000, Core_Provider::max_tokens() );
+
+		add_filter( 'mdia_max_tokens', static fn() => 4000 );
+		$this->assertSame( 4000, Core_Provider::max_tokens() );
+	}
+
+	public function test_a_broken_token_limit_stays_within_bounds() {
+		add_filter( 'mdia_max_tokens', static fn() => 'muchos' );
+		$this->assertSame( 200, Core_Provider::max_tokens() );
+
+		remove_all_filters( 'mdia_max_tokens' );
+		add_filter( 'mdia_max_tokens', static fn() => 900000 );
+		$this->assertSame( 8000, Core_Provider::max_tokens() );
+	}
+
 	public function test_a_broken_preference_filter_does_not_break_the_provider() {
 		add_filter( 'mdia_model_preference', static fn() => 'no es una lista' );
 		add_filter( 'wp_ai_client_prevent_prompt', '__return_true' );

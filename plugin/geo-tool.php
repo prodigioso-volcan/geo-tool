@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name:       GEO Tool by JUNGLE
- * Description:       Audits image alt text in the media library and in published content, and proposes better alt text with AI for human review.
- * Version:           0.3.0
+ * Description:       Checks that a site is ready for search engines and AI assistants: image alt text, meta descriptions, titles, empty fields and site settings. Proposes the missing texts with AI for human review.
+ * Version:           0.4.0
  * Requires at least: 7.0
  * Requires PHP:      8.1
  * Author:            JUNGLE
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'MDIA_VERSION', '0.3.0' );
+define( 'MDIA_VERSION', '0.4.0' );
 define( 'MDIA_FILE', __FILE__ );
 define( 'MDIA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MDIA_MIN_WP', '7.0' );

@@ -16,6 +16,20 @@ final class Usage_Indexer {
 
 	private const ISSUE_ORDER = array( Rules::MISSING, Rules::FILENAME, Rules::GENERIC, Rules::TOO_SHORT, Rules::TOO_LONG, Rules::DUPLICATE );
 
+	/** Written in the saved content: the plugin can rewrite it. */
+	public const CONTENT = 'content';
+
+	/** Painted by the theme with the media library text: fixed by approving the image. */
+	public const LIBRARY = 'library';
+
+	/** Painted by the theme with a text of its own: the plugin cannot change it. */
+	public const FIXED = 'fixed';
+
+	/** Inside page-builder data the plugin does not rewrite. */
+	public const BUILDER = 'builder';
+
+	private const PROBE = 'mdia-probe-';
+
 	private Usages $usages;
 
 	private Alt_Rewriter $rewriter;
@@ -68,6 +82,8 @@ final class Usage_Indexer {
 	 */
 	public function index_post( int $post_id ): array {
 		$previous = $this->usages->attachment_ids_for_post( $post_id );
+		// The post may have been saved again in this request: never read a page composed before.
+		\MDIA\Content\Page_Text::flush();
 		$post     = get_post( $post_id );
 
 		if ( ! self::is_indexable( $post ) ) {
@@ -107,6 +123,7 @@ final class Usage_Indexer {
 				'issues'        => implode( ',', array_values( array_intersect( self::ISSUE_ORDER, $issues ) ) ),
 				'occurrences'   => count( $alts ),
 				'manageable'    => $manageable,
+				'kind'          => $manageable ? self::CONTENT : self::BUILDER,
 			);
 		}
 
@@ -120,12 +137,89 @@ final class Usage_Indexer {
 				'issues'        => '',
 				'occurrences'   => 1,
 				'manageable'    => 0,
+				'kind'          => self::BUILDER,
 			);
+		}
+
+		// Images the theme paints when the page is shown are not in the saved content.
+		if ( 'publish' === $post->post_status ) {
+			foreach ( $this->painted_usages( $post, array_keys( $rows ) ) as $attachment_id => $usage ) {
+				$rows[ $attachment_id ] = array(
+					'attachment_id' => $attachment_id,
+					'alt'           => $usage['alt'],
+					'issues'        => '', // Nothing to rewrite here: the media library entry carries the problem.
+					'occurrences'   => $usage['occurrences'],
+					'manageable'    => 0,
+					'kind'          => $usage['kind'],
+				);
+			}
 		}
 
 		$this->usages->replace_for_post( $post_id, array_values( $rows ) );
 
 		return array_values( array_unique( array_merge( $previous, array_keys( $rows ) ) ) );
+	}
+
+	/**
+	 * Images that appear when the page is composed but are not in its saved content, and
+	 * whether each one shows the media library text or one the theme writes itself.
+	 *
+	 * To tell them apart the page is composed a second time while the library pretends to hold
+	 * a different text. Nothing is written.
+	 *
+	 * @param int[] $known Attachment ids already found in the saved content.
+	 * @return array<int,array{kind:string,alt:string,occurrences:int}>
+	 */
+	private function painted_usages( \WP_Post $post, array $known ): array {
+		$found     = $this->alts_by_attachment( \MDIA\Content\Page_Text::html( $post->ID ) );
+		$thumbnail = (int) get_post_thumbnail_id( $post );
+
+		$usages = array();
+		foreach ( $found as $attachment_id => $alts ) {
+			if ( in_array( $attachment_id, $known, true ) || ! Auditor::is_supported( $attachment_id ) ) {
+				continue;
+			}
+			$usages[ $attachment_id ] = array(
+				'kind'        => self::FIXED,
+				'alt'         => (string) $alts[0],
+				'occurrences' => count( $alts ),
+			);
+		}
+
+		if ( $usages ) {
+			$ids   = array_keys( $usages );
+			$probe = static function ( $value, $object_id, $meta_key ) use ( $ids ) {
+				return '_wp_attachment_image_alt' === $meta_key && in_array( (int) $object_id, $ids, true ) ? array( self::PROBE . (int) $object_id ) : $value;
+			};
+
+			add_filter( 'get_post_metadata', $probe, PHP_INT_MAX, 3 );
+			try {
+				$probed = $this->alts_by_attachment( \MDIA\Content\Page_Text::fresh( $post->ID ) );
+			} finally {
+				remove_filter( 'get_post_metadata', $probe, PHP_INT_MAX );
+				if ( function_exists( 'acf_get_store' ) ) {
+					acf_get_store( 'values' )->reset();
+				}
+			}
+
+			foreach ( $ids as $attachment_id ) {
+				if ( in_array( self::PROBE . $attachment_id, $probed[ $attachment_id ] ?? array(), true ) ) {
+					$usages[ $attachment_id ]['kind'] = self::LIBRARY;
+					$usages[ $attachment_id ]['alt']  = trim( (string) get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) );
+				}
+			}
+		}
+
+		// The featured image is painted by the theme, outside the content.
+		if ( $thumbnail && ! in_array( $thumbnail, $known, true ) && ( ! isset( $usages[ $thumbnail ] ) || self::FIXED === $usages[ $thumbnail ]['kind'] ) && Auditor::is_supported( $thumbnail ) ) {
+			$usages[ $thumbnail ] = array(
+				'kind'        => self::LIBRARY,
+				'alt'         => trim( (string) get_post_meta( $thumbnail, '_wp_attachment_image_alt', true ) ),
+				'occurrences' => ( $usages[ $thumbnail ]['occurrences'] ?? 0 ) + 1,
+			);
+		}
+
+		return $usages;
 	}
 
 	/**

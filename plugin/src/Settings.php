@@ -18,6 +18,8 @@ final class Settings {
 			'auto_generate_new' => true,
 			'daily_limit'       => 200,
 			'wizard_done'       => false,
+			// Accepted once by a manager: page text may be sent to the AI provider to propose metadata.
+			'text_consent'      => false,
 		);
 	}
 
@@ -27,6 +29,7 @@ final class Settings {
 
 		$values['auto_generate_new'] = (bool) $values['auto_generate_new'];
 		$values['wizard_done']       = (bool) $values['wizard_done'];
+		$values['text_consent']      = (bool) $values['text_consent'];
 		$values['daily_limit']       = max( 1, (int) $values['daily_limit'] );
 
 		return $values;

@@ -88,6 +88,17 @@ function Requirements( { onNext } ) {
 					</p>
 				</>
 			) }
+			{ ! data.seo.active && (
+				<Notice status="warning" isDismissible={ false }>
+					{ __(
+						'No SEO plugin is active. Image alt text works without one, but meta descriptions, SEO titles and most site checks need Yoast SEO or Rank Math.',
+						'geo-tool'
+					) }{ ' ' }
+					<a href={ data.seo.install_url } target="_blank" rel="noreferrer">
+						{ __( 'Install one (new tab)', 'geo-tool' ) }
+					</a>
+				</Notice>
+			) }
 			<div className="mdia-wizard__actions">
 				{ ! ready && (
 					<>
@@ -249,8 +260,12 @@ function PreferencesStep( { onNext } ) {
 						saveSettings( {
 							daily_limit: values.daily_limit,
 							auto_generate_new: values.auto_generate_new,
+							text_consent: !! values.text_consent,
 						} )
-							.then( onNext )
+							.then( ( saved ) => {
+								window.mdiaData.textConsent = !! saved.text_consent;
+								onNext( saved );
+							} )
 							.catch( ( e ) => setError( e.message ) )
 					}
 				>

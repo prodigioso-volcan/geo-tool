@@ -26,7 +26,9 @@ final class Scheduler {
 	public static function register(): void {
 		add_action( 'mdia_index_batch', array( self::class, 'handle_index_batch' ) );
 		add_action( 'mdia_audit_batch', array( self::class, 'handle_audit_batch' ) );
+		add_action( 'mdia_checks_batch', array( self::class, 'handle_checks_batch' ), 10, 2 );
 		add_action( 'mdia_generate_item', array( self::class, 'handle_generate' ) );
+		add_action( 'mdia_generate_finding', array( self::class, 'handle_generate_finding' ) );
 		add_action( 'mdia_apply_item', array( self::class, 'handle_apply' ), 10, 4 );
 		add_action( 'mdia_resume_generation', array( self::class, 'handle_resume_generation' ) );
 		add_action( 'mdia_daily', array( self::class, 'handle_daily' ) );
@@ -72,7 +74,7 @@ final class Scheduler {
 		);
 
 		// A run whose actions vanished (cancelled, cleaned) must not block the next one forever.
-		if ( $state['running'] && ! self::has_work( 'mdia_index_batch' ) && ! self::has_work( 'mdia_audit_batch' ) ) {
+		if ( $state['running'] && ! self::has_work( 'mdia_index_batch' ) && ! self::has_work( 'mdia_audit_batch' ) && ! self::has_work( 'mdia_checks_batch' ) ) {
 			$state['running'] = false;
 		}
 		return $state;
@@ -80,9 +82,10 @@ final class Scheduler {
 
 	/**
 	 * @param int[] $attachment_ids
+	 * @param bool  $requested Someone asked for these images in particular: ones no page uses are included.
 	 * @return int How many generations were enqueued.
 	 */
-	public static function enqueue_generation( array $attachment_ids ): int {
+	public static function enqueue_generation( array $attachment_ids, bool $requested = false ): int {
 		$items    = new Items();
 		$enqueued = 0;
 
@@ -93,17 +96,58 @@ final class Scheduler {
 
 		foreach ( array_unique( array_map( 'intval', $attachment_ids ) ) as $attachment_id ) {
 			$row = $items->get( $attachment_id );
-			if ( ! $row || ! in_array( $row['status'], array( 'needs_generation', 'error' ), true ) ) {
+			if ( ! $row || ! in_array( $row['status'], $requested ? array( 'needs_generation', 'error', 'unused' ) : array( 'needs_generation', 'error' ), true ) ) {
 				continue;
 			}
 			if ( as_has_scheduled_action( 'mdia_generate_item', array( $attachment_id ), self::GROUP ) ) {
 				continue;
 			}
-			$items->upsert( $attachment_id, array( 'queued' => 1 ) );
+			$items->upsert(
+				$attachment_id,
+				array(
+					'queued' => 1,
+					'status' => 'unused' === $row['status'] ? 'needs_generation' : $row['status'],
+				)
+			);
 			as_enqueue_async_action( 'mdia_generate_item', array( $attachment_id ), self::GROUP );
 			++$enqueued;
 		}
 		return $enqueued;
+	}
+
+	/**
+	 * Queues text proposals for findings. Only for checks fixed with AI text, and only once
+	 * a manager accepted that page text is sent to the provider.
+	 *
+	 * @param int[] $finding_ids
+	 * @return int How many were enqueued.
+	 */
+	public static function enqueue_text_generation( array $finding_ids ): int {
+		if ( ! \MDIA\Settings::get( 'wizard_done' ) || ! \MDIA\Settings::get( 'text_consent' ) ) {
+			return 0;
+		}
+
+		$findings = new \MDIA\Data\Findings();
+		$enqueued = 0;
+		foreach ( array_unique( array_map( 'intval', $finding_ids ) ) as $finding_id ) {
+			$row   = $findings->get( $finding_id );
+			$check = $row ? \MDIA\Checks\Registry::get( $row['check_id'] ) : null;
+			if ( ! $check || 'ai' !== $check->fix() || ! in_array( $row['status'], array( 'open', 'error' ), true ) ) {
+				continue;
+			}
+			if ( as_has_scheduled_action( 'mdia_generate_finding', array( $finding_id ), self::GROUP ) ) {
+				continue;
+			}
+			$findings->update_if_status( $finding_id, array( 'queued' => 1 ), array( 'open', 'error' ) );
+			as_enqueue_async_action( 'mdia_generate_finding', array( $finding_id ), self::GROUP );
+			++$enqueued;
+		}
+		return $enqueued;
+	}
+
+	public static function handle_generate_finding( $finding_id = 0 ): void {
+		\MDIA\Checks\Text_Generator::run( (int) $finding_id );
+		self::touch();
 	}
 
 	/**
@@ -112,8 +156,9 @@ final class Scheduler {
 	public static function pause_generation(): int {
 		// With a hook and no args or group, Action Scheduler cancels every pending action of the hook.
 		as_unschedule_all_actions( 'mdia_generate_item' );
+		as_unschedule_all_actions( 'mdia_generate_finding' );
 		as_unschedule_all_actions( 'mdia_resume_generation' );
-		return ( new Items() )->clear_queued();
+		return ( new Items() )->clear_queued() + ( new \MDIA\Data\Findings() )->clear_queued();
 	}
 
 	/**
@@ -145,6 +190,26 @@ final class Scheduler {
 			as_enqueue_async_action( 'mdia_generate_item', array( $attachment_id ), self::GROUP );
 			++$enqueued;
 		}
+
+		// Text proposals that were waiting for budget too.
+		$waiting = ( new \MDIA\Data\Findings() )->query(
+			array(
+				'queued'   => true,
+				'status'   => array( 'open', 'error' ),
+				'per_page' => self::RESUME_CHUNK,
+			)
+		)['items'];
+		foreach ( $waiting as $row ) {
+			if ( as_has_scheduled_action( 'mdia_generate_finding', array( $row['id'] ), self::GROUP ) ) {
+				continue;
+			}
+			if ( $enqueued >= $remaining ) {
+				self::schedule_resume();
+				break;
+			}
+			as_enqueue_async_action( 'mdia_generate_finding', array( $row['id'] ), self::GROUP );
+			++$enqueued;
+		}
 		self::touch();
 	}
 
@@ -153,8 +218,9 @@ final class Scheduler {
 		// anyone able to upload (authors, front-end forms) could spend the site's budget.
 		$uploader = (int) get_post_field( 'post_author', (int) $attachment_id );
 
-		if ( 'needs_generation' === $status && \MDIA\Settings::get( 'auto_generate_new' ) && $uploader && user_can( $uploader, 'mdia_review' ) ) {
-			self::enqueue_generation( array( (int) $attachment_id ) );
+		// A fresh upload is not on any page yet; the setting is the request to describe it anyway.
+		if ( in_array( $status, array( 'needs_generation', 'unused' ), true ) && \MDIA\Settings::get( 'auto_generate_new' ) && $uploader && user_can( $uploader, 'mdia_review' ) ) {
+			self::enqueue_generation( array( (int) $attachment_id ), true );
 		}
 	}
 
@@ -220,6 +286,45 @@ final class Scheduler {
 		if ( count( $ids ) === self::IMAGES_PER_BATCH ) {
 			as_enqueue_async_action( 'mdia_audit_batch', array( (int) end( $ids ) ), self::GROUP );
 		} else {
+			// Images done: now the SEO/GEO checks on pages, terms, authors and the site.
+			as_enqueue_async_action( 'mdia_checks_batch', array( 'post', 0 ), self::GROUP );
+		}
+		self::touch();
+	}
+
+	/**
+	 * Third part of the full audit. Stages run in order: post, term, user, site.
+	 */
+	public static function handle_checks_batch( $stage = 'post', $after = 0 ): void {
+		$after  = (int) $after;
+		$stages = array(
+			'post' => array( 'next' => 'term', 'size' => self::POSTS_PER_BATCH ),
+			'term' => array( 'next' => 'user', 'size' => self::IMAGES_PER_BATCH ),
+			'user' => array( 'next' => 'site', 'size' => self::IMAGES_PER_BATCH ),
+		);
+
+		if ( isset( $stages[ $stage ] ) ) {
+			$size = $stages[ $stage ]['size'];
+			switch ( $stage ) {
+				case 'post':
+					$ids = \MDIA\Checks\Targets::post_ids_after( $after, $size );
+					break;
+				case 'term':
+					$ids = \MDIA\Checks\Targets::term_ids_after( $after, $size );
+					break;
+				default:
+					$ids = \MDIA\Checks\Targets::author_ids_after( $after, $size );
+			}
+			foreach ( $ids as $id ) {
+				\MDIA\Content\Page_Text::flush();
+				\MDIA\Checks\Engine::evaluate( $stage, $id );
+			}
+
+			$more = count( $ids ) === $size;
+			as_enqueue_async_action( 'mdia_checks_batch', $more ? array( $stage, (int) end( $ids ) ) : array( $stages[ $stage ]['next'], 0 ), self::GROUP );
+		} else {
+			\MDIA\Checks\Engine::evaluate_site();
+
 			$state                = get_option( self::AUDIT_OPTION, array() );
 			$state                = is_array( $state ) ? $state : array();
 			$state['running']     = false;

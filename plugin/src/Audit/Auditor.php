@@ -19,6 +19,9 @@ final class Auditor {
 	 */
 	public const LIBRARY_PROPOSAL = 'library';
 
+	/** Proposal to mark as decorative an image the theme always shows without alt text. */
+	public const THEME_PROPOSAL = 'theme';
+
 	public const MIME_TYPES = array( 'image/jpeg', 'image/png', 'image/webp', 'image/gif' );
 
 	/**
@@ -113,9 +116,53 @@ final class Auditor {
 			$changes['queued'] = 0;
 		}
 
+		$changes = $this->placed( $attachment_id, $row, $changes );
+
 		$this->items->upsert( $attachment_id, $changes );
 
 		return $changes['status'];
+	}
+
+	/**
+	 * Where the image is shown decides what to do with one that still needs a text: nothing
+	 * if no page uses it, and no AI request if the theme always shows it without alt text.
+	 */
+	private function placed( int $attachment_id, ?array $row, array $changes ): array {
+		$was_theme = $row && self::THEME_PROPOSAL === $row['provider'] && 'needs_review' === $row['status'];
+		$requested = $row && (int) $row['queued'];
+
+		if ( ! $was_theme && ( 'needs_generation' !== $changes['status'] || $requested ) ) {
+			return $changes;
+		}
+
+		$usages = $this->usages->for_attachment( $attachment_id );
+		$empty  = array_filter( $usages, static fn( array $usage ): bool => Usage_Indexer::FIXED === $usage['kind'] && '' === trim( $usage['alt'] ) );
+		$clear  = array(
+			'proposed_alt' => null,
+			'provider'     => null,
+			'model'        => null,
+			'queued'       => 0,
+			'last_error'   => null,
+		);
+
+		if ( ! $usages && ! self::is_site_asset( $attachment_id ) ) {
+			return array( 'status' => 'unused' ) + $clear + $changes;
+		}
+		if ( $usages && count( $empty ) === count( $usages ) ) {
+			return array(
+				'status'       => 'needs_review',
+				'proposed_alt' => '',
+				'provider'     => self::THEME_PROPOSAL,
+			) + $clear + $changes;
+		}
+		return $was_theme ? array( 'status' => 'needs_generation' ) + $clear + $changes : $changes;
+	}
+
+	/**
+	 * The logo and the icon of the site are on every page, though no page content holds them.
+	 */
+	private static function is_site_asset( int $attachment_id ): bool {
+		return in_array( $attachment_id, array( (int) get_theme_mod( 'custom_logo' ), (int) get_option( 'site_icon' ) ), true );
 	}
 
 	/**

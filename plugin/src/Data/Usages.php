@@ -17,7 +17,7 @@ final class Usages {
 	}
 
 	/**
-	 * @param array<int,array{attachment_id:int,alt:string,issues:string,occurrences:int,manageable:int}> $rows
+	 * @param array<int,array{attachment_id:int,alt:string,issues:string,occurrences:int,manageable:int,kind?:string}> $rows
 	 */
 	public function replace_for_post( int $post_id, array $rows ): void {
 		global $wpdb;
@@ -34,8 +34,9 @@ final class Usages {
 					'issues'        => (string) $row['issues'],
 					'occurrences'   => (int) $row['occurrences'],
 					'manageable'    => (int) $row['manageable'],
+					'kind'          => (string) ( $row['kind'] ?? ( (int) $row['manageable'] ? 'content' : 'builder' ) ),
 				),
-				array( '%d', '%d', '%s', '%s', '%d', '%d' )
+				array( '%d', '%d', '%s', '%s', '%d', '%d', '%s' )
 			);
 		}
 
@@ -91,6 +92,6 @@ final class Usages {
 	public function count_unmanaged(): int {
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$this->table()} WHERE manageable = 0" );
+		return (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$this->table()} WHERE kind = 'builder'" );
 	}
 }
