@@ -17,7 +17,8 @@ final class Hooks {
 	private const BUILDER_META = array( '_elementor_data', '_elementor_edit_mode' );
 
 	public static function register(): void {
-		add_action( 'save_post', array( self::class, 'on_save_post' ), 20, 2 );
+		// After WPML has stored the language of the page (it does at priority 100).
+		add_action( 'save_post', array( self::class, 'on_save_post' ), 200, 2 );
 		add_action( 'deleted_post', array( self::class, 'on_deleted_post' ), 20, 2 );
 		add_action( 'add_attachment', array( self::class, 'on_add_attachment' ), 20 );
 		add_action( 'delete_attachment', array( self::class, 'on_delete_attachment' ), 20 );

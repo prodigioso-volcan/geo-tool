@@ -25,6 +25,9 @@ final class Usage_Indexer {
 	/** Painted by the theme with a text of its own: the plugin cannot change it. */
 	public const FIXED = 'fixed';
 
+	/** On a page in a language this image has no text for (WPML). */
+	public const FOREIGN = 'foreign';
+
 	/** Inside page-builder data the plugin does not rewrite. */
 	public const BUILDER = 'builder';
 
@@ -96,7 +99,19 @@ final class Usage_Indexer {
 		$rows       = array();
 		$items      = new \MDIA\Data\Items();
 
-		foreach ( $this->alts_by_attachment( $post->post_content ) as $attachment_id => $alts ) {
+		$in_content = $this->alts_by_attachment( $post->post_content );
+		$owned      = array();
+		$foreign    = array();
+		foreach ( $in_content as $attachment_id => $alts ) {
+			$owner = \MDIA\I18n\Languages::image_for_page( (int) $attachment_id, $post_id );
+			if ( null === $owner ) {
+				$foreign[ $attachment_id ] = $alts;
+			} else {
+				$owned[ $owner ] = array_merge( $owned[ $owner ] ?? array(), $alts );
+			}
+		}
+
+		foreach ( $owned as $attachment_id => $alts ) {
 			if ( ! Auditor::is_supported( $attachment_id ) ) {
 				continue;
 			}
@@ -127,6 +142,21 @@ final class Usage_Indexer {
 			);
 		}
 
+		// A page in a language the image has no text for: recorded, never judged nor rewritten.
+		foreach ( $foreign as $attachment_id => $alts ) {
+			if ( isset( $rows[ $attachment_id ] ) || ! Auditor::is_supported( $attachment_id ) ) {
+				continue;
+			}
+			$rows[ $attachment_id ] = array(
+				'attachment_id' => $attachment_id,
+				'alt'           => (string) $alts[0],
+				'issues'        => '',
+				'occurrences'   => count( $alts ),
+				'manageable'    => 0,
+				'kind'          => self::FOREIGN,
+			);
+		}
+
 		foreach ( $this->unmanaged_attachment_ids( $post_id ) as $attachment_id ) {
 			if ( isset( $rows[ $attachment_id ] ) || ! Auditor::is_supported( $attachment_id ) ) {
 				continue;
@@ -143,7 +173,7 @@ final class Usage_Indexer {
 
 		// Images the theme paints when the page is shown are not in the saved content.
 		if ( 'publish' === $post->post_status ) {
-			foreach ( $this->painted_usages( $post, array_keys( $rows ) ) as $attachment_id => $usage ) {
+			foreach ( $this->painted_usages( $post, array_merge( array_keys( $rows ), array_keys( $in_content ) ) ) as $attachment_id => $usage ) {
 				$rows[ $attachment_id ] = array(
 					'attachment_id' => $attachment_id,
 					'alt'           => $usage['alt'],
@@ -157,7 +187,7 @@ final class Usage_Indexer {
 
 		$this->usages->replace_for_post( $post_id, array_values( $rows ) );
 
-		return array_values( array_unique( array_merge( $previous, array_keys( $rows ) ) ) );
+		return array_values( array_unique( array_merge( $previous, array_keys( $rows ), array_keys( $in_content ) ) ) );
 	}
 
 	/**
@@ -217,6 +247,14 @@ final class Usage_Indexer {
 				'alt'         => trim( (string) get_post_meta( $thumbnail, '_wp_attachment_image_alt', true ) ),
 				'occurrences' => ( $usages[ $thumbnail ]['occurrences'] ?? 0 ) + 1,
 			);
+		}
+
+		// What the theme paints on a page of another language shows the text of this image as it
+		// is: nothing of this page to fix, and not a reason to describe the image.
+		foreach ( $usages as $attachment_id => $usage ) {
+			if ( \MDIA\I18n\Languages::image_for_page( (int) $attachment_id, (int) $post->ID ) !== (int) $attachment_id ) {
+				$usages[ $attachment_id ]['kind'] = self::FOREIGN;
+			}
 		}
 
 		return $usages;

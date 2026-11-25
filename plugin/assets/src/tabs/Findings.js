@@ -21,6 +21,8 @@ import {
 } from '../api';
 
 const { canManage, checks } = window.mdiaData;
+// Languages of the site when it has more than one (WPML); none otherwise.
+const languages = Object.entries( window.mdiaData.languages || {} );
 
 const STATUS_ORDER = [ 'pending', 'proposed', 'open', 'error', 'applied', 'waived' ];
 
@@ -38,6 +40,10 @@ export default function Findings( { areas, filters, onFilterChange, onOpenSettin
 	const status = filters.status ?? 'pending';
 	const checkId = filters.check_id || '';
 	const withTexts = area !== 'site';
+	const withLanguages = withTexts && languages.length > 1;
+	// Never "lang" in the address: WPML reads it to switch the language of the admin.
+	// And a filter nobody can see must not empty the list.
+	const lang = withLanguages ? filters.language || '' : '';
 
 	const [ page, setPage ] = useState( 1 );
 	const [ data, setData ] = useState( null );
@@ -62,6 +68,7 @@ export default function Findings( { areas, filters, onFilterChange, onOpenSettin
 			area,
 			status,
 			check_id: checkId,
+			language: lang,
 			page,
 			per_page: 20,
 		} )
@@ -92,7 +99,7 @@ export default function Findings( { areas, filters, onFilterChange, onOpenSettin
 				}
 			} )
 			.catch( ( e ) => setError( e.message ) );
-	}, [ area, status, checkId, page, withTexts ] );
+	}, [ area, status, checkId, lang, page, withTexts ] );
 
 	useEffect( () => {
 		setData( null );
@@ -113,7 +120,13 @@ export default function Findings( { areas, filters, onFilterChange, onOpenSettin
 
 	const filter = ( changed ) => {
 		setPage( 1 );
-		onFilterChange( { area, status, check_id: checkId, ...changed } );
+		onFilterChange( {
+			area,
+			status,
+			check_id: checkId,
+			language: lang,
+			...changed,
+		} );
 	};
 
 	const onRowChange = ( updated, action ) => {
@@ -391,6 +404,22 @@ export default function Findings( { areas, filters, onFilterChange, onOpenSettin
 					] }
 					onChange={ ( value ) => filter( { check_id: value } ) }
 				/>
+				{ withLanguages && (
+					<SelectControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+						label={ __( 'Language', 'geo-tool' ) }
+						value={ lang }
+						options={ [
+							{ value: '', label: __( 'All', 'geo-tool' ) },
+							...languages.map( ( [ value, label ] ) => ( {
+								value,
+								label,
+							} ) ),
+						] }
+						onChange={ ( value ) => filter( { language: value } ) }
+					/>
+				) }
 			</div>
 
 			{ error && (

@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GEO Tool by JUNGLE 0.4.1\n"
+"Project-Id-Version: GEO Tool by JUNGLE 0.5.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/geo-tool\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-24T13:28:19+00:00\n"
+"POT-Creation-Date: 2026-11-25T14:43:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: geo-tool\n"
@@ -89,7 +89,7 @@ msgid "The configured AI provider cannot describe images."
 msgstr ""
 
 #: src/AI/Generator.php:101
-#: src/Rest/Api.php:620
+#: src/Rest/Api.php:632
 msgid "The AI provider did not return a usable description."
 msgstr ""
 
@@ -207,51 +207,51 @@ msgstr ""
 msgid "The text cannot be empty."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:57
+#: src/Checks/Finding_Actions.php:62
 msgid "The text could not be saved."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:168
+#: src/Checks/Finding_Actions.php:173
 msgid "Only an item accepted as it is can be reviewed again."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:202
+#: src/Checks/Finding_Actions.php:207
 msgid "A new proposal cannot be requested for this item in its current state."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:206
+#: src/Checks/Finding_Actions.php:211
 msgid "The AI is not allowed to read page text. An administrator can allow it in the settings."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:238
+#: src/Checks/Finding_Actions.php:243
 msgid "Only test pages can be deleted from here."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:245
+#: src/Checks/Finding_Actions.php:250
 msgid "The trash is switched off on this site, so the page would be deleted for good. Delete it from the list of pages instead."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:248
+#: src/Checks/Finding_Actions.php:253
 msgid "The page could not be sent to the trash."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:289
+#: src/Checks/Finding_Actions.php:301
 msgid "There is no applied change to undo here."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:295
+#: src/Checks/Finding_Actions.php:307
 msgid "The text was changed after it was approved. Undoing would overwrite that change."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:332
+#: src/Checks/Finding_Actions.php:344
 msgid "Unknown field."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:360
+#: src/Checks/Finding_Actions.php:372
 msgid "This item no longer exists."
 msgstr ""
 
-#: src/Checks/Finding_Actions.php:366
+#: src/Checks/Finding_Actions.php:378
 msgid "You are not allowed to do this."
 msgstr ""
 
@@ -489,100 +489,100 @@ msgstr ""
 msgid "Accessibility"
 msgstr ""
 
-#: src/Health/Status.php:226
+#: src/Health/Status.php:227
 msgid "AI connector"
 msgstr ""
 
-#: src/Health/Status.php:231
+#: src/Health/Status.php:232
 msgid "No AI provider is connected. Add an API key in Settings > Connectors."
 msgstr ""
 
-#: src/Health/Status.php:232
+#: src/Health/Status.php:233
 #: assets/src/wizard/Wizard.js:68
 msgid "The connected AI provider cannot describe images. Connect one that accepts image input."
 msgstr ""
 
-#: src/Health/Status.php:238
+#: src/Health/Status.php:239
 msgid "The provider is not available."
 msgstr ""
 
 #. translators: %s: error message returned by the AI provider.
-#: src/Health/Status.php:240
+#: src/Health/Status.php:241
 #, php-format
 msgid "The last request to the AI provider failed: %s"
 msgstr ""
 
 #. translators: %s: human-readable time difference, e.g. "2 hours".
-#: src/Health/Status.php:245
+#: src/Health/Status.php:246
 #, php-format
 msgid "Connected. Last successful answer %s ago."
 msgstr ""
 
-#: src/Health/Status.php:246
+#: src/Health/Status.php:247
 msgid "Connected. Not used yet."
 msgstr ""
 
-#: src/Health/Status.php:252
+#: src/Health/Status.php:253
 msgid "Background tasks"
 msgstr ""
 
-#: src/Health/Status.php:257
+#: src/Health/Status.php:258
 msgid "Tasks are waiting but none has run in the last 24 hours. Check that WP-Cron works on this site."
 msgstr ""
 
-#: src/Health/Status.php:261
+#: src/Health/Status.php:262
 msgid "No task has needed to run yet."
 msgstr ""
 
 #. translators: %s: human-readable time difference, e.g. "4 mins".
-#: src/Health/Status.php:263
+#: src/Health/Status.php:264
 #, php-format
 msgid "Last run %s ago."
 msgstr ""
 
-#: src/Health/Status.php:269
+#: src/Health/Status.php:270
 msgid "Published content"
 msgstr ""
 
-#: src/Health/Status.php:273
+#: src/Health/Status.php:274
 msgid "The site has not been fully audited yet."
 msgstr ""
 
 #. translators: %d: number of pages.
-#: src/Health/Status.php:278
+#: src/Health/Status.php:279
 #, php-format
 msgid "%d page still shows an image with missing or poor alt text."
 msgid_plural "%d pages still show an image with missing or poor alt text."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/Health/Status.php:281
+#: src/Health/Status.php:282
 msgid "In sync with the media library."
 msgstr ""
 
-#: src/Health/Status.php:285
+#: src/Health/Status.php:286
 msgid "Daily AI usage"
 msgstr ""
 
 #. translators: 1: calls used today, 2: daily limit.
-#: src/Health/Status.php:287
+#: src/Health/Status.php:288
 #, php-format
 msgid "%1$d of %2$d requests used today."
 msgstr ""
 
-#: src/Health/Status.php:290
+#: src/Health/Status.php:291
 msgid "Generation resumes tomorrow."
 msgstr ""
 
-#: src/Rest/Api.php:590
+#: src/Rest/Api.php:602
 msgid "The media library has no images to test with."
 msgstr ""
 
-#: src/Rest/Api.php:595
+#: src/Rest/Api.php:607
 msgid "No AI provider that accepts images is connected."
 msgstr ""
 
-#: src/Rest/Api.php:605
+#: src/Rest/Api.php:617
 msgid "The daily limit of AI requests has been reached."
 msgstr ""
 
@@ -610,25 +610,25 @@ msgstr ""
 msgid "A change is still being applied to this image. Try again in a moment."
 msgstr ""
 
-#: assets/src/App.js:65
+#: assets/src/App.js:66
 msgid "Dashboard"
 msgstr ""
 
-#: assets/src/App.js:66
+#: assets/src/App.js:67
 #: assets/src/components/labels.js:39
 msgid "Images"
 msgstr ""
 
-#: assets/src/App.js:67
+#: assets/src/App.js:68
 msgid "Texts"
 msgstr ""
 
-#: assets/src/App.js:68
+#: assets/src/App.js:69
 #: assets/src/components/labels.js:42
 msgid "Site"
 msgstr ""
 
-#: assets/src/App.js:73
+#: assets/src/App.js:74
 msgid "Settings"
 msgstr ""
 
@@ -664,89 +664,89 @@ msgstr ""
 msgid "Select %1$s: %2$s"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:125
+#: assets/src/components/FindingRow.js:128
 msgid "To fix"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:137
+#: assets/src/components/FindingRow.js:140
 msgid "Current text:"
 msgstr ""
 
 #. translators: 1: name of the text, e.g. "Meta description", 2: page it belongs to.
-#: assets/src/components/FindingRow.js:158
+#: assets/src/components/FindingRow.js:161
 #, js-format
 msgid "Text for %1$s: %2$s"
 msgstr ""
 
 #. translators: 1: current number of words, 2: minimum, 3: maximum.
-#: assets/src/components/FindingRow.js:177
+#: assets/src/components/FindingRow.js:180
 #, js-format
 msgid "%1$d words (recommended: %2$d to %3$d)"
 msgstr ""
 
 #. translators: 1: current number of characters, 2: minimum, 3: maximum.
-#: assets/src/components/FindingRow.js:187
+#: assets/src/components/FindingRow.js:190
 #, js-format
 msgid "%1$d characters (recommended: %2$d to %3$d)"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:203
-#: assets/src/components/ReviewRow.js:251
+#: assets/src/components/FindingRow.js:206
+#: assets/src/components/ReviewRow.js:254
 msgid "Approve"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:212
-#: assets/src/components/ReviewRow.js:257
+#: assets/src/components/FindingRow.js:215
+#: assets/src/components/ReviewRow.js:260
 msgid "Regenerate"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:213
+#: assets/src/components/FindingRow.js:216
 msgid "Propose with AI"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:222
-#: assets/src/components/FindingRow.js:227
+#: assets/src/components/FindingRow.js:225
+#: assets/src/components/FindingRow.js:230
 msgid "Write it myself"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:234
-#: assets/src/components/ReviewRow.js:270
+#: assets/src/components/FindingRow.js:237
+#: assets/src/components/ReviewRow.js:273
 msgid "In the generation queue…"
 msgstr ""
 
 #. translators: %s: title of a page.
-#: assets/src/components/FindingRow.js:245
+#: assets/src/components/FindingRow.js:248
 #, js-format
 msgid "Send \"%s\" to the trash? It stops being public. You can recover it from the trash of WordPress."
 msgstr ""
 
-#: assets/src/components/FindingRow.js:256
-#: assets/src/components/FindingRow.js:261
+#: assets/src/components/FindingRow.js:259
+#: assets/src/components/FindingRow.js:264
 msgid "Send to the trash"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:270
+#: assets/src/components/FindingRow.js:273
 msgid "Open the setting"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:271
+#: assets/src/components/FindingRow.js:274
 msgid "Edit"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:279
+#: assets/src/components/FindingRow.js:282
 msgid "Accept as it is"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:289
+#: assets/src/components/FindingRow.js:292
 msgid "This field is optional on every page"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:297
+#: assets/src/components/FindingRow.js:300
 msgid "Review again"
 msgstr ""
 
-#: assets/src/components/FindingRow.js:300
-#: assets/src/components/ReviewRow.js:297
+#: assets/src/components/FindingRow.js:303
+#: assets/src/components/ReviewRow.js:300
 msgid "Undo"
 msgstr ""
 
@@ -796,7 +796,7 @@ msgid "Applied"
 msgstr ""
 
 #: assets/src/components/labels.js:17
-#: assets/src/components/ReviewRow.js:286
+#: assets/src/components/ReviewRow.js:289
 msgid "Decorative"
 msgstr ""
 
@@ -900,7 +900,7 @@ msgid "Open %s in the media library"
 msgstr ""
 
 #. translators: %d: number of pages.
-#: assets/src/components/ReviewRow.js:109
+#: assets/src/components/ReviewRow.js:112
 #, js-format
 msgid "Used on %d page"
 msgid_plural "Used on %d pages"
@@ -908,7 +908,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of pages.
-#: assets/src/components/ReviewRow.js:122
+#: assets/src/components/ReviewRow.js:125
 #, js-format
 msgid "%d with a text set by the theme"
 msgid_plural "%d with a text set by the theme"
@@ -916,72 +916,72 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of pages.
-#: assets/src/components/ReviewRow.js:136
+#: assets/src/components/ReviewRow.js:139
 #, js-format
 msgid "%d in a page builder (not updated)"
 msgid_plural "%d in page builders (not updated)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/src/components/ReviewRow.js:150
+#: assets/src/components/ReviewRow.js:153
 msgid "Current alt text:"
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:153
+#: assets/src/components/ReviewRow.js:156
 msgid "(empty)"
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:164
+#: assets/src/components/ReviewRow.js:167
 msgid "The media library text is good; only a page is missing it. Approving copies it there. No AI is used."
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:172
+#: assets/src/components/ReviewRow.js:175
 msgid "The theme always shows this image without alt text, as decoration. A description would not reach the page, so the proposal is to mark it as decorative. No AI is used."
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:180
+#: assets/src/components/ReviewRow.js:183
 msgid "No published page shows this image, so it is not counted as pending. You can still ask for a description."
 msgstr ""
 
 #. translators: %s: image name.
-#: assets/src/components/ReviewRow.js:202
+#: assets/src/components/ReviewRow.js:205
 #, js-format
 msgid "Proposed alt text for %s"
 msgstr ""
 
 #. translators: 1: current length, 2: recommended maximum.
-#: assets/src/components/ReviewRow.js:218
+#: assets/src/components/ReviewRow.js:221
 #, js-format
 msgid "%1$d of %2$d recommended characters"
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:232
+#: assets/src/components/ReviewRow.js:235
 msgid "Mark as decorative"
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:237
+#: assets/src/components/ReviewRow.js:240
 msgid "Describe it anyway"
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:239
-#: assets/src/components/ReviewRow.js:288
+#: assets/src/components/ReviewRow.js:242
+#: assets/src/components/ReviewRow.js:291
 msgid "Ignore"
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:245
-#: assets/src/components/ReviewRow.js:294
+#: assets/src/components/ReviewRow.js:248
+#: assets/src/components/ReviewRow.js:297
 msgid "Generate proposal"
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:265
+#: assets/src/components/ReviewRow.js:268
 msgid "Generate now"
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:276
+#: assets/src/components/ReviewRow.js:279
 msgid "Retry"
 msgstr ""
 
-#: assets/src/components/ReviewRow.js:300
+#: assets/src/components/ReviewRow.js:303
 msgid "Applying to the library and your pages…"
 msgstr ""
 
@@ -1032,7 +1032,7 @@ msgstr[1] ""
 #. translators: %d: number of pages or items.
 #. translators: %d: number of items.
 #: assets/src/tabs/Dashboard.js:128
-#: assets/src/tabs/Findings.js:436
+#: assets/src/tabs/Findings.js:465
 #, js-format
 msgid "%d item"
 msgid_plural "%d items"
@@ -1129,7 +1129,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: assets/src/tabs/Dashboard.js:482
-#: assets/src/tabs/Findings.js:335
+#: assets/src/tabs/Findings.js:348
 msgid "Pause"
 msgstr ""
 
@@ -1158,8 +1158,8 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: current page, 2: total pages.
-#: assets/src/tabs/Findings.js:86
-#: assets/src/tabs/Findings.js:517
+#: assets/src/tabs/Findings.js:93
+#: assets/src/tabs/Findings.js:546
 #: assets/src/tabs/Review.js:61
 #: assets/src/tabs/Review.js:352
 #, js-format
@@ -1167,7 +1167,7 @@ msgid "Page %1$d of %2$d"
 msgstr ""
 
 #. translators: %d: number of texts.
-#: assets/src/tabs/Findings.js:166
+#: assets/src/tabs/Findings.js:179
 #, js-format
 msgid "%d text approved."
 msgid_plural "%d texts approved."
@@ -1175,7 +1175,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of texts.
-#: assets/src/tabs/Findings.js:174
+#: assets/src/tabs/Findings.js:187
 #, js-format
 msgid "%d text could not be approved."
 msgid_plural "%d texts could not be approved."
@@ -1183,13 +1183,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of texts.
-#: assets/src/tabs/Findings.js:197
+#: assets/src/tabs/Findings.js:210
 #, js-format
 msgid "Generate proposals for %d texts? Each one is a paid request to your AI provider, which receives the visible text of the page. Nothing is published until you review it."
 msgstr ""
 
 #. translators: %d: number of texts.
-#: assets/src/tabs/Findings.js:213
+#: assets/src/tabs/Findings.js:226
 #, js-format
 msgid "%d text queued for generation."
 msgid_plural "%d texts queued for generation."
@@ -1197,13 +1197,13 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: internal name of a custom field.
-#: assets/src/tabs/Findings.js:239
+#: assets/src/tabs/Findings.js:252
 #, js-format
 msgid "Stop reporting the field \"%s\" when it is empty, on every page?"
 msgstr ""
 
 #. translators: %d: number of texts.
-#: assets/src/tabs/Findings.js:287
+#: assets/src/tabs/Findings.js:300
 #, js-format
 msgid "Propose %d text with AI"
 msgid_plural "Propose %d texts with AI"
@@ -1211,64 +1211,69 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of texts.
-#: assets/src/tabs/Findings.js:302
+#: assets/src/tabs/Findings.js:315
 #, js-format
 msgid "%d text is waiting to be written. The AI can propose it if you allow it to read the page text."
 msgid_plural "%d texts are waiting to be written. The AI can propose them if you allow it to read the page text."
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/src/tabs/Findings.js:312
+#: assets/src/tabs/Findings.js:325
 msgid "Open settings"
 msgstr ""
 
 #. translators: %d: number of texts.
-#: assets/src/tabs/Findings.js:321
+#: assets/src/tabs/Findings.js:334
 #, js-format
 msgid "%d text in the generation queue."
 msgid_plural "%d texts in the generation queue."
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/src/tabs/Findings.js:348
+#: assets/src/tabs/Findings.js:361
 msgid "Where"
 msgstr ""
 
-#: assets/src/tabs/Findings.js:360
+#: assets/src/tabs/Findings.js:373
 #: assets/src/tabs/Review.js:199
 msgid "Status"
 msgstr ""
 
-#: assets/src/tabs/Findings.js:366
+#: assets/src/tabs/Findings.js:379
+#: assets/src/tabs/Findings.js:414
 #: assets/src/tabs/Review.js:205
 msgid "All"
 msgstr ""
 
-#: assets/src/tabs/Findings.js:383
+#: assets/src/tabs/Findings.js:396
 msgid "Check"
 msgstr ""
 
-#: assets/src/tabs/Findings.js:386
+#: assets/src/tabs/Findings.js:399
 #: assets/src/tabs/Review.js:228
 msgid "Any"
 msgstr ""
 
-#: assets/src/tabs/Findings.js:412
+#: assets/src/tabs/Findings.js:411
+msgid "Language"
+msgstr ""
+
+#: assets/src/tabs/Findings.js:441
 msgid "Nothing pending here."
 msgstr ""
 
-#: assets/src/tabs/Findings.js:413
+#: assets/src/tabs/Findings.js:442
 msgid "Nothing here."
 msgstr ""
 
-#: assets/src/tabs/Findings.js:430
+#: assets/src/tabs/Findings.js:459
 #: assets/src/tabs/Review.js:269
 msgid "Select all on this page"
 msgstr ""
 
 #. translators: %d: number of selected items.
 #. translators: %d: number of selected images.
-#: assets/src/tabs/Findings.js:443
+#: assets/src/tabs/Findings.js:472
 #: assets/src/tabs/Review.js:282
 #, js-format
 msgid "%d selected"
@@ -1278,28 +1283,28 @@ msgstr[1] ""
 
 #. translators: %d: number of selected items.
 #. translators: %d: number of selected images.
-#: assets/src/tabs/Findings.js:463
+#: assets/src/tabs/Findings.js:492
 #: assets/src/tabs/Review.js:302
 #, js-format
 msgid "Approve selected (%d)"
 msgstr ""
 
-#: assets/src/tabs/Findings.js:466
+#: assets/src/tabs/Findings.js:495
 #: assets/src/tabs/Review.js:305
 msgid "Approve selected"
 msgstr ""
 
-#: assets/src/tabs/Findings.js:505
+#: assets/src/tabs/Findings.js:534
 #: assets/src/tabs/Review.js:340
 msgid "Pages"
 msgstr ""
 
-#: assets/src/tabs/Findings.js:512
+#: assets/src/tabs/Findings.js:541
 #: assets/src/tabs/Review.js:347
 msgid "Previous"
 msgstr ""
 
-#: assets/src/tabs/Findings.js:527
+#: assets/src/tabs/Findings.js:556
 #: assets/src/tabs/Review.js:362
 msgid "Next"
 msgstr ""

@@ -22,7 +22,18 @@ final class Engine {
 		self::evaluate( 'site', 0 );
 	}
 
+	/**
+	 * Judges a page, term or person with every check that applies, as the site shows it in its language.
+	 */
 	public static function evaluate( string $target_type, int $target_id ): void {
+		$lang = \MDIA\I18n\Languages::of( $target_type, $target_id );
+		// The site and its people have no language of their own: they are judged in the main one,
+		// whoever asks and whatever language their screen is in.
+		$view = '' !== $lang ? $lang : \MDIA\I18n\Languages::default_code();
+		\MDIA\I18n\Languages::in( $view, static fn() => self::evaluate_in_place( $target_type, $target_id, $lang ) );
+	}
+
+	private static function evaluate_in_place( string $target_type, int $target_id, string $lang ): void {
 		$findings = new Findings();
 
 		foreach ( Registry::for_type( $target_type ) as $check ) {
@@ -56,7 +67,7 @@ final class Engine {
 			foreach ( $failures as $failure ) {
 				$key          = (string) ( $failure['key'] ?? '' );
 				$seen[ $key ] = true;
-				self::record( $findings, $check, $target_type, $target_id, $key, $failure );
+				self::record( $findings, $check, $target_type, $target_id, $key, $failure, $lang );
 			}
 
 			foreach ( $existing as $row ) {
@@ -68,7 +79,7 @@ final class Engine {
 		}
 	}
 
-	private static function record( Findings $findings, Check $check, string $target_type, int $target_id, string $key, array $failure ): void {
+	private static function record( Findings $findings, Check $check, string $target_type, int $target_id, string $key, array $failure, string $lang = '' ): void {
 		$value    = (string) ( $failure['value'] ?? '' );
 		$detail   = (string) ( $failure['detail'] ?? '' );
 		$severity = (string) ( $failure['severity'] ?? $check->severity() );
@@ -82,6 +93,7 @@ final class Engine {
 		}
 
 		$fields = array(
+			'lang'          => $lang,
 			'severity'      => $severity,
 			'current_value' => $value,
 			'detail'        => $detail,

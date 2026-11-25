@@ -74,6 +74,7 @@ final class Menu {
 			'maxLength'     => \MDIA\AI\Response_Sanitizer::MAX_LENGTH,
 			'textConsent'   => (bool) Settings::get( 'text_consent' ),
 			'seoPlugin'     => \MDIA\Seo\Seo::adapter()->name(),
+			'languages'     => \MDIA\I18n\Languages::all(),
 			'checks'        => array_values(
 				array_map(
 					static fn( $check ): array => array(

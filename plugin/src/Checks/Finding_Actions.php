@@ -47,10 +47,15 @@ final class Finding_Actions {
 
 		// The check writes the field; the decision is recorded here, not by the hooks half-way.
 		Hooks::run(
-			static function () use ( $check, $target_id, $text, &$applied, &$remaining ): void {
+			static function () use ( $check, $target_id, $text, $row, &$applied, &$remaining ): void {
 				\MDIA\Content\Page_Text::flush();
-				$applied   = $check->apply( $target_id, $text );
-				$remaining = $applied ? (array) $check->evaluate( $target_id ) : array();
+				\MDIA\I18n\Languages::in(
+					\MDIA\I18n\Languages::of_row( $row ),
+					static function () use ( $check, $target_id, $text, &$applied, &$remaining ): void {
+						$applied   = $check->apply( $target_id, $text );
+						$remaining = $applied ? (array) $check->evaluate( $target_id ) : array();
+					}
+				);
 			}
 		);
 		if ( ! $applied ) {
@@ -70,7 +75,7 @@ final class Finding_Actions {
 				// What the check still objects to, if anything; a different objection later is news.
 				'detail'         => $remaining ? (string) ( $remaining[0]['detail'] ?? '' ) : '',
 				'previous_value' => $previous,
-				'applied_value'  => $check->written( $target_id ),
+				'applied_value'  => \MDIA\I18n\Languages::in( \MDIA\I18n\Languages::of_row( $row ), static fn() => $check->written( $target_id ) ),
 				'proposed_value' => null,
 				'queued'         => 0,
 				'last_error'     => null,
@@ -234,7 +239,7 @@ final class Finding_Actions {
 			return $row;
 		}
 		$post = Post\Test_Page::ID === $row['check_id'] ? get_post( (int) $row['target_id'] ) : null;
-		if ( ! $post || 'waived' === $row['status'] || 'publish' !== $post->post_status || '' === Post\Test_Page::detect( $post ) ) {
+		if ( ! $post || 'waived' === $row['status'] || 'publish' !== $post->post_status || '' === self::detect_test_page( $row, $post ) ) {
 			return new \WP_Error( 'mdia_not_test_page', __( 'Only test pages can be deleted from here.', 'geo-tool' ) );
 		}
 		if ( ! user_can( $user_id, 'delete_post', $post->ID ) ) {
@@ -261,9 +266,16 @@ final class Finding_Actions {
 		return $post
 			&& 'waived' !== $row['status']
 			&& 'publish' === $post->post_status
-			&& '' !== Post\Test_Page::detect( $post )
+			&& '' !== self::detect_test_page( $row, $post )
 			&& user_can( $user_id, 'delete_post', $post->ID )
 			&& self::trash_is_recoverable();
+	}
+
+	/**
+	 * In the language of the page: WPML answers "which page is the home page" per language.
+	 */
+	private static function detect_test_page( array $row, \WP_Post $post ): string {
+		return (string) \MDIA\I18n\Languages::in( \MDIA\I18n\Languages::of_row( $row ), static fn() => Post\Test_Page::detect( $post ) );
 	}
 
 	private static function trash_is_recoverable(): bool {
@@ -297,7 +309,7 @@ final class Finding_Actions {
 
 		$target_id = (int) $row['target_id'];
 		$previous  = (string) $row['previous_value'];
-		Hooks::run( static fn() => $check->restore( $target_id, $previous ) );
+		Hooks::run( static fn() => \MDIA\I18n\Languages::in( \MDIA\I18n\Languages::of_row( $row ), static fn() => $check->restore( $target_id, $previous ) ) );
 
 		( new Findings() )->upsert(
 			$row['check_id'],
@@ -344,7 +356,7 @@ final class Finding_Actions {
 	 * was recorded are given the benefit of the doubt.
 	 */
 	public static function is_untouched( array $row, Check $check ): bool {
-		return null === ( $row['applied_value'] ?? null ) || $check->was_written( (string) $row['applied_value'], (int) $row['target_id'] );
+		return null === ( $row['applied_value'] ?? null ) || \MDIA\I18n\Languages::in( \MDIA\I18n\Languages::of_row( $row ), static fn() => $check->was_written( (string) $row['applied_value'], (int) $row['target_id'] ) );
 	}
 
 	/**

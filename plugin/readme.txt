@@ -4,7 +4,7 @@ Tags: seo, geo, alt text, meta description, ai
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.4.1
+Stable tag: 0.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,7 +40,8 @@ To describe an image, the plugin sends a reduced copy of it (1024 px on its long
 * Images placed with Elementor are updated in the media library but not rewritten inside those pages. The dashboard tells you how many.
 * The plugin composes the content and its blocks, not the header or footer of the theme.
 * SVG files and files that are not images are not audited.
-* One language per site: texts are written in the site language.
+* Languages: with WPML or Polylang, each text is written in the language of its page. Without them, in the site language. Other multilingual plugins are not supported.
+* Site settings (home description, organisation...) are checked once, in the default language.
 
 == Installation ==
 
@@ -67,6 +68,12 @@ New versions published in the project's GitHub repository show up in the Plugins
 The plugin relies on WP-Cron. If the dashboard shows background tasks in red, check that WP-Cron works on the site or set up a server cron job.
 
 == Changelog ==
+
+= 0.5.0 =
+* Works with WPML and with Polylang: every page, category and image is checked in its own language, and the AI writes each text in the language of the page it belongs to.
+* A translation with the same meta description or title as the original is not reported as a duplicate, and the copies of an image in other languages do not make its alt text "repeated".
+* The lists show the language of each item and can be filtered by language.
+* Images on translated pages: the alt text comes from the copy of the image in the language of the page (WPML Media Translation, or translatable media in Polylang). Without a copy in that language the page is left as it is; a text is never written into a page of another language.
 
 = 0.4.1 =
 * "Send to the trash" is not offered where the trash is switched off, because the page would be deleted for good.

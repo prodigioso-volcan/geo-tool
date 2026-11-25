@@ -9,6 +9,7 @@ namespace MDIA\Checks\Post;
 
 use MDIA\Checks\Check;
 use MDIA\Checks\Targets;
+use MDIA\I18n\Languages;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -46,14 +47,23 @@ abstract class Post_Check extends Check {
 		if ( '' === $fingerprint ) {
 			return 0;
 		}
-		return (int) $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT COUNT(*) FROM {$wpdb->postmeta} pm INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id WHERE pm.meta_key = %s AND pm.meta_value = %s AND pm.post_id <> %d AND p.post_status = 'publish'",
-				$meta_key,
-				$fingerprint,
-				$post_id
+		$ids = array_map(
+			'intval',
+			$wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT pm.post_id FROM {$wpdb->postmeta} pm INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id WHERE pm.meta_key = %s AND pm.meta_value = %s AND pm.post_id <> %d AND p.post_status = 'publish' LIMIT 50",
+					$meta_key,
+					$fingerprint,
+					$post_id
+				)
 			)
 		);
+		if ( ! $ids || ! Languages::is_multilingual() ) {
+			return count( $ids );
+		}
+		// A translation is another page for search engines: only the same language repeats.
+		$lang = Languages::of( 'post', $post_id );
+		return count( array_filter( $ids, static fn( int $id ): bool => Languages::of( 'post', $id ) === $lang ) );
 	}
 
 	protected function fail( string $detail, string $value = '', string $key = '', string $severity = '' ): array {

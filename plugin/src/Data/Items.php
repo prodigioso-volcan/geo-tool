@@ -197,6 +197,15 @@ final class Items {
 	/**
 	 * How many images share this library alt text (case-insensitive).
 	 */
+	/**
+	 * @return int[] Images with this alt text in the media library.
+	 */
+	public function ids_with_alt( string $alt, int $limit = 200 ): array {
+		global $wpdb;
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( "SELECT attachment_id FROM {$this->table()} WHERE LOWER(library_alt) = LOWER(%s) LIMIT %d", $alt, $limit ) ) );
+	}
+
 	public function count_alt( string $alt ): int {
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared

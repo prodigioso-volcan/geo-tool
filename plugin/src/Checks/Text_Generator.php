@@ -64,13 +64,13 @@ final class Text_Generator {
 		wp_set_current_user( 0 );
 		try {
 			\MDIA\Content\Page_Text::flush();
-			$prompt = Text_Prompt::user( $check, $row );
+			$prompt = (string) \MDIA\I18n\Languages::in( \MDIA\I18n\Languages::of_row( $row ), static fn() => Text_Prompt::user( $check, $row ) );
 		} finally {
 			\MDIA\Content\Page_Text::flush();
 			wp_set_current_user( $user );
 		}
 
-		$answer = $provider->rewrite( Text_Prompt::system( $check->text_kind(), $limits, get_locale() ), $prompt );
+		$answer = $provider->rewrite( Text_Prompt::system( $check->text_kind(), $limits, \MDIA\I18n\Languages::locale_of( $row['target_type'], (int) $row['target_id'] ) ), $prompt );
 		$text   = is_wp_error( $answer ) ? null : Text_Sanitizer::clean( (string) ( $answer['text'] ?? '' ) );
 
 		if ( null === $text ) {

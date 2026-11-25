@@ -18,7 +18,8 @@ final class Hooks {
 	private static bool $busy = false;
 
 	public static function register(): void {
-		add_action( 'save_post', array( self::class, 'on_save_post' ), 30, 2 );
+		// After the usages of images (200) and after WPML has stored the language of the page (100).
+		add_action( 'save_post', array( self::class, 'on_save_post' ), 210, 2 );
 		add_action( 'deleted_post', array( self::class, 'on_deleted_post' ), 30 );
 		foreach ( array( 'added_post_meta', 'updated_post_meta', 'deleted_post_meta' ) as $hook ) {
 			add_action( $hook, array( self::class, 'on_post_meta' ), 30, 3 );

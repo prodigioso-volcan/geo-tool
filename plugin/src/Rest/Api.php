@@ -260,6 +260,11 @@ final class Api {
 						'type'              => 'string',
 						'sanitize_callback' => 'sanitize_text_field',
 					),
+					// Not "lang": WPML reads that parameter to switch the language of the request.
+					'language' => array(
+						'type'              => 'string',
+						'sanitize_callback' => 'sanitize_key',
+					),
 					'page'     => array(
 						'type'    => 'integer',
 						'minimum' => 1,
@@ -444,6 +449,11 @@ final class Api {
 			$args['status'] = 'pending' === $request['status'] ? \MDIA\Data\Findings::PENDING : $request['status'];
 		}
 
+		if ( $request['language'] ) {
+			// Also what has no language: the site, people, and what was recorded before the site had languages.
+			$args['lang'] = array( (string) $request['language'], '' );
+		}
+
 		$checks = \MDIA\Checks\Registry::all();
 		if ( $request['check_id'] ) {
 			$args['check_id'] = (string) $request['check_id'];
@@ -508,6 +518,8 @@ final class Api {
 			'area'           => Status::area_of( $row['target_type'] ),
 			'fix'            => $check->fix(),
 			'severity'       => $row['severity'],
+			'lang'           => (string) $row['lang'],
+			'lang_name'      => \MDIA\I18n\Languages::name( (string) $row['lang'] ),
 			'status'         => $row['status'],
 			'queued'         => (bool) $row['queued'],
 			'problem'        => \MDIA\Checks\Detail::text( $row['check_id'], (string) $row['detail'], (string) $row['current_value'] ),
@@ -609,7 +621,7 @@ final class Api {
 			'filename' => wp_basename( (string) get_attached_file( $attachment_id ) ),
 			'title'    => get_the_title( $attachment_id ),
 		);
-		$answer  = $provider->describe( $data_uri, Prompt::system( get_locale() ), Prompt::user( $context ) );
+		$answer  = $provider->describe( $data_uri, Prompt::system( \MDIA\I18n\Languages::locale_of( 'post', $attachment_id ) ), Prompt::user( $context ) );
 		if ( is_wp_error( $answer ) ) {
 			Generator::set_health( false, 'failed', $answer->get_error_message() );
 			return new \WP_Error( 'mdia_provider_error', $answer->get_error_message(), array( 'status' => 502 ) );
@@ -639,6 +651,7 @@ final class Api {
 			\MDIA\Audit\Usage_Indexer::LIBRARY => 0,
 			\MDIA\Audit\Usage_Indexer::FIXED   => 0,
 			\MDIA\Audit\Usage_Indexer::BUILDER => 0,
+			\MDIA\Audit\Usage_Indexer::FOREIGN => 0,
 		);
 		foreach ( ( new Usages() )->for_attachment( $id ) as $usage ) {
 			++$kinds[ isset( $kinds[ $usage['kind'] ] ) ? $usage['kind'] : \MDIA\Audit\Usage_Indexer::BUILDER ];
@@ -646,6 +659,7 @@ final class Api {
 
 		return array(
 			'attachment_id'   => $id,
+			'lang_name'       => \MDIA\I18n\Languages::name( \MDIA\I18n\Languages::of( 'post', $id ) ),
 			'status'          => $row['status'],
 			'issues'          => '' === $row['issues'] ? array() : explode( ',', $row['issues'] ),
 			'library_alt'     => (string) $row['library_alt'],
@@ -661,6 +675,7 @@ final class Api {
 			'usage_count'     => $kinds['content'] + $kinds['library'] + $kinds['fixed'],
 			'fixed_count'     => $kinds['fixed'],
 			'unmanaged_count' => $kinds['builder'],
+			'foreign_count'   => $kinds['foreign'],
 			'can_undo'        => in_array( $row['status'], array( 'applied', 'decorative' ), true ) && array() !== ( new Changes() )->latest_batch( $id ),
 		);
 	}

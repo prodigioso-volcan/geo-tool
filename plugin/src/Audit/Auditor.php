@@ -10,6 +10,8 @@ namespace MDIA\Audit;
 use MDIA\Data\Items;
 use MDIA\Data\Usages;
 
+use MDIA\I18n\Languages;
+
 defined( 'ABSPATH' ) || exit;
 
 final class Auditor {
@@ -135,7 +137,8 @@ final class Auditor {
 			return $changes;
 		}
 
-		$usages = $this->usages->for_attachment( $attachment_id );
+		// A page of another language shows the image, but no text of this image reaches it.
+		$usages = array_values( array_filter( $this->usages->for_attachment( $attachment_id ), static fn( array $usage ): bool => Usage_Indexer::FOREIGN !== $usage['kind'] ) );
 		$empty  = array_filter( $usages, static fn( array $usage ): bool => Usage_Indexer::FIXED === $usage['kind'] && '' === trim( $usage['alt'] ) );
 		$clear  = array(
 			'proposed_alt' => null,
@@ -169,9 +172,18 @@ final class Auditor {
 	 * @return string[] Issues of the text stored in the media library.
 	 */
 	private function library_issues( int $attachment_id, string $alt, ?array $row ): array {
-		$same = $this->items->count_alt( $alt );
-		if ( ! $row || 0 !== strcasecmp( (string) $row['library_alt'], $alt ) ) {
-			++$same; // This image is not counted yet under its current text.
+		if ( '' === $alt ) {
+			$same = 1; // Missing is missing: nothing to compare.
+		} elseif ( Languages::is_multilingual() ) {
+			// The copies of an image in other languages usually share its text: only its own language counts.
+			$lang   = Languages::of( 'post', $attachment_id );
+			$others = array_filter( $this->items->ids_with_alt( $alt ), static fn( int $id ): bool => $id !== $attachment_id && Languages::of( 'post', $id ) === $lang );
+			$same   = count( $others ) + 1;
+		} else {
+			$same = $this->items->count_alt( $alt );
+			if ( ! $row || 0 !== strcasecmp( (string) $row['library_alt'], $alt ) ) {
+				++$same; // This image is not counted yet under its current text.
+			}
 		}
 
 		$filename = wp_basename( (string) get_attached_file( $attachment_id ) );

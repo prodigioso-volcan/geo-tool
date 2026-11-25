@@ -120,6 +120,9 @@ export default function FindingRow( {
 					>
 						{ SEVERITY_LABELS[ item.severity ] }
 					</span>
+					{ item.lang_name && (
+						<span className="mdia-tag mdia-tag--lang">{ item.lang_name }</span>
+					) }
 					<span>
 						{ status === 'open' && ! isText
 							? __( 'To fix', 'geo-tool' )

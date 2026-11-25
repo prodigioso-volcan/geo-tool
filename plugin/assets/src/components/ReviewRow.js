@@ -102,6 +102,9 @@ export default function ReviewRow( {
 			<div className="mdia-row__body">
 				<p className="mdia-row__meta">
 					<strong>{ item.filename }</strong>
+					{ item.lang_name && (
+						<span className="mdia-tag mdia-tag--lang">{ item.lang_name }</span>
+					) }
 					<span>{ STATUS_LABELS[ status ] }</span>
 					<span>
 						{ sprintf(

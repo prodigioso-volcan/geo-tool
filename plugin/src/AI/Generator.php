@@ -92,7 +92,7 @@ final class Generator {
 			return self::wait_for_budget( $items, $attachment_id, $row['status'] );
 		}
 
-		$answer = $provider->describe( $data_uri, Prompt::system( get_locale() ), Prompt::user( self::context( $attachment_id, $row ) ) );
+		$answer = $provider->describe( $data_uri, Prompt::system( \MDIA\I18n\Languages::locale_of( 'post', $attachment_id ) ), Prompt::user( self::context( $attachment_id, $row ) ) );
 		$text   = is_wp_error( $answer ) ? null : self::usable_text( $provider, (string) ( $answer['text'] ?? '' ) );
 
 		if ( null === $text ) {

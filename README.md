@@ -113,6 +113,18 @@ Comprueba los ajustes generales. Cada aviso tiene un botón que abre el ajuste q
 - Permiso para que la IA lea el texto de las páginas.
 - Revisar todo de nuevo y repetir el asistente.
 
+## Webs en varios idiomas (WPML o Polylang)
+
+Si la web usa WPML o Polylang, GEO Tool trabaja con todos los idiomas que tenga activados, sin configurar nada:
+
+- **Revisa cada idioma.** Las páginas, categorías e imágenes de cada idioma se comprueban por separado.
+- **Escribe en el idioma de cada página.** La metadescripción de una página en inglés se propone en inglés; la de su versión en catalán, en catalán.
+- **No confunde traducciones con duplicados.** Dos páginas en idiomas distintos pueden compartir título o descripción sin que salte el aviso, y las copias de una imagen en otros idiomas no cuentan como texto alternativo repetido.
+- **Muestra y filtra por idioma.** Cada aviso lleva la etiqueta de su idioma y la pestaña Textos tiene un filtro.
+- **Imágenes.** Una página traducida conserva la imagen de la página original, pero necesita el texto alternativo en su idioma. Si la imagen tiene copia en ese idioma (WPML Media Translation, o los medios traducibles de Polylang), el texto de esa copia es el que se propone y se escribe en esa página. Si no la tiene, esa página se deja como está: nunca se escribe un texto en español en una página en inglés.
+- **Imágenes que solo aparecen en páginas de otro idioma.** No se envían a la IA: su texto no llegaría a ninguna página. Se listan como sin uso.
+- **El idioma del escritorio no influye.** Da igual en qué idioma tenga WordPress quien revisa: cada cosa se comprueba en el suyo, y el sitio, en el idioma principal.
+
 ## Qué comprueba
 
 | Área | Comprobación | Tipo |
@@ -210,7 +222,8 @@ Los textos de páginas y categorías se guardan en el campo que corresponde: la 
 - **Lo que pinta la plantilla de la página.** El plugin compone el contenido y sus bloques, no la cabecera ni el pie del tema. Una imagen que solo aparezca ahí figura como sin uso.
 - **Encabezados.** No se puede saber desde el plugin si el tema ya pone el título como H1, así que un único H1 en el contenido se da por bueno.
 - **Formatos.** Se revisan JPEG, PNG, WebP y GIF. No se revisan SVG ni archivos que no sean imágenes.
-- **Un idioma por sitio.** Los textos se escriben en el idioma del sitio. No hay soporte para webs multilingües.
+- **Webs multilingües: WPML o Polylang.** Con ellos, cada texto se escribe en el idioma de su página. Otros plugins de idiomas (TranslatePress, Weglot…) no están soportados: en ellos todo se escribe en el idioma del sitio.
+- **Ajustes del sitio en un idioma.** La metadescripción de la portada, la organización y el resto de ajustes del sitio se comprueban una vez, en el idioma principal. La biografía de los autores también se comprueba solo en el idioma principal.
 - **Multisitio.** Funciona sitio a sitio, sin administración de red.
 
 ## Preguntas frecuentes

@@ -61,6 +61,11 @@ final class Page_Text {
 	}
 
 	private static function compose( \WP_Post $post ): string {
+		// A translated page is composed as its own language shows it.
+		return (string) \MDIA\I18n\Languages::in( \MDIA\I18n\Languages::of( 'post', (int) $post->ID ), static fn() => self::compose_now( $post ) );
+	}
+
+	private static function compose_now( \WP_Post $post ): string {
 		// A block or shortcode that asks for the page it is part of would never end.
 		if ( isset( self::$composing[ $post->ID ] ) ) {
 			return '';

@@ -17,7 +17,7 @@ final class Findings {
 	public const PENDING = array( 'open', 'proposed', 'error' );
 
 	private const COLUMNS = array(
-		'status', 'severity', 'current_value', 'proposed_value', 'previous_value', 'applied_value', 'detail', 'provider', 'model',
+		'status', 'severity', 'lang', 'current_value', 'proposed_value', 'previous_value', 'applied_value', 'detail', 'provider', 'model',
 		'attempts', 'queued', 'last_error', 'reviewed_by', 'generated_at', 'resolved_at',
 	);
 
@@ -125,7 +125,7 @@ final class Findings {
 		$where  = array( '1=1' );
 		$values = array();
 
-		foreach ( array( 'check_id', 'target_type', 'status', 'severity' ) as $column ) {
+		foreach ( array( 'check_id', 'target_type', 'status', 'severity', 'lang' ) as $column ) {
 			if ( empty( $args[ $column ] ) ) {
 				continue;
 			}

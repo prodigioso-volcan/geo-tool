@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Schema {
 
-	public const DB_VERSION = 4;
+	public const DB_VERSION = 5;
 
 	public const TABLES = array( 'mdia_items', 'mdia_usages', 'mdia_changes', 'mdia_findings' );
 
@@ -91,6 +91,7 @@ final class Schema {
 				target_type varchar(10) NOT NULL,
 				target_id bigint(20) unsigned NOT NULL DEFAULT 0,
 				target_key varchar(100) NOT NULL DEFAULT '',
+				lang varchar(12) NOT NULL DEFAULT '',
 				status varchar(20) NOT NULL DEFAULT 'open',
 				severity varchar(12) NOT NULL DEFAULT 'recommended',
 				current_value text NULL,
@@ -110,6 +111,7 @@ final class Schema {
 				PRIMARY KEY  (id),
 				UNIQUE KEY target (check_id,target_type,target_id,target_key),
 				KEY status (status),
+				KEY lang (lang),
 				KEY target_lookup (target_type,target_id)
 			) $charset;"
 		);

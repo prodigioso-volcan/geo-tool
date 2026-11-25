@@ -138,7 +138,7 @@ final class Actions {
 					continue;
 				}
 				// Only where the alt is still the one the plugin wrote: later human edits stand.
-				$result = $rewriter->replace( $post->post_content, $attachment_id, $change['old_alt'], static fn( string $current ): bool => $current === $change['new_alt'], $urls, $file );
+				$result = Applier::replace_any_copy( $rewriter, $post->post_content, $attachment_id, $change['old_alt'], static fn( string $current ): bool => $current === $change['new_alt'] );
 				if ( $result['replaced'] ) {
 					Applier::save_content( $post_id, $result['content'], $user_id );
 				}

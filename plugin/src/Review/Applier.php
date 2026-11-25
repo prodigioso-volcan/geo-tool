@@ -104,7 +104,12 @@ final class Applier {
 					continue;
 				}
 
-				$result = $rewriter->replace( $post->post_content, $attachment_id, $new_alt, $should_replace, $urls, $file );
+				// Never into a page of another language, whatever the index says.
+				if ( ! self::is_for_page( $attachment_id, $post_id ) ) {
+					continue;
+				}
+
+				$result = self::replace_any_copy( $rewriter, $post->post_content, $attachment_id, $new_alt, $should_replace );
 				if ( $result['replaced'] ) {
 					if ( ! self::save_content( $post_id, $result['content'], $user_id ) ) {
 						$deferred[] = $post_id;
@@ -143,6 +148,46 @@ final class Applier {
 				'applied_at'   => gmdate( 'Y-m-d H:i:s' ),
 			)
 		);
+	}
+
+	/**
+	 * Whether the text of this image is the one a page needs: the page is in its language.
+	 */
+	public static function is_for_page( int $attachment_id, int $post_id ): bool {
+		foreach ( self::copies( $attachment_id ) as $copy ) {
+			if ( \MDIA\I18n\Languages::image_for_page( $copy, $post_id ) === $attachment_id ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @return int[] The image and its copies in other languages. A translated page keeps the
+	 *               image of the original page, so any of them may be the one in the content.
+	 */
+	public static function copies( int $attachment_id ): array {
+		return array_values( array_unique( array_merge( array( $attachment_id ), \MDIA\I18n\Languages::translations_of( $attachment_id ) ) ) );
+	}
+
+	/**
+	 * Rewrites the alt text of the image in some content, whichever of its copies the content holds.
+	 *
+	 * @return array{content: string, replaced: string[], kept: string[]}
+	 */
+	public static function replace_any_copy( Alt_Rewriter $rewriter, string $content, int $attachment_id, string $new_alt, callable $should_replace ): array {
+		$result = array(
+			'content'  => $content,
+			'replaced' => array(),
+			'kept'     => array(),
+		);
+		foreach ( self::copies( $attachment_id ) as $id ) {
+			$step               = $rewriter->replace( $result['content'], $id, $new_alt, $should_replace, Usage_Indexer::urls_for( $id ), (string) get_attached_file( $id ) );
+			$result['content']  = $step['content'];
+			$result['replaced'] = array_merge( $result['replaced'], $step['replaced'] );
+			$result['kept']     = array_merge( $result['kept'], $step['kept'] );
+		}
+		return $result;
 	}
 
 	/**

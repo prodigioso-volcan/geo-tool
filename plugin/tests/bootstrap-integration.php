@@ -39,5 +39,7 @@ if ( class_exists( \MDIA\Install\Schema::class ) ) {
 
 require __DIR__ . '/integration/Helpers.php';
 require __DIR__ . '/integration/Fake_Provider.php';
+require __DIR__ . '/integration/Fake_Wpml.php';
+require __DIR__ . '/integration/Fake_Polylang.php';
 require_once ABSPATH . WPINC . '/class-wp-image-editor.php';
 require __DIR__ . '/integration/Metadata_Keeping_Editor.php';

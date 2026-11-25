@@ -91,6 +91,11 @@ final class Test_Page extends Post_Check {
 			$special[] = (int) get_option( 'woocommerce_' . $page . '_page_id' );
 		}
 
+		// The home page of each language, and so on.
+		foreach ( array_filter( $special ) as $id ) {
+			$special = array_merge( $special, \MDIA\I18n\Languages::translations_of( (int) $id ) );
+		}
+
 		/**
 		 * Filters the ids of pages that are never treated as test pages.
 		 *

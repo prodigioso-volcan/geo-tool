@@ -13,7 +13,7 @@ const readUrl = () => new URLSearchParams( window.location.search );
 
 const writeUrl = ( values ) => {
 	const url = new URL( window.location.href );
-	[ 'tab', 'status', 'area', 'check_id' ].forEach( ( key ) =>
+	[ 'tab', 'status', 'area', 'check_id', 'language' ].forEach( ( key ) =>
 		values[ key ]
 			? url.searchParams.set( key, values[ key ] )
 			: url.searchParams.delete( key )
@@ -45,6 +45,7 @@ export default function App() {
 					area: query.get( 'area' ) || '',
 					status: query.get( 'status' ) ?? 'pending',
 					check_id: query.get( 'check_id' ) || '',
+					language: query.get( 'language' ) || '',
 			  }
 			: {}
 	);

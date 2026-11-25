@@ -91,6 +91,7 @@ final class Status {
 			'todo'       => $seo['todo'],
 			'exceptions' => $seo['exceptions'],
 			'texts'      => self::text_counts(),
+			'languages'  => \MDIA\I18n\Languages::all(),
 			'seo_plugin' => \MDIA\Seo\Seo::adapter()->is_active(),
 		);
 
