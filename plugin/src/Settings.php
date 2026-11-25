@@ -20,6 +20,8 @@ final class Settings {
 			'wizard_done'       => false,
 			// Accepted once by a manager: page text may be sent to the AI provider to propose metadata.
 			'text_consent'      => false,
+			// Model chosen by a manager, as "provider::model". '' lets the plugin choose.
+			'model'             => '',
 		);
 	}
 
@@ -31,6 +33,7 @@ final class Settings {
 		$values['wizard_done']       = (bool) $values['wizard_done'];
 		$values['text_consent']      = (bool) $values['text_consent'];
 		$values['daily_limit']       = max( 1, (int) $values['daily_limit'] );
+		$values['model']             = is_string( $values['model'] ) && preg_match( '/^[a-z0-9_-]+::[A-Za-z0-9._:\/-]+$/', $values['model'] ) ? $values['model'] : '';
 
 		return $values;
 	}

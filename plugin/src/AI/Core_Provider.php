@@ -109,15 +109,25 @@ final class Core_Provider implements Provider {
 	 * @return array<int, string|array{0:string,1:string}> Model ids or [provider id, model id] pairs.
 	 */
 	public static function model_preference(): array {
+		// The newest small model of the connected providers; never whichever the connector lists first.
+		$models = Models::cached_default();
+
+		$chosen = (string) \MDIA\Settings::get( 'model' );
+		if ( '' !== $chosen ) {
+			$pair   = explode( '::', $chosen, 2 );
+			$models = array_values( array_filter( $models, static fn( $model ): bool => $model !== $pair ) );
+			array_unshift( $models, $pair );
+		}
+
 		/**
-		 * Filters the models used to describe images, in order of preference.
+		 * Filters the models used to write the texts, in order of preference.
 		 *
 		 * Entries are model ids ('claude-haiku-5-5') or [provider id, model id] pairs.
 		 * A preferred model that is not available is skipped.
 		 *
-		 * @param array $models Preferred models. Default none.
+		 * @param array $models The model chosen in the settings, if any, then the defaults of the plugin.
 		 */
-		$models = apply_filters( 'mdia_model_preference', array() );
+		$models = apply_filters( 'mdia_model_preference', $models );
 		if ( ! is_array( $models ) ) {
 			return array();
 		}

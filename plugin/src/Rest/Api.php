@@ -236,8 +236,22 @@ final class Api {
 						'auto_generate_new' => array( 'type' => 'boolean' ),
 						'wizard_done'       => array( 'type' => 'boolean' ),
 						'text_consent'      => array( 'type' => 'boolean' ),
+						'model'             => array(
+							'type'      => 'string',
+							'maxLength' => 200,
+						),
 					),
 				),
+			)
+		);
+
+		register_rest_route(
+			self::NAMESPACE,
+			'/models',
+			array(
+				'methods'             => 'GET',
+				'permission_callback' => $manage,
+				'callback'            => array( self::class, 'get_models' ),
 			)
 		);
 
@@ -446,6 +460,30 @@ final class Api {
 		return $response;
 	}
 
+	/**
+	 * The models a manager can choose from, and the one the plugin would pick by itself.
+	 */
+	public static function get_models() {
+		\MDIA\AI\Models::forget(); // Whoever opens the list wants it as it is now.
+		$models    = \MDIA\AI\Models::available();
+		$default   = \MDIA\AI\Models::cached_default();
+		$automatic = null;
+		foreach ( $models as $model ) {
+			if ( $default && array( $model['provider'], $model['id'] ) === $default[0] ) {
+				$automatic = $model;
+				break;
+			}
+		}
+
+		return rest_ensure_response(
+			array(
+				'models'    => $models,
+				'selected'  => (string) Settings::get( 'model' ),
+				'automatic' => $automatic,
+			)
+		);
+	}
+
 	public static function get_findings( \WP_REST_Request $request ) {
 		$args = array(
 			'page'     => (int) $request['page'],
@@ -650,6 +688,7 @@ final class Api {
 				'text'          => $text,
 				'provider'      => (string) $answer['provider'],
 				'model'         => (string) $answer['model'],
+				'tier'          => \MDIA\AI\Models::tier( (string) $answer['model'] ),
 			)
 		);
 	}

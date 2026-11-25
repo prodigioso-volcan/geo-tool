@@ -188,6 +188,14 @@ function Test( { hasImages, onNext } ) {
 						<p className="mdia-muted">
 							{ `${ state.result.provider } · ${ state.result.model }` }
 						</p>
+						{ state.result.tier === 'unknown' && (
+							<Notice status="warning" isDismissible={ false }>
+								{ __(
+									'This model is not one of the recommended ones (Claude Haiku, GPT mini, Gemini Flash) and may describe images badly. Read the text above: if it does not match the picture, choose another model in Settings when you finish.',
+									'geo-tool'
+								) }
+							</Notice>
+						) }
 						<p className="mdia-muted">
 							{ __(
 								'This was only a test: nothing has been saved.',

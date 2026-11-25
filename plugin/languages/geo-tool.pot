@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: GEO Tool by JUNGLE 0.5.1\n"
+"Project-Id-Version: GEO Tool by JUNGLE 0.5.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/geo-tool\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T14:50:46+00:00\n"
+"POT-Creation-Date: 2026-11-25T16:30:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: geo-tool\n"
@@ -89,7 +89,7 @@ msgid "The configured AI provider cannot describe images."
 msgstr ""
 
 #: src/AI/Generator.php:101
-#: src/Rest/Api.php:642
+#: src/Rest/Api.php:680
 msgid "The AI provider did not return a usable description."
 msgstr ""
 
@@ -574,15 +574,15 @@ msgstr ""
 msgid "Generation resumes tomorrow."
 msgstr ""
 
-#: src/Rest/Api.php:612
+#: src/Rest/Api.php:650
 msgid "The media library has no images to test with."
 msgstr ""
 
-#: src/Rest/Api.php:617
+#: src/Rest/Api.php:655
 msgid "No AI provider that accepts images is connected."
 msgstr ""
 
-#: src/Rest/Api.php:627
+#: src/Rest/Api.php:665
 msgid "The daily limit of AI requests has been reached."
 msgstr ""
 
@@ -844,6 +844,48 @@ msgstr ""
 
 #: assets/src/components/labels.js:41
 msgid "Categories and authors"
+msgstr ""
+
+#: assets/src/components/ModelPicker.js:7
+msgid "Recommended: small, cheap and reliable"
+msgstr ""
+
+#: assets/src/components/ModelPicker.js:8
+msgid "Larger models: they work and cost more"
+msgstr ""
+
+#: assets/src/components/ModelPicker.js:9
+msgid "Not checked with this plugin"
+msgstr ""
+
+#: assets/src/components/ModelPicker.js:42
+msgid "No connected AI provider offers a model that can describe images."
+msgstr ""
+
+#: assets/src/components/ModelPicker.js:64
+msgid "Model that writes the texts"
+msgstr ""
+
+#: assets/src/components/ModelPicker.js:65
+msgid "Left on automatic, the plugin uses the newest small model of the connected provider. Larger models cost more per text and rarely write better alt text or meta descriptions."
+msgstr ""
+
+#. translators: %s: name of an AI model.
+#: assets/src/components/ModelPicker.js:76
+#, js-format
+msgid "Automatic: %s"
+msgstr ""
+
+#: assets/src/components/ModelPicker.js:79
+msgid "Automatic"
+msgstr ""
+
+#: assets/src/components/ModelPicker.js:98
+msgid "The connected provider offers none of the recommended models (Claude Haiku, GPT mini, Gemini Flash). On automatic, WordPress uses the first model of its list, which may describe images badly. Choose one here and check the result."
+msgstr ""
+
+#: assets/src/components/ModelPicker.js:106
+msgid "This model has not been checked with the plugin. Some small models invent what is in a picture: review a few proposals before approving many."
 msgstr ""
 
 #: assets/src/components/Preferences.js:16
@@ -1109,7 +1151,7 @@ msgstr ""
 
 #. translators: %d: number of images.
 #: assets/src/tabs/Dashboard.js:445
-#: assets/src/wizard/Wizard.js:401
+#: assets/src/wizard/Wizard.js:409
 #, js-format
 msgid "Generate proposal for %d image"
 msgid_plural "Generate proposals for %d images"
@@ -1347,48 +1389,52 @@ msgid_plural "%d images"
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/src/tabs/Settings.js:58
+#: assets/src/tabs/Settings.js:59
 #: assets/src/wizard/Wizard.js:24
 msgid "Preferences"
 msgstr ""
 
-#: assets/src/tabs/Settings.js:82
+#: assets/src/tabs/Settings.js:84
 msgid "Settings saved."
 msgstr ""
 
-#: assets/src/tabs/Settings.js:86
+#: assets/src/tabs/Settings.js:88
 msgid "Save settings"
 msgstr ""
 
-#: assets/src/tabs/Settings.js:93
+#: assets/src/tabs/Settings.js:95
 msgid "AI provider"
 msgstr ""
 
-#: assets/src/tabs/Settings.js:97
+#: assets/src/tabs/Settings.js:99
 msgid "The plugin uses the AI provider connected in WordPress. API keys are managed there, never by this plugin."
 msgstr ""
 
-#: assets/src/tabs/Settings.js:103
+#: assets/src/tabs/Settings.js:105
 msgid "Open Connectors"
 msgstr ""
 
-#: assets/src/tabs/Settings.js:110
+#: assets/src/tabs/Settings.js:113
+msgid "The model is saved with the \"Save settings\" button above."
+msgstr ""
+
+#: assets/src/tabs/Settings.js:124
 msgid "Maintenance"
 msgstr ""
 
-#: assets/src/tabs/Settings.js:119
+#: assets/src/tabs/Settings.js:133
 msgid "Audit started. It runs in the background; the dashboard shows the result."
 msgstr ""
 
-#: assets/src/tabs/Settings.js:126
+#: assets/src/tabs/Settings.js:140
 msgid "Run full audit now"
 msgstr ""
 
-#: assets/src/tabs/Settings.js:136
+#: assets/src/tabs/Settings.js:150
 msgid "Run setup wizard again"
 msgstr ""
 
-#: assets/src/tabs/Settings.js:139
+#: assets/src/tabs/Settings.js:153
 msgid "Site Health"
 msgstr ""
 
@@ -1441,8 +1487,8 @@ msgid "Check again"
 msgstr ""
 
 #: assets/src/wizard/Wizard.js:120
-#: assets/src/wizard/Wizard.js:217
-#: assets/src/wizard/Wizard.js:345
+#: assets/src/wizard/Wizard.js:225
+#: assets/src/wizard/Wizard.js:353
 msgid "Continue"
 msgstr ""
 
@@ -1462,46 +1508,50 @@ msgstr ""
 msgid "Generated alt text:"
 msgstr ""
 
-#: assets/src/wizard/Wizard.js:192
+#: assets/src/wizard/Wizard.js:193
+msgid "This model is not one of the recommended ones (Claude Haiku, GPT mini, Gemini Flash) and may describe images badly. Read the text above: if it does not match the picture, choose another model in Settings when you finish."
+msgstr ""
+
+#: assets/src/wizard/Wizard.js:200
 msgid "This was only a test: nothing has been saved."
 msgstr ""
 
-#: assets/src/wizard/Wizard.js:203
+#: assets/src/wizard/Wizard.js:211
 msgid "Try again"
 msgstr ""
 
-#: assets/src/wizard/Wizard.js:208
+#: assets/src/wizard/Wizard.js:216
 msgid "Run the test"
 msgstr ""
 
-#: assets/src/wizard/Wizard.js:272
+#: assets/src/wizard/Wizard.js:280
 msgid "Save and continue"
 msgstr ""
 
-#: assets/src/wizard/Wizard.js:318
+#: assets/src/wizard/Wizard.js:326
 msgid "Checking every image in the library and in your pages. This uses no AI and costs nothing."
 msgstr ""
 
 #. translators: 1: images that need alt text, 2: total images.
-#: assets/src/wizard/Wizard.js:329
+#: assets/src/wizard/Wizard.js:337
 #, js-format
 msgid "%1$d of %2$d images need alt text."
 msgstr ""
 
-#: assets/src/wizard/Wizard.js:373
+#: assets/src/wizard/Wizard.js:381
 msgid "Everything is ready. You can ask the AI for proposals now; you will review each one before anything changes on your site."
 msgstr ""
 
-#: assets/src/wizard/Wizard.js:377
+#: assets/src/wizard/Wizard.js:385
 msgid "Everything is ready, and no image needs alt text right now."
 msgstr ""
 
-#: assets/src/wizard/Wizard.js:416
+#: assets/src/wizard/Wizard.js:424
 msgid "Go to dashboard"
 msgstr ""
 
 #. translators: 1: step number, 2: total steps, 3: step name.
-#: assets/src/wizard/Wizard.js:453
+#: assets/src/wizard/Wizard.js:461
 #, js-format
 msgid "Step %1$d of %2$d: %3$s"
 msgstr ""

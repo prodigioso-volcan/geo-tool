@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       GEO Tool by JUNGLE
  * Description:       Checks that a site is ready for search engines and AI assistants: image alt text, meta descriptions, titles, empty fields and site settings. Proposes the missing texts with AI for human review.
- * Version:           0.5.1
+ * Version:           0.5.2
  * Requires at least: 7.0
  * Requires PHP:      8.1
  * Author:            JUNGLE
@@ -16,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'MDIA_VERSION', '0.5.1' );
+define( 'MDIA_VERSION', '0.5.2' );
 define( 'MDIA_FILE', __FILE__ );
 define( 'MDIA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MDIA_MIN_WP', '7.0' );

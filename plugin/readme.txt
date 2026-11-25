@@ -4,7 +4,7 @@ Tags: seo, geo, alt text, meta description, ai
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.5.1
+Stable tag: 0.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,11 @@ New versions published in the project's GitHub repository show up in the Plugins
 The plugin relies on WP-Cron. If the dashboard shows background tasks in red, check that WP-Cron works on the site or set up a server cron job.
 
 == Changelog ==
+
+= 0.5.2 =
+* The plugin now chooses the model itself: the newest small model of the connected provider (Claude Haiku, GPT mini, Gemini Flash). Before, WordPress used the first model the connector listed, which on Amazon Bedrock was a tiny model that invented what was in the pictures.
+* New setting to choose the model among the ones the connector offers, grouped into recommended, larger and not checked.
+* The setup wizard warns when the test was written by a model that is not one of the recommended ones.
 
 = 0.5.1 =
 * The language filter shows that language only. Before, items recorded before the site had languages appeared under every language.

@@ -112,3 +112,8 @@ export const startTextGeneration = async ( area ) => {
 };
 
 export const waiveAcfField = ( name ) => post( '/findings/acf-field', { name } );
+
+/**
+ * @return {Promise<{models: Array, selected: string, automatic: ?Object}>} Models the connected providers offer.
+ */
+export const getModels = () => apiFetch( { path: `${ base }/models` } );

@@ -109,6 +109,7 @@ Comprueba los ajustes generales. Cada aviso tiene un botón que abre el ajuste q
 ### Ajustes
 
 - Límite diario de peticiones de IA (200 por defecto).
+- Modelo de IA: automático o elegido entre los que ofrece el conector.
 - Generación automática para imágenes nuevas.
 - Permiso para que la IA lea el texto de las páginas.
 - Revisar todo de nuevo y repetir el asistente.
@@ -228,8 +229,13 @@ Los textos de páginas y categorías se guardan en el campo que corresponde: la 
 
 ## Preguntas frecuentes
 
-**¿Puedo elegir el modelo de IA?**
-Sí, con el filtro `mdia_model_preference`. Los modelos pequeños (Claude Haiku, GPT mini, Gemini Flash) dan buen resultado y cuestan menos.
+**¿Qué modelo de IA usa?**
+Por defecto, el modelo pequeño más reciente del proveedor conectado: Claude Haiku, GPT mini o Gemini Flash, por ese orden si hay varios conectores. Dan buen resultado y cuestan poco. En Amazon Bedrock elige la copia del modelo de la región de la web.
+
+**¿Puedo elegir otro?**
+Sí, en **Ajustes > Proveedor de IA**. El desplegable lista los modelos que ofrece el conector en tres grupos: recomendados, modelos más grandes (funcionan y cuestan más) y modelos sin comprobar con este plugin. Algunos modelos pequeños de otros fabricantes se inventan lo que hay en la imagen; si eliges uno sin comprobar, revisa varias propuestas antes de aprobar muchas.
+
+También se puede fijar por código, que tiene prioridad sobre el ajuste:
 
 ```php
 add_filter( 'mdia_model_preference', fn() => array( 'claude-haiku-5-5' ) );

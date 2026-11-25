@@ -9,6 +9,7 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import Preferences from '../components/Preferences';
+import ModelPicker from '../components/ModelPicker';
 import { getSettings, saveSettings, startAudit } from '../api';
 
 const { connectorsUrl, siteHealthUrl } = window.mdiaData;
@@ -75,6 +76,7 @@ export default function Settings( { onRunWizard } ) {
 										daily_limit: values.daily_limit,
 										auto_generate_new: values.auto_generate_new,
 										text_consent: !! values.text_consent,
+										model: values.model || '',
 									} );
 									window.mdiaData.textConsent = !! saved.text_consent;
 									setValues( saved );
@@ -102,6 +104,18 @@ export default function Settings( { onRunWizard } ) {
 					<Button variant="secondary" href={ connectorsUrl }>
 						{ __( 'Open Connectors', 'geo-tool' ) }
 					</Button>
+					<div className="mdia-model">
+						<ModelPicker
+							value={ values.model || '' }
+							onChange={ ( model ) => setValues( { ...values, model } ) }
+						/>
+						<p className="mdia-muted">
+							{ __(
+								'The model is saved with the "Save settings" button above.',
+								'geo-tool'
+							) }
+						</p>
+					</div>
 				</CardBody>
 			</Card>
 
