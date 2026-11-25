@@ -62,6 +62,15 @@ final class Languages {
 	}
 
 	/**
+	 * The language something is listed under: its own, or the main one of the site for what has
+	 * none (the site, people, media that is not translated). '' on a site with one language.
+	 */
+	public static function effective( string $target_type, int $target_id ): string {
+		$lang = self::of( $target_type, $target_id );
+		return '' !== $lang ? $lang : self::default_code();
+	}
+
+	/**
 	 * @return string WordPress locale the texts of this page or term are written in.
 	 */
 	public static function locale_of( string $target_type, int $target_id ): string {

@@ -120,7 +120,7 @@ Si la web usa WPML o Polylang, GEO Tool trabaja con todos los idiomas que tenga 
 - **Revisa cada idioma.** Las páginas, categorías e imágenes de cada idioma se comprueban por separado.
 - **Escribe en el idioma de cada página.** La metadescripción de una página en inglés se propone en inglés; la de su versión en catalán, en catalán.
 - **No confunde traducciones con duplicados.** Dos páginas en idiomas distintos pueden compartir título o descripción sin que salte el aviso, y las copias de una imagen en otros idiomas no cuentan como texto alternativo repetido.
-- **Muestra y filtra por idioma.** Cada aviso lleva la etiqueta de su idioma y la pestaña Textos tiene un filtro.
+- **Muestra y filtra por idioma.** Cada aviso y cada imagen lleva la etiqueta de su idioma, y las pestañas Imágenes y Textos tienen un filtro. Lo que no tiene idioma propio (el sitio, los autores, las imágenes sin traducir) aparece bajo el idioma principal.
 - **Imágenes.** Una página traducida conserva la imagen de la página original, pero necesita el texto alternativo en su idioma. Si la imagen tiene copia en ese idioma (WPML Media Translation, o los medios traducibles de Polylang), el texto de esa copia es el que se propone y se escribe en esa página. Si no la tiene, esa página se deja como está: nunca se escribe un texto en español en una página en inglés.
 - **Imágenes que solo aparecen en páginas de otro idioma.** No se envían a la IA: su texto no llegaría a ninguna página. Se listan como sin uso.
 - **El idioma del escritorio no influye.** Da igual en qué idioma tenga WordPress quien revisa: cada cosa se comprueba en el suyo, y el sitio, en el idioma principal.

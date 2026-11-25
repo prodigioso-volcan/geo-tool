@@ -276,21 +276,80 @@ class WpmlTest extends WP_UnitTestCase {
 		$this->assertSame( 'en', $this->finding( 'post.metadesc', $id )['lang'] );
 	}
 
-	public function test_filtering_by_language_keeps_what_has_no_language_yet() {
+	private function listed( string $route, array $params ): array {
+		$request = new WP_REST_Request( 'GET', '/mdia/v1/' . $route );
+		$request->set_query_params( $params + array( 'per_page' => 100 ) );
+		return rest_get_server()->dispatch( $request )->get_data();
+	}
+
+	public function test_filtering_texts_by_language_shows_that_language_only() {
 		MDIA_Fake_Wpml::install();
 		$english = $this->page( 'en' );
 		$spanish = $this->page( 'es' );
-		$old     = self::factory()->post->create( array( 'post_type' => 'page', 'post_status' => 'publish' ) );
-		( new Findings() )->upsert( 'post.metadesc', 'post', $old, array( 'status' => 'waived', 'severity' => 'required', 'lang' => '' ) );
+		// Recorded before the site had languages, about a Spanish and an English page.
+		$old_es = self::factory()->post->create( array( 'post_type' => 'page', 'post_status' => 'publish' ) );
+		$old_en = self::factory()->post->create( array( 'post_type' => 'page', 'post_status' => 'publish' ) );
+		MDIA_Fake_Wpml::set_post( $old_en, 'en' );
+		$findings = new Findings();
+		foreach ( array( $old_es, $old_en ) as $id ) {
+			$findings->delete_for_target( 'post', $id );
+			$findings->upsert( 'post.metadesc', 'post', $id, array( 'status' => 'waived', 'severity' => 'required', 'lang' => '' ) );
+		}
+		delete_option( 'mdia_lang_backfill' );
 		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 
-		$request = new WP_REST_Request( 'GET', '/mdia/v1/findings' );
-		$request->set_query_params( array( 'check_id' => 'post.metadesc', 'language' => 'en', 'per_page' => 100 ) );
-		$ids = wp_list_pluck( rest_get_server()->dispatch( $request )->get_data(), 'target_id' );
+		$ids = wp_list_pluck( $this->listed( 'findings', array( 'check_id' => 'post.metadesc', 'language' => 'en' ) ), 'target_id' );
 
 		$this->assertContains( $english, $ids );
-		$this->assertContains( $old, $ids, 'Recorded before the site had languages.' );
+		$this->assertContains( $old_en, $ids, 'Old findings get their language.' );
 		$this->assertNotContains( $spanish, $ids );
+		$this->assertNotContains( $old_es, $ids, 'Nothing in Spanish under the English filter.' );
+	}
+
+	public function test_what_has_no_language_of_its_own_is_listed_under_the_main_one() {
+		MDIA_Fake_Wpml::install();
+		$author = self::factory()->user->create( array( 'role' => 'author', 'description' => '' ) );
+		self::factory()->post->create( array( 'post_status' => 'publish', 'post_author' => $author ) );
+		Engine::evaluate( 'user', $author );
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		$this->assertContains( $author, wp_list_pluck( $this->listed( 'findings', array( 'check_id' => 'user.bio', 'language' => 'es' ) ), 'target_id' ) );
+		$this->assertNotContains( $author, wp_list_pluck( $this->listed( 'findings', array( 'check_id' => 'user.bio', 'language' => 'en' ) ), 'target_id' ) );
+	}
+
+	public function test_images_can_be_listed_by_language() {
+		MDIA_Fake_Wpml::install();
+		$spanish = $this->make_image();
+		$english = $this->make_image();
+		$plain   = $this->make_image();
+		MDIA_Fake_Wpml::set_post( $spanish, 'es' );
+		MDIA_Fake_Wpml::set_post( $english, 'en' );
+		MDIA_Fake_Wpml::set_post( $plain, 'none' ); // Media without a language holds a text in the main one.
+		$auditor = new \MDIA\Audit\Auditor();
+		foreach ( array( $spanish, $english, $plain ) as $id ) {
+			$auditor->audit( $id );
+		}
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		$in_english = wp_list_pluck( $this->listed( 'items', array( 'language' => 'en' ) ), 'attachment_id' );
+		$in_spanish = wp_list_pluck( $this->listed( 'items', array( 'language' => 'es' ) ), 'attachment_id' );
+
+		$this->assertSame( array( $english ), $in_english );
+		$this->assertContains( $spanish, $in_spanish );
+		$this->assertContains( $plain, $in_spanish );
+		$this->assertNotContains( $english, $in_spanish );
+	}
+
+	public function test_images_audited_before_the_site_had_languages_get_theirs() {
+		MDIA_Fake_Wpml::install();
+		$english = $this->make_image();
+		MDIA_Fake_Wpml::set_post( $english, 'en' );
+		global $wpdb;
+		$wpdb->update( $wpdb->prefix . 'mdia_items', array( 'lang' => '' ), array( 'attachment_id' => $english ) );
+		delete_option( 'mdia_lang_backfill' );
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
+
+		$this->assertSame( array( $english ), wp_list_pluck( $this->listed( 'items', array( 'language' => 'en' ) ), 'attachment_id' ) );
 	}
 
 	public function test_the_site_is_judged_in_its_default_language() {

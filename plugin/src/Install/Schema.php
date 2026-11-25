@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Schema {
 
-	public const DB_VERSION = 5;
+	public const DB_VERSION = 6;
 
 	public const TABLES = array( 'mdia_items', 'mdia_usages', 'mdia_changes', 'mdia_findings' );
 
@@ -31,6 +31,7 @@ final class Schema {
 			"CREATE TABLE {$wpdb->prefix}mdia_items (
 				attachment_id bigint(20) unsigned NOT NULL,
 				status varchar(20) NOT NULL DEFAULT 'ok',
+				lang varchar(12) NOT NULL DEFAULT '',
 				issues varchar(190) NOT NULL DEFAULT '',
 				library_alt text NOT NULL,
 				proposed_alt text NULL,
@@ -46,7 +47,8 @@ final class Schema {
 				generated_at datetime NULL,
 				applied_at datetime NULL,
 				PRIMARY KEY  (attachment_id),
-				KEY status (status)
+				KEY status (status),
+				KEY lang (lang)
 			) $charset;"
 		);
 

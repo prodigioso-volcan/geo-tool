@@ -6,8 +6,8 @@ class FindingsTest extends WP_UnitTestCase {
 
 	public function test_schema_is_current_and_has_the_findings_table() {
 		global $wpdb;
-		$this->assertSame( 5, \MDIA\Install\Schema::DB_VERSION );
-		$this->assertSame( 5, (int) get_option( 'mdia_db_version' ) );
+		$this->assertSame( 6, \MDIA\Install\Schema::DB_VERSION );
+		$this->assertSame( 6, (int) get_option( 'mdia_db_version' ) );
 		$this->assertSame( $wpdb->prefix . 'mdia_findings', $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->prefix . 'mdia_findings' ) ) );
 		$this->assertContains( 'mdia_findings', \MDIA\Install\Schema::TABLES );
 	}
@@ -18,7 +18,7 @@ class FindingsTest extends WP_UnitTestCase {
 
 		\MDIA\Install\Schema::maybe_upgrade();
 
-		$this->assertSame( 5, (int) get_option( 'mdia_db_version' ) );
+		$this->assertSame( 6, (int) get_option( 'mdia_db_version' ) );
 		$this->assertSame( 'applied', ( new \MDIA\Data\Items() )->get( 77 )['status'] );
 	}
 

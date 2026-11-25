@@ -71,6 +71,7 @@ final class Auditor {
 		$changes = array(
 			'library_alt' => $alt,
 			'audited_at'  => $now,
+			'lang'        => Languages::effective( 'post', $attachment_id ),
 		);
 
 		if ( $row && 'applying' === $row['status'] ) {
@@ -80,7 +81,13 @@ final class Auditor {
 		if ( $row && $row['human_locked'] ) {
 			if ( $row['library_alt'] === $alt ) {
 				// A person approved, ignored or marked this image: their decision stands.
-				$this->items->upsert( $attachment_id, array( 'audited_at' => $now ) );
+				$this->items->upsert(
+					$attachment_id,
+					array(
+						'audited_at' => $now,
+						'lang'       => $changes['lang'],
+					)
+				);
 				return $row['status'];
 			}
 			$changes['human_locked'] = 0;

@@ -26,11 +26,10 @@ final class Engine {
 	 * Judges a page, term or person with every check that applies, as the site shows it in its language.
 	 */
 	public static function evaluate( string $target_type, int $target_id ): void {
-		$lang = \MDIA\I18n\Languages::of( $target_type, $target_id );
-		// The site and its people have no language of their own: they are judged in the main one,
-		// whoever asks and whatever language their screen is in.
-		$view = '' !== $lang ? $lang : \MDIA\I18n\Languages::default_code();
-		\MDIA\I18n\Languages::in( $view, static fn() => self::evaluate_in_place( $target_type, $target_id, $lang ) );
+		// The site and its people have no language of their own: they are judged, and listed, in the
+		// main one, whoever asks and whatever language their screen is in.
+		$lang = \MDIA\I18n\Languages::effective( $target_type, $target_id );
+		\MDIA\I18n\Languages::in( $lang, static fn() => self::evaluate_in_place( $target_type, $target_id, $lang ) );
 	}
 
 	private static function evaluate_in_place( string $target_type, int $target_id, string $lang ): void {
@@ -85,11 +84,14 @@ final class Engine {
 		$severity = (string) ( $failure['severity'] ?? $check->severity() );
 		$row      = $findings->find( $check->id(), $target_type, $target_id, $key );
 
-		if ( $row && 'waived' === $row['status'] ) {
-			return; // A person accepted it as it is.
-		}
-		if ( $row && 'applied' === $row['status'] && (string) $row['current_value'] === $value && (string) $row['detail'] === $detail ) {
-			return; // A person approved exactly this text knowing this objection: their decision stands.
+		$decided = $row && ( 'waived' === $row['status'] // A person accepted it as it is.
+			// Or approved exactly this text knowing this objection: their decision stands.
+			|| ( 'applied' === $row['status'] && (string) $row['current_value'] === $value && (string) $row['detail'] === $detail ) );
+		if ( $decided ) {
+			if ( (string) $row['lang'] !== $lang ) {
+				$findings->upsert( $check->id(), $target_type, $target_id, array( 'lang' => $lang ), $key );
+			}
+			return;
 		}
 
 		$fields = array(

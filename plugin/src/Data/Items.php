@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 final class Items {
 
 	private const COLUMNS = array(
-		'status', 'issues', 'library_alt', 'proposed_alt', 'previous_alt', 'human_locked', 'queued', 'attempts',
+		'status', 'lang', 'issues', 'library_alt', 'proposed_alt', 'previous_alt', 'human_locked', 'queued', 'attempts',
 		'last_error', 'provider', 'model', 'reviewed_by', 'audited_at', 'generated_at', 'applied_at',
 	);
 
@@ -151,6 +151,10 @@ final class Items {
 		if ( ! empty( $args['status'] ) ) {
 			$where[]  = 'i.status = %s';
 			$values[] = $args['status'];
+		}
+		if ( ! empty( $args['lang'] ) ) {
+			$where[]  = 'i.lang = %s';
+			$values[] = $args['lang'];
 		}
 		if ( ! empty( $args['issue'] ) ) {
 			$where[]  = 'FIND_IN_SET(%s, i.issues) > 0';

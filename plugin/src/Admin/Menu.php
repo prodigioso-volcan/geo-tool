@@ -58,6 +58,9 @@ final class Menu {
 			return;
 		}
 
+		// Gives a language to what was recorded before the site had languages, a stretch per visit.
+		\MDIA\I18n\Backfill::step( 5 );
+
 		$asset = require $asset_file;
 		$base  = plugin_dir_url( MDIA_FILE ) . 'build/';
 

@@ -79,7 +79,7 @@ msgid "The configured AI provider cannot describe images."
 msgstr "El proveedor de IA configurado no puede describir imágenes."
 
 #: src/AI/Generator.php:101
-#: src/Rest/Api.php:632
+#: src/Rest/Api.php:642
 msgid "The AI provider did not return a usable description."
 msgstr "El proveedor de IA no ha devuelto una descripción utilizable."
 
@@ -198,15 +198,15 @@ msgstr "Hoy se han usado %1$d de %2$d peticiones."
 msgid "Generation resumes tomorrow."
 msgstr "La generación continúa mañana."
 
-#: src/Rest/Api.php:602
+#: src/Rest/Api.php:612
 msgid "The media library has no images to test with."
 msgstr "La biblioteca de medios no tiene imágenes con las que probar."
 
-#: src/Rest/Api.php:607
+#: src/Rest/Api.php:617
 msgid "No AI provider that accepts images is connected."
 msgstr "No hay conectado ningún proveedor de IA que admita imágenes."
 
-#: src/Rest/Api.php:617
+#: src/Rest/Api.php:627
 msgid "The daily limit of AI requests has been reached."
 msgstr "Se ha alcanzado el límite diario de peticiones de IA."
 
@@ -508,7 +508,7 @@ msgstr[0] "%d uso de una imagen está dentro de un constructor visual. El plugin
 msgstr[1] "%d usos de imágenes están dentro de un constructor visual. El plugin actualiza la biblioteca de medios, pero no puede reescribir esas páginas."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Review.js:145
+#: assets/src/tabs/Review.js:149
 #, js-format
 msgid "%d image approved."
 msgid_plural "%d images approved."
@@ -516,7 +516,7 @@ msgstr[0] "%d imagen aprobada."
 msgstr[1] "%d imágenes aprobadas."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Review.js:158
+#: assets/src/tabs/Review.js:162
 #, js-format
 msgid "%d image could not be approved."
 msgid_plural "%d images could not be approved."
@@ -524,35 +524,36 @@ msgstr[0] "No se ha podido aprobar %d imagen."
 msgstr[1] "No se han podido aprobar %d imágenes."
 
 #: assets/src/tabs/Findings.js:373
-#: assets/src/tabs/Review.js:199
+#: assets/src/tabs/Review.js:203
 msgid "Status"
 msgstr "Estado"
 
 #: assets/src/tabs/Findings.js:379
 #: assets/src/tabs/Findings.js:414
-#: assets/src/tabs/Review.js:205
+#: assets/src/tabs/Review.js:209
+#: assets/src/tabs/Review.js:246
 msgid "All"
 msgstr "Todos"
 
-#: assets/src/tabs/Review.js:225
+#: assets/src/tabs/Review.js:229
 msgid "Problem detected"
 msgstr "Problema detectado"
 
 #: assets/src/tabs/Findings.js:399
-#: assets/src/tabs/Review.js:228
+#: assets/src/tabs/Review.js:232
 msgid "Any"
 msgstr "Cualquiera"
 
-#: assets/src/tabs/Review.js:237
+#: assets/src/tabs/Review.js:257
 msgid "Search by text or title"
 msgstr "Buscar por texto o título"
 
-#: assets/src/tabs/Review.js:253
+#: assets/src/tabs/Review.js:273
 msgid "No images here."
 msgstr "No hay imágenes aquí."
 
 #. translators: %d: number of images.
-#: assets/src/tabs/Review.js:275
+#: assets/src/tabs/Review.js:295
 #, js-format
 msgid "%d image"
 msgid_plural "%d images"
@@ -560,39 +561,39 @@ msgstr[0] "%d imagen"
 msgstr[1] "%d imágenes"
 
 #: assets/src/tabs/Findings.js:459
-#: assets/src/tabs/Review.js:269
+#: assets/src/tabs/Review.js:289
 msgid "Select all on this page"
 msgstr "Seleccionar todas las de esta página"
 
 #. translators: %d: number of selected items.
 #. translators: %d: number of selected images.
 #: assets/src/tabs/Findings.js:492
-#: assets/src/tabs/Review.js:302
+#: assets/src/tabs/Review.js:322
 #, js-format
 msgid "Approve selected (%d)"
 msgstr "Aprobar seleccionadas (%d)"
 
 #: assets/src/tabs/Findings.js:534
-#: assets/src/tabs/Review.js:340
+#: assets/src/tabs/Review.js:360
 msgid "Pages"
 msgstr "Páginas"
 
 #: assets/src/tabs/Findings.js:541
-#: assets/src/tabs/Review.js:347
+#: assets/src/tabs/Review.js:367
 msgid "Previous"
 msgstr "Anterior"
 
 #. translators: 1: current page, 2: total pages.
 #: assets/src/tabs/Findings.js:93
 #: assets/src/tabs/Findings.js:546
-#: assets/src/tabs/Review.js:61
-#: assets/src/tabs/Review.js:352
+#: assets/src/tabs/Review.js:65
+#: assets/src/tabs/Review.js:372
 #, js-format
 msgid "Page %1$d of %2$d"
 msgstr "Página %1$d de %2$d"
 
 #: assets/src/tabs/Findings.js:556
-#: assets/src/tabs/Review.js:362
+#: assets/src/tabs/Review.js:382
 msgid "Next"
 msgstr "Siguiente"
 
@@ -766,7 +767,7 @@ msgstr "No se ha enviado la imagen porque en este servidor no se han podido elim
 #. translators: %d: number of selected items.
 #. translators: %d: number of selected images.
 #: assets/src/tabs/Findings.js:472
-#: assets/src/tabs/Review.js:282
+#: assets/src/tabs/Review.js:302
 #, js-format
 msgid "%d selected"
 msgid_plural "%d selected"
@@ -774,7 +775,7 @@ msgstr[0] "%d seleccionada"
 msgstr[1] "%d seleccionadas"
 
 #: assets/src/tabs/Findings.js:495
-#: assets/src/tabs/Review.js:305
+#: assets/src/tabs/Review.js:325
 msgid "Approve selected"
 msgstr "Aprobar seleccionadas"
 
@@ -1501,5 +1502,6 @@ msgstr[0] "%d imagen sin un texto alternativo correcto."
 msgstr[1] "%d imágenes sin un texto alternativo correcto."
 
 #: assets/src/tabs/Findings.js:411
+#: assets/src/tabs/Review.js:243
 msgid "Language"
 msgstr "Idioma"

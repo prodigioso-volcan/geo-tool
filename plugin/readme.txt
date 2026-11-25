@@ -4,7 +4,7 @@ Tags: seo, geo, alt text, meta description, ai
 Requires at least: 7.0
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,11 @@ New versions published in the project's GitHub repository show up in the Plugins
 The plugin relies on WP-Cron. If the dashboard shows background tasks in red, check that WP-Cron works on the site or set up a server cron job.
 
 == Changelog ==
+
+= 0.5.1 =
+* The language filter shows that language only. Before, items recorded before the site had languages appeared under every language.
+* Images can be filtered by language too.
+* What was recorded before gets its language automatically, without a new audit. What has no language of its own (the site, authors, media that is not translated) is listed under the main language.
 
 = 0.5.0 =
 * Works with WPML and with Polylang: every page, category and image is checked in its own language, and the AI writes each text in the language of the page it belongs to.

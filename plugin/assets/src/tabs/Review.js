@@ -12,6 +12,9 @@ import ReviewRow from '../components/ReviewRow';
 import { ISSUE_LABELS, STATUS_LABELS } from '../components/labels';
 import { approveMany, getItems } from '../api';
 
+// Languages of the site when it has more than one (WPML, Polylang); none otherwise.
+const languages = Object.entries( window.mdiaData.languages || {} );
+
 const STATUS_ORDER = [
 	'needs_review',
 	'needs_generation',
@@ -27,6 +30,7 @@ const STATUS_ORDER = [
 export default function Review( { status, onStatusChange } ) {
 	const [ issue, setIssue ] = useState( '' );
 	const [ search, setSearch ] = useState( '' );
+	const [ language, setLanguage ] = useState( '' );
 	const [ page, setPage ] = useState( 1 );
 	const [ data, setData ] = useState( null );
 	const [ selected, setSelected ] = useState( [] );
@@ -39,7 +43,7 @@ export default function Review( { status, onStatusChange } ) {
 	const selectAll = useRef();
 
 	const load = useCallback( () => {
-		return getItems( { status, issue, search, page, per_page: 20 } )
+		return getItems( { status, issue, search, language, page, per_page: 20 } )
 			.then( ( result ) => {
 				setData( result );
 				setError( '' );
@@ -67,7 +71,7 @@ export default function Review( { status, onStatusChange } ) {
 				}
 			} )
 			.catch( ( e ) => setError( e.message ) );
-	}, [ status, issue, search, page ] );
+	}, [ status, issue, search, language, page ] );
 
 	useEffect( () => {
 		setData( null );
@@ -232,6 +236,22 @@ export default function Review( { status, onStatusChange } ) {
 					] }
 					onChange={ filter( setIssue ) }
 				/>
+				{ languages.length > 1 && (
+					<SelectControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
+						label={ __( 'Language', 'geo-tool' ) }
+						value={ language }
+						options={ [
+							{ value: '', label: __( 'All', 'geo-tool' ) },
+							...languages.map( ( [ value, label ] ) => ( {
+								value,
+								label,
+							} ) ),
+						] }
+						onChange={ filter( setLanguage ) }
+					/>
+				) }
 				<SearchControl
 					__nextHasNoMarginBottom
 					label={ __( 'Search by text or title', 'geo-tool' ) }

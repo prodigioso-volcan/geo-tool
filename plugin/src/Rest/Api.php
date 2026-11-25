@@ -87,6 +87,11 @@ final class Api {
 						'type'              => 'string',
 						'sanitize_callback' => 'sanitize_text_field',
 					),
+					// Not "lang": WPML reads that parameter to switch the language of the request.
+					'language' => array(
+						'type'              => 'string',
+						'sanitize_callback' => 'sanitize_key',
+					),
 					'page'     => array(
 						'type'    => 'integer',
 						'minimum' => 1,
@@ -421,8 +426,12 @@ final class Api {
 
 	public static function get_items( \WP_REST_Request $request ) {
 		$per_page = (int) $request['per_page'];
+		if ( $request['language'] ) {
+			\MDIA\I18n\Backfill::step( 20 );
+		}
 		$result   = ( new Items() )->query(
 			array(
+				'lang'     => (string) $request['language'],
 				'status'   => $request['status'],
 				'issue'    => $request['issue'],
 				'search'   => $request['search'],
@@ -450,8 +459,9 @@ final class Api {
 		}
 
 		if ( $request['language'] ) {
-			// Also what has no language: the site, people, and what was recorded before the site had languages.
-			$args['lang'] = array( (string) $request['language'], '' );
+			// Only that language. What was recorded before the site had languages gets its own first.
+			\MDIA\I18n\Backfill::step( 20 );
+			$args['lang'] = (string) $request['language'];
 		}
 
 		$checks = \MDIA\Checks\Registry::all();
@@ -659,7 +669,7 @@ final class Api {
 
 		return array(
 			'attachment_id'   => $id,
-			'lang_name'       => \MDIA\I18n\Languages::name( \MDIA\I18n\Languages::of( 'post', $id ) ),
+			'lang_name'       => \MDIA\I18n\Languages::name( (string) ( $row['lang'] ?? '' ) ),
 			'status'          => $row['status'],
 			'issues'          => '' === $row['issues'] ? array() : explode( ',', $row['issues'] ),
 			'library_alt'     => (string) $row['library_alt'],
